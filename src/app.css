@@ -24,6 +24,7 @@ a:hover {
 }
 
 body {
+  background-image: url(/public/shadowhuntersfotorpg.webp);
   margin: 0;
   display: flex;
   place-items: center;
