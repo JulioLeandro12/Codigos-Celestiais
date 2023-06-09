@@ -1,19 +1,22 @@
+
 <script>
 import Ajuda from "./Components/Ajuda.svelte";
 import Jogar from "./Components/Jogar.svelte";
 import Menu from "./Components/Menu.svelte";
-import Botao from "./Components/Menu.svelte"
 import Sobre from "./Components/Sobre.svelte";
+import { estado } from "./stores/estado";
 </script>
 
-<main>
-  Deus e bom
-  <br><br>
- <Botao texto = Jogar/> <br><br>
- <Botao texto = Ajuda/> <br><br>
- <Botao texto = Sobre/> <br><br>
-</main>
+{#if $estado == "menu"}  <!--serve para criar a rotas do menu-->
+<Menu></Menu>
 
-<style>
+{:else if $estado == "ajuda"} 
+<Ajuda></Ajuda>
 
-</style>
+{:else if $estado == "jogar"}
+<Jogar></Jogar>
+  
+{:else if $estado == "sobre"}
+<Sobre></Sobre>
+
+{/if}
