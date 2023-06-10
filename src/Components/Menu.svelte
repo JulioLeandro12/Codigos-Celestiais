@@ -17,7 +17,7 @@
        
     <button class="sobre" on:click={() => trocadeestado("sobre")}> 
         Sobre
-       </button>
+    </button>
        
        
 </div>
