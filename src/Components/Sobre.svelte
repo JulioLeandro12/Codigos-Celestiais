@@ -7,7 +7,7 @@
         <h2>Sobre o Jogo Rpg Tático (Códigos Celestiais):</h2>
         <p>
             Este projeto de RPG Tático foi desenvolvido como parte do trabalho de conclusão da disciplina 
-            de br Lógica de Programação e Estrutura de Dados. 
+            de Lógica de Programação e Estrutura de Dados. 
             O jogo foi desenvolvido com o objetivo de proporcionar uma
             experiência envolvente e estratégica para os fãs da série de livros
             "Instrumentos Mortais" (Shadowhunters) escrita por Cassandra Clare.
@@ -25,7 +25,9 @@
             <a href="https://github.com/JulioLeandro12/Projeto_Game.git" >
          Github
         </a>
-        </p>
+
+      </p>
+        
     </div>
     <div><button class="voltar" on:click={() => trocadeestado("menu")}>
     </button></div>
@@ -51,7 +53,7 @@
     margin-top: 30px;
     margin-bottom: 20px;
     font-family: inherit, sans-serif;
-    color: rebeccapurple;
+    color: rgb(186, 157, 214);
     font-size: 25px;
     box-shadow: 0 2px 4px rgba(249, 248, 248, 0.1);
     border: 3px solid #39393984

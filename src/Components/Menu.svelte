@@ -31,11 +31,17 @@
     .titulo {
         /*chamando a classe do titulo**/
         text-align: center; /*alinhamento do texto**/
-        font-size: 50px; /*tamanho da fonte**/
-        color: #810785; /*cor da fonte**/
-        font-family: "OCR A Std, monospace"; /*fonte**/
+        font-size: 60px; /*tamanho da fonte**/
+        color: #7c477e; /*cor da fonte**/
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; /*fonte**/
         margin-bottom: 50px; /*margem do titulo**/
         top: 10px; /*posição do titulo**/ 
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 100);
+        font-weight: bold; /* Define o texto em negrito*/
+        letter-spacing: 2px; /* Define um espaçamento de 2 pixels entre as letras */
+        text-transform: uppercase; /*texto fica em negrito*/
+
+
     }
     .div-posicao button {
         /*chamando a div da posição dos botões**/
@@ -46,15 +52,15 @@
 
     
     .jogar {
-        background-color: lightsteelblue;
+        background-color: rgb(186, 157, 214);
     }
 
     .sobre {
-        background-color: lightsteelblue;
+        background-color: rgb(186, 157, 214);
     }
 
     .ajuda {
-        background-color: lightsteelblue;
+        background-color: rgb(186, 157, 214);
     }
 
 </style>
