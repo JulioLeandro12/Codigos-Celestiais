@@ -1,17 +1,37 @@
 
-<div class="mapa">
-	<div class="seletor" style="left: {newLeft}px; top: {newTop}px"></div>
-
+<div class="mapa" style="
+		display: grid;
+		grid-template-columns: repeat({colunas}, 1fr);
+		grid-template-rows: repeat({linhas}, 1fr);
+		background-color: black;
+">
+	
 
 			{#each mapa as linha, linhaIndex}
 				{#each linha as celula, celulaIndex}
 
 					<!-- svelte-ignore a11y-mouse-events-have-key-events -->
-					<div class="celula" 
-					on:mouseover={xyPos(linhaIndex, celulaIndex)} ></div>
+					<div class="celula" on:mouseover={xyPos(linhaIndex, celulaIndex)} style="
+					height: {xy}px; 
+					width: {xy}px; "></div>
 					
 				{/each}	
 			{/each}
+
+			<div id="warrior" style="
+			left: {(personagemLeft * xy)}px;
+			top : {(personagemTop * xy)}px;
+			height: 120px; 
+			width: 120px; 
+			">p</div>
+
+			<div id="seletor" style="
+			left: {(seletorLeft * xy)}px; 
+			top: {(seletorTop * xy)}px; 
+			height: {xy}px; 
+			width: {xy}px; 
+			"></div>
+		
 
 </div>
 
@@ -20,11 +40,7 @@
 	
 	
 	.mapa {
-	  display: grid;
-	  grid-template-columns: repeat(15, 1fr);
-	  grid-template-rows: repeat(8, 1fr);
-	  background-color: black;
-	
+
 	
 	  /* Adicione as seguintes propriedades para centralizar o tabuleiro */
 	  position: absolute; /* Posicionamento absoluto */
@@ -40,11 +56,10 @@
 		justify-content: center;
 
 		-webkit-box-shadow:inset 0px 0px 0px 1px rgb(0, 0, 0);
-    		-moz-box-shadow:inset 0px 0px 0px 1px rgb(0, 0, 0);
-    		box-shadow:inset 0px 0px 0px 1px rgb(0, 0, 0);
+    	-moz-box-shadow:inset 0px 0px 0px 1px rgb(0, 0, 0);
+    	box-shadow:inset 0px 0px 0px 1px rgb(0, 0, 0);
 	
-		height: 90px;
-		width: 90px;
+
 		border: -1px solid #ff0303; 
 	
 		background-color: #731515;
@@ -53,32 +68,99 @@
 	}
 	
 	
-	.seletor {
+	#seletor {
 		  position: absolute;
-		  height: 90px;
-		  width: 90px;
 		  background-color: transparent;
 		  border: 1px white solid;
 		  transition: all 0.550s ease; 
 		}
 	
-	
+	#warrior {
+		position: absolute;
+		background-color: #1a187c;
+	}
 	</style>
 	
 	
 
 
-<svelte:window on:keydown|preventDefault={onKeyDown} />
+<svelte:window on:keydown|preventDefault={alli} />
 
 
 
 <script>
+	let personagemTop = 0;
+	let personagemLeft = 0;
+
+	let personagemSelecionado = false;
+
+	function alli(e) {
+		selecionar(e)
+		mover(e)
+		seletorMovimento(e)
+
+	}
+
+
+	function selecionar(e) {
+		if (seletorTop === personagemTop && seletorLeft === personagemLeft || !sel){
+			if (e.keyCode === 13) {
+				personagemSelecionado = !personagemSelecionado
+				seletor = !seletor
+				console.log(personagemSelecionado ? 'w' : 'n')
+				console.log(personagemTop, personagemLeft)
+			}
+		}
+	}
+	
+	function mover(e){
+		if(personagemSelecionado) {
+			switch (e.keyCode) {
+				
+				case 38: // Seta para cima
+					if (personagemTop - speed >= 0){
+						personagemTop -= speed;
+						console.log(`top: ${personagemTop} left: ${personagemLeft}`)
+
+					}
+				break;
+
+				case 40: // Seta para baixo
+					if (personagemTop + speed <= speed * linhas - 1){
+						personagemTop += speed;
+							console.log(`top: ${personagemTop} left: ${personagemLeft}`)
+					}
+				break;
+
+
+				case 37: // Seta para a esquerda
+					if (personagemLeft - speed >= 0){
+						personagemLeft -= speed;
+						console.log(`top: ${personagemTop} left: ${personagemLeft}`)
+
+					}
+				break;
+
+				case 39: // Seta para a direita
+					if (personagemLeft + speed <= speed * colunas - 1){
+						personagemLeft += speed;
+						console.log(`top: ${personagemTop} left: ${personagemLeft}`)
+
+					}
+				break;
+
+  }
+
+		}
+	}
+
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////
-
-	let linhas = 10
-	let colunas = 15
+	
+	let xy = 120
+	let linhas = 8
+	let colunas = 12
 
 	let mapa = Array(linhas).fill(null).map(() => Array(colunas).fill(null));
 
@@ -89,47 +171,48 @@
 		}
 	}
 
-	
-	let newTop = 0;
-  	let newLeft = 0;
+	let seletor = true
+	let seletorTop = 0;
+  	let seletorLeft = 0;
+	let speed = 1; 
 
-	function onKeyDown(e) {
-  		const speed = 90; // Tamanho de cada célula do tabuleiro
+	function seletorMovimento(e) {
 
-			switch (e.keyCode) {
+			if(!personagemSelecionado){
+				switch (e.keyCode) {
 				case 38: // Seta para cima
-					if (newTop - speed >= 0){
-						newTop -= speed;
-						console.log(`top: ${newTop} left: ${newLeft}`)
+					if (seletorTop - speed >= 0){
+						seletorTop -= speed;
+						console.log(`top: ${seletorTop} left: ${seletorLeft}`)
 
 					}
 				break;
 
 				case 40: // Seta para baixo
-					if (newTop + speed <= speed * linhas - 1){
-						newTop += speed;
-							console.log(`top: ${newTop} left: ${newLeft}`)
+					if (seletorTop + speed <= speed * linhas - 1){
+						seletorTop += speed;
+							console.log(`top: ${seletorTop} left: ${seletorLeft}`)
 					}
 				break;
 
 
 				case 37: // Seta para a esquerda
-					if (newLeft - speed >= 0){
-						newLeft -= speed;
-						console.log(`top: ${newTop} left: ${newLeft}`)
+					if (seletorLeft - speed >= 0){
+						seletorLeft -= speed;
+						console.log(`top: ${seletorTop} left: ${seletorLeft}`)
 
 					}
 				break;
 
 				case 39: // Seta para a direita
-					if (newLeft + speed <= speed * colunas - 1){
-						newLeft += speed;
-						console.log(`top: ${newTop} left: ${newLeft}`)
+					if (seletorLeft + speed <= speed * colunas - 1){
+						seletorLeft += speed;
+						console.log(`top: ${seletorTop} left: ${seletorLeft}`)
 
 					}
 				break;
 
-  }
+  			}}
 
 }					
 
