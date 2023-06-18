@@ -103,7 +103,7 @@
 
 
 	function selecionar(e) {
-		if (seletorTop === personagemTop && seletorLeft === personagemLeft || !sel){
+		if (seletorTop === personagemTop && seletorLeft === personagemLeft || !seletor){
 			if (e.keyCode === 13) {
 				personagemSelecionado = !personagemSelecionado
 				seletor = !seletor
