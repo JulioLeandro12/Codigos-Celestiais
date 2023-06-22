@@ -11,19 +11,13 @@
 				{#each linha as celula, celulaIndex}
 
 					<!-- svelte-ignore a11y-mouse-events-have-key-events -->
-					<div class="celula" on:mouseover={xyPos(linhaIndex, celulaIndex)} style="
+					<div class="celula" on:mouseover={cellPos(linhaIndex, celulaIndex)} style="
 					height: {xy}px; 
 					width: {xy}px; "></div>
 					
 				{/each}	
 			{/each}
 
-			<div id="warrior" style="
-			left: {(personagemLeft * xy)}px;
-			top : {(personagemTop * xy)}px;
-			height: 120px; 
-			width: 120px; 
-			">p</div>
 
 			<div id="seletor" style="
 			left: {(seletorLeft * xy)}px; 
@@ -31,6 +25,26 @@
 			height: {xy}px; 
 			width: {xy}px; 
 			"></div>
+
+			
+
+			
+			<div id="lutador" style="
+			left: {(personagemLeft * xy)}px;
+			top : {(personagemTop * xy)}px;
+			height: {xy}px; 
+			width: {xy}px;
+			z-index: 1;
+			background-image: url(/public/imagens/temp.png); 
+			background-size: cover;
+
+
+			"> <!-- eh temporario ok nao me matem -->
+		
+			<div id="range-lutador"></div>
+
+
+		</div>
 		
 
 </div>
@@ -38,16 +52,14 @@
 
 <style>
 	
-	
 	.mapa {
-
-	
 	  /* Adicione as seguintes propriedades para centralizar o tabuleiro */
 	  position: absolute; /* Posicionamento absoluto */
 	  top: 50%; /* Coloca o topo do tabuleiro no meio da página */
-	  left: 50%; /* Coloca a esquerda do tabuleiro no meio da página */
+	  left: 35%; /* Coloca a esquerda do tabuleiro no meio da página */
 	  transform: translate(-50%, -50%); /* Translada o tabuleiro de volta para centralizar */
 	}
+	
 	
 	
 	.celula {
@@ -65,6 +77,7 @@
 		background-color: #731515;
 		background-size: cover; /* Redimensiona a imagem para preencher a célula */
 		background-position: center; /* Centraliza a imagem na célula */
+
 	}
 	
 	
@@ -75,76 +88,156 @@
 		  transition: all 0.550s ease; 
 		}
 	
-	#warrior {
+	#lutador {
 		position: absolute;
-		background-color: #1a187c;
 	}
+
+	#range-lutador {
+		position: absolute;
+		top: -100%;
+		left: -100%;
+		width: 300%;
+		height: 300%;
+		background-color: rgba(0,0,255,0.5);
+		
+	}
+
+
+
 	</style>
 	
 	
 
 
-<svelte:window on:keydown|preventDefault={alli} />
+<svelte:window on:keydown|preventDefault={funcoes} />
 
 
 
 <script>
-	let personagemTop = 0;
-	let personagemLeft = 0;
 
-	let personagemSelecionado = false;
+	import { lutador } from "../stores/personagens";
+	import { atirador } from "../stores/personagens";
+	import { feiticeiro } from "../stores/personagens";
 
-	function alli(e) {
-		selecionar(e)
-		mover(e)
-		seletorMovimento(e)
+
+	function funcoes(e) {
+			selecionar(e)
+			mover(e)
+			seletorMovimento(e)
 
 	}
 
+	
+	let xy = 128 // tamanho das celulas e do seletor
+	let linhas = 7
+	let colunas = 8
+	let mapa = Array(linhas).fill(null).map(() => Array(colunas).fill(null));
 
-	function selecionar(e) {
-		if (seletorTop === personagemTop && seletorLeft === personagemLeft || !seletor){
-			if (e.keyCode === 13) {
-				personagemSelecionado = !personagemSelecionado
-				seletor = !seletor
-				console.log(personagemSelecionado ? 'w' : 'n')
-				console.log(personagemTop, personagemLeft)
-			}
+	function cellPos(linha, coluna) {
+		return function	() {
+			console.log(`Posição da célula (${coluna}, ${linha})`); // função para mostrar coordenada da celula
 		}
 	}
-	
-	function mover(e){
-		if(personagemSelecionado) {
-			switch (e.keyCode) {
-				
-				case 38: // Seta para cima
-					if (personagemTop - speed >= 0){
-						personagemTop -= speed;
-						console.log(`top: ${personagemTop} left: ${personagemLeft}`)
 
+	let seletor = true
+	let seletorTop = 0;
+  	let seletorLeft = 0;
+	let passo = 1; 
+
+	function seletorMovimento(e) {
+
+			if(!personagemSelecionado){
+				switch (e.keyCode) {
+				case 38: // Seta para cima
+					if (seletorTop - passo >= 0){
+						seletorTop -= passo;
+						console.log(`X: ${seletorLeft} Y: ${seletorTop}`)
 					}
 				break;
 
 				case 40: // Seta para baixo
-					if (personagemTop + speed <= speed * linhas - 1){
-						personagemTop += speed;
-							console.log(`top: ${personagemTop} left: ${personagemLeft}`)
+					if (seletorTop + passo <= passo * linhas - 1){
+						seletorTop += passo;
+						console.log(`X: ${seletorLeft} Y: ${seletorTop}`)
 					}
 				break;
 
 
 				case 37: // Seta para a esquerda
-					if (personagemLeft - speed >= 0){
-						personagemLeft -= speed;
-						console.log(`top: ${personagemTop} left: ${personagemLeft}`)
+					if (seletorLeft - passo >= 0){
+						seletorLeft -= passo;
+						console.log(`X: ${seletorLeft} Y: ${seletorTop}`)
 
 					}
 				break;
 
 				case 39: // Seta para a direita
-					if (personagemLeft + speed <= speed * colunas - 1){
-						personagemLeft += speed;
-						console.log(`top: ${personagemTop} left: ${personagemLeft}`)
+					if (seletorLeft + passo <= passo * colunas - 1){
+						seletorLeft += passo;
+						console.log(`X: ${seletorLeft} Y: ${seletorTop}`)
+
+					}
+				break;
+
+  			}}
+
+}				
+
+
+
+
+
+	let personagemTop = lutador.top;
+	let personagemLeft = lutador.left;
+	let personagemSelecionado = false;
+
+	function selecionar (e) {
+		if (seletorTop === personagemTop && seletorLeft === personagemLeft || !seletor){
+			if (e.keyCode === 13) { // enter
+				personagemSelecionado = !personagemSelecionado
+				seletor = !seletor
+				console.log(personagemTop, personagemLeft)
+			}
+		}
+	}
+	
+	let espelhar1 = false
+
+	function mover(e){
+		if(personagemSelecionado) {
+			switch (e.keyCode) {
+				
+				case 38: // Seta para cima
+					if (personagemTop - passo >= 0){
+						personagemTop -= passo;
+						console.log(`X: ${personagemLeft} Y: ${personagemTop}`)
+
+					}
+				break;
+
+				case 40: // Seta para baixo
+					if (personagemTop + passo <= passo * linhas - 1){
+						personagemTop += passo;
+						console.log(`X: ${personagemLeft} Y: ${personagemTop}`)
+					}
+				break;
+
+				
+
+				case 37: // Seta para a esquerda
+					if (personagemLeft - passo >= 0){
+						personagemLeft -= passo;
+						espelhar1 = true
+						console.log(`X: ${personagemLeft} Y: ${personagemTop}`)
+
+					}
+				break;
+
+				case 39: // Seta para a direita
+					if (personagemLeft + passo <= passo * colunas - 1){
+						personagemLeft += passo;
+						espelhar1 = false
+						console.log(`X: ${personagemLeft} Y: ${personagemTop}`)
 
 					}
 				break;
@@ -152,105 +245,6 @@
   }
 
 		}
-	}
-
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	let xy = 120
-	let linhas = 8
-	let colunas = 12
-
-	let mapa = Array(linhas).fill(null).map(() => Array(colunas).fill(null));
-
-
-	function xyPos(linha, coluna) {
-		return function	() {
-			console.log(`Posição da célula (${linha}, ${coluna})`);
-		}
-	}
-
-	let seletor = true
-	let seletorTop = 0;
-  	let seletorLeft = 0;
-	let speed = 1; 
-
-	function seletorMovimento(e) {
-
-			if(!personagemSelecionado){
-				switch (e.keyCode) {
-				case 38: // Seta para cima
-					if (seletorTop - speed >= 0){
-						seletorTop -= speed;
-						console.log(`top: ${seletorTop} left: ${seletorLeft}`)
-
-					}
-				break;
-
-				case 40: // Seta para baixo
-					if (seletorTop + speed <= speed * linhas - 1){
-						seletorTop += speed;
-							console.log(`top: ${seletorTop} left: ${seletorLeft}`)
-					}
-				break;
-
-
-				case 37: // Seta para a esquerda
-					if (seletorLeft - speed >= 0){
-						seletorLeft -= speed;
-						console.log(`top: ${seletorTop} left: ${seletorLeft}`)
-
-					}
-				break;
-
-				case 39: // Seta para a direita
-					if (seletorLeft + speed <= speed * colunas - 1){
-						seletorLeft += speed;
-						console.log(`top: ${seletorTop} left: ${seletorLeft}`)
-
-					}
-				break;
-
-  			}}
-
-}					
-
-
-	
-
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-    let player1 = null
-    let player2 = null
-    let resultado = 'Escolha os personagens'
-
-   /* function start() {
-        if (player1 && player2) {
-            attack(player1, player2)
-            resultado = player2.hp <= 0 ? 
-                `${player2.name} foi derrotado.` 
-            : `${player2.name} HP: ${player2.hp}`
-        } else {
-            resultado
-        }
-    }
-*/
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-
-	let src = "imgs/grama.png"
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-
+	}	
 
 </script>
