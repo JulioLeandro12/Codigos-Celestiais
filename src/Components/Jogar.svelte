@@ -30,21 +30,28 @@
 
 			
 			<div id="lutador" style="
-			left: {(personagemLeft * xy)}px;
-			top : {(personagemTop * xy)}px;
+			left: {(lutador.left * xy)}px;
+			top : {(lutador.top * xy)}px;
 			height: {xy}px; 
 			width: {xy}px;
 			z-index: 1;
 			background-image: url(/public/imagens/temp.png); 
 			background-size: cover;
-
-
 			"> <!-- eh temporario ok nao me matem -->
 		
-			<div id="range-lutador"></div>
-
-
-		</div>
+				<div id="range-lutador"></div>
+			</div>
+		
+			<div id="atirador" style="
+			left: {(atirador.left * xy)}px;
+			top: {(atirador.top * xy)}px;
+			height: {xy}px;
+			width: {xy}px;
+			background-image: url(/public/imagens/temp2.png); 
+			background-size: cover;
+			
+			
+			"></div>
 		
 
 </div>
@@ -98,8 +105,12 @@
 		left: -100%;
 		width: 300%;
 		height: 300%;
-		background-color: rgba(0,0,255,0.5);
+		background-color: rgba(0,0,255,0.2);
 		
+	}
+
+	#atirador {
+		position: absolute;
 	}
 
 
@@ -146,7 +157,7 @@
 
 	function seletorMovimento(e) {
 
-			if(!personagemSelecionado){
+			if(seletor){
 				switch (e.keyCode) {
 				case 38: // Seta para cima
 					if (seletorTop - passo >= 0){
@@ -187,57 +198,71 @@
 
 
 
-	let personagemTop = lutador.top;
-	let personagemLeft = lutador.left;
+
 	let personagemSelecionado = false;
 
+
+	console.log(lutador.top, lutador.left)
+
 	function selecionar (e) {
-		if (seletorTop === personagemTop && seletorLeft === personagemLeft || !seletor){
+		if (seletorTop === lutador.top && seletorLeft === lutador.left || !seletor){ // selecionar o lutador
 			if (e.keyCode === 13) { // enter
 				personagemSelecionado = !personagemSelecionado
 				seletor = !seletor
-				console.log(personagemTop, personagemLeft)
+				lutador.selecionado = true
+				console.log(lutador.top, lutador.left)
 			}
 		}
+
+		if (seletorTop === atirador.top && seletorLeft === atirador.left || !seletor){ // selecionar o lutador
+			if (e.keyCode === 13) { // enter
+				personagemSelecionado = !personagemSelecionado
+				seletor = !seletor
+				atirador.selecionado = true
+				console.log(atirador.top, atirador.left)
+			}
+		}
+
+
 	}
 	
-	let espelhar1 = false
 
 	function mover(e){
-		if(personagemSelecionado) {
+		if(personagemSelecionado && lutador.selecionado ) {
 			switch (e.keyCode) {
 				
 				case 38: // Seta para cima
-					if (personagemTop - passo >= 0){
-						personagemTop -= passo;
-						console.log(`X: ${personagemLeft} Y: ${personagemTop}`)
+					if (lutador.top - passo >= 0){
+						lutador.top -= passo;
+						console.log(`X: ${lutador.left} Y: ${lutador.top}`)
 
 					}
 				break;
 
 				case 40: // Seta para baixo
-					if (personagemTop + passo <= passo * linhas - 1){
-						personagemTop += passo;
-						console.log(`X: ${personagemLeft} Y: ${personagemTop}`)
+					if (lutador.top + passo <= passo * linhas - 1){
+						lutador.top += passo;
+						console.log(`X: ${lutador.left} Y: ${lutador.top}`)
+						
 					}
 				break;
 
 				
 
 				case 37: // Seta para a esquerda
-					if (personagemLeft - passo >= 0){
-						personagemLeft -= passo;
-						espelhar1 = true
-						console.log(`X: ${personagemLeft} Y: ${personagemTop}`)
+					if (lutador.left - passo >= 0){
+						lutador.left -= passo;
+						console.log(`X: ${lutador.left} Y: ${lutador.top}`)
+
 
 					}
 				break;
 
 				case 39: // Seta para a direita
-					if (personagemLeft + passo <= passo * colunas - 1){
-						personagemLeft += passo;
-						espelhar1 = false
-						console.log(`X: ${personagemLeft} Y: ${personagemTop}`)
+					if (lutador.left + passo <= passo * colunas - 1){
+						lutador.left += passo;
+						console.log(`X: ${lutador.left} Y: ${lutador.top}`)
+
 
 					}
 				break;
@@ -245,6 +270,55 @@
   }
 
 		}
+
+	if(personagemSelecionado && atirador.selecionado) {
+			switch (e.keyCode) {
+				
+				case 38: // Seta para cima
+					if (atirador.top - passo >= 0){
+						atirador.top -= passo;
+						console.log(`X: ${atirador.left} Y: ${atirador.top}`)
+
+					}
+				break;
+
+				case 40: // Seta para baixo
+					if (atirador.top + passo <= passo * linhas - 1){
+						atirador.top += passo;
+						console.log(`X: ${atirador.left} Y: ${atirador.top}`)
+						
+					}
+				break;
+
+				
+
+				case 37: // Seta para a esquerda
+					if (atirador.left - passo >= 0){
+						atirador.left -= passo;
+						console.log(`X: ${atirador.left} Y: ${atirador.top}`)
+
+
+					}
+				break;
+
+				case 39: // Seta para a direita
+					if (atirador.left + passo <= passo * colunas - 1){
+						atirador.left += passo;
+						console.log(`X: ${atirador.left} Y: ${atirador.top}`)
+
+
+					}
+				break;
+
+  }
+
+		}
+
+
+
+
+
+
 	}	
 
 </script>
