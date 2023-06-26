@@ -20,18 +20,17 @@
 
 
 			<div id="seletor" style="
-			left: {(seletorLeft * xy)}px; 
-			top: {(seletorTop * xy)}px; 
+			left: {seletorLeft * xy}px; 
+			top: {seletorTop * xy}px; 
 			height: {xy}px; 
 			width: {xy}px; 
 			"></div>
 
 			
 
-			
 			<div id="lutador" style="
-			left: {(lutador.left * xy)}px;
-			top : {(lutador.top * xy)}px;
+			left: {$lutador.left * xy}px;
+			top : {$lutador.top * xy}px;
 			height: {xy}px; 
 			width: {xy}px;
 			z-index: 1;
@@ -43,8 +42,8 @@
 			</div>
 		
 			<div id="atirador" style="
-			left: {(atirador.left * xy)}px;
-			top: {(atirador.top * xy)}px;
+			top: {$atirador.top * xy}px;
+			left: {$atirador.left * xy}px;
 			height: {xy}px;
 			width: {xy}px;
 			background-image: url(/public/imagens/temp2.png); 
@@ -125,15 +124,20 @@
 
 
 <script>
-	import { lutador } from "../stores/personagens";
-	import { atirador } from "../stores/personagens";
+    import { writable } from "svelte/store";
+	import { lutador, atirador } from "../stores/personagens";
+
+	
+
 	import { feiticeiro } from "../stores/personagens";
+
 
 
 	function funcoes(e) {
 			selecionar(e)
 			mover(e)
 			seletorMovimento(e)
+	
 
 	}
 
@@ -155,7 +159,7 @@
 	let passo = 1; 
 
 	function seletorMovimento(e) {
-		console.log("a", personagemSelecionado)
+		console.log("personagem selecionado?", personagemSelecionado)
 
 			if(seletor){
 				switch (e.keyCode) {
@@ -194,116 +198,125 @@
 
 }				
 
-
-
-
-
-
 	let personagemSelecionado = false;
+	let pRef;
 
+	let atiradorTop;
+	let atiradorLeft;
+	let atiradorSelecionado;
 
+	let lutadorTop;
+	let lutadorLeft;
+	let lutadorSelecionado;
 
-	function selecionar(e) { 				// seleciona os personagens
-		if(seletor && seletorTop === atirador.top && seletorLeft === atirador.left){
+	atirador.subscribe(value => {
+		atiradorTop = value.top
+		atiradorLeft = value.left
+		atiradorSelecionado = value.selecionado
+		return value
+	})
+
+	lutador.subscribe(value => {
+		lutadorTop = value.top
+		lutadorLeft = value.left
+		lutadorSelecionado = value.selecionado
+		return value
+	})
+
+	console.log()
+
+	
+
+	console.log(lutadorTop, lutadorLeft, "atifsdf")
+
+	console.log(atiradorTop, atiradorLeft, "atifsdf")
+
+	function selecionar(e) { 	
+	if(seletor){	
+	// seleciona os personagens
+		if(seletorTop === atiradorTop && seletorLeft === atiradorLeft && seletor){
+			
 			if(e.keyCode == 90 && personagemSelecionado == false){
-			personagemSelecionado = true
-			atirador.selecionado = true
+				personagemSelecionado = true
+				seletor = false
 
-			lutador.selecionado = false	// desativa a seleção de outros personagens
+				pRef = atirador
 
-			console.log("aee", atirador.selecionado)
-			}
-			else if(personagemSelecionado && e.keyCode == 90){
-				personagemSelecionado = false
-				atirador.selecionado = false
-				console.log("a", atirador.selecionado)
+
+			console.log("atirador selecionado? ", atiradorSelecionado, pRef)
 			}
 		}
 
-		if(seletor && seletorTop === lutador.top && seletorLeft === lutador.left){
+		 if(seletorTop === lutadorTop && seletorLeft === lutadorLeft){
 			if(e.keyCode == 90 && personagemSelecionado == false){
-			personagemSelecionado = true
-			lutador.selecionado = true
+				personagemSelecionado = true
+				seletor = false
 
-			atirador.selecionado = false
+				pRef = lutador
 
-			console.log("aee", lutador.selecionado)
-
+			console.log("lutador selecionado? ", pRef)
 			}
-			else if(personagemSelecionado && e.keyCode == 90){
-				personagemSelecionado = false
-				lutador.selecionado = false
-				console.log("a", atirador.selecionado)
-			}
+
 		}
 
-}
 
+		} else if (e.keyCode === 90){
+			seletor = true
+			pRef = undefined;
+			personagemSelecionado = false
+		}
+	}
+	
 
 
 function mover(e) {
-  if (atirador.selecionado) {
-    switch (e.keyCode) {
-      	case 38: // Seta para cima
-        	if (atirador.top - passo >= 0) {
-          		atirador.top -= passo;        
-			}
-        break;
+		let pleft = 0;
+		let ptop = 0;
 
-      	case 40: // Seta para baixo
-        	if (atirador.top + passo <= passo * linhas - 1) {
-          	atirador.top += passo;
-        	}
-        break;															/// move o atirador
-
-      	case 37: // Seta para a esquerda
-        	if (atirador.left - passo >= 0) {
-				atirador.left -= passo;
-        	}
-        break;
-
-      	case 39: // Seta para a direita
-        	if (atirador.left + passo <= passo * colunas - 1) {
-          	atirador.left += passo;
-        	}
-        break;
+	if (pRef != undefined && personagemSelecionado) {
 		
+	pRef.subscribe(value => {
+		 pleft = value.left
+		 ptop = value.top
+		return value
+	})
+
+
+	
+		if (e.keyCode == 38 && ptop - passo >= 0){
+			pRef.update(v => {
+				v.top -= passo
+				return v
+			})
+		}
+		if (e.keyCode == 40 ){
+			if((ptop + passo <= passo * linhas - 1)){
+			pRef.update(v => {
+				v.top += passo
+				return v
+			})
+		}
+		}
+		if (e.keyCode == 37 && pleft - passo >= 0){
+			pRef.update(v => {
+				v.left -= passo
+				return v
+			})
+		}
+		if (e.keyCode == 39 && pleft + passo <= passo * colunas - 1){
+			
+			pRef.update(v => {
+				v.left += passo
+				return v
+			})
+		}
 		
-    } 
-  }
+	
 
-  if (lutador.selecionado) {
-    switch (e.keyCode) {
-      	case 38: // Seta para cima
-        	if (lutador.top - passo >= 0) {
-          		lutador.top -= passo;        
-			}
-        break;
+	}
+    
 
-      	case 40: // Seta para baixo
-        	if (lutador.top + passo <= passo * linhas - 1) {
-          	lutador.top += passo;
-        	}
-        break;															/// move o lutador
-
-      	case 37: // Seta para a esquerda
-        	if (lutador.left - passo >= 0) {
-				lutador.left -= passo;
-        	}
-        break;
-
-      	case 39: // Seta para a direita
-        	if (lutador.left + passo <= passo * colunas - 1) {
-          	lutador.left += passo;
-        	}
-        break;
-		
-		
-    } 
-  }
 }
-
-
 
 </script>
 
