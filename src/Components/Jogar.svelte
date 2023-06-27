@@ -129,8 +129,7 @@
 </div>
 
 
-	<button class="butao" on:click={matar}>ai n sei oq n sei oq</button>
-	<button class="butao2" on:click={reviver}>fui mlk</button>
+
 
 
 <style>
@@ -223,24 +222,6 @@
 	})
 
 	console.log($player2.stamina)
-
-	function matar(){
-		console.log($atirador.vida)
-		atirador.update(v => {
-			v.vida -= 2
-			return v
-		})
-
-	}
-
-	function reviver(){
-		console.log($atirador.vida)
-
-		atirador.update(v => {
-			v.vida = 10
-			return v
-		})
-	}
 
 	function funcoes(e) {
 			selecionar(e)
@@ -388,11 +369,30 @@
 		
 		return value
 	})
+
+	if($player1.stamina <= 0){
+		player1.update(v => {
+			v.turno = false
+			return v
+		})
+
+		player2.update(v => {
+			v.turno = true
+			v.stamina = 8
+			return v
+		})
+
+	}
+
+
 	
 
 	function selecionar(e) { 	
 	if(seletor){	
 	// seleciona os personagens
+
+
+
 		if(seletorTop === atiradorTop && seletorLeft === atiradorLeft && seletor){
 			
 			if(e.keyCode == 90 && personagemSelecionado == false){
@@ -489,13 +489,16 @@ function mover(e) {
 	})
 
 
-	
+	if($player1.turno && $player1.stamina > 0 && $player1.personagens.includes(pRef)){
 		if (e.keyCode == 38 && ptop - passo >= 0 ){
 			pRef.update(v => {
 				v.top -= passo
 				return v
 			})
-
+			player1.update(v => {
+				v.stamina --
+				return v
+			})
 			
 		}
 		if (e.keyCode == 40 ){
@@ -503,13 +506,20 @@ function mover(e) {
 			pRef.update(v => {
 				v.top += passo
 				return v
-				
+			})
+			player1.update(v => {
+				v.stamina --
+				return v
 			})
 		}
 		}
 		if (e.keyCode == 37 && pleft - passo >= 0){
 			pRef.update(v => {
 				v.left -= passo
+				return v
+			})
+			player1.update(v => {
+				v.stamina --
 				return v
 			})
 		}
@@ -519,13 +529,17 @@ function mover(e) {
 				v.left += passo
 				return v
 			})
+			player1.update(v => {
+				v.stamina --
+				return v
+			})
 		}
 		
 	
 
 	}
     
-
+	}
 }
 
 </script>
