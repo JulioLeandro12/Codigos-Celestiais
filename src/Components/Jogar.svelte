@@ -26,34 +26,111 @@
 			width: {xy}px; 
 			"></div>
 
+		{#if  lutadorVivo && $lutador.vida > 0}
 			
-
+			
 			<div id="lutador" style="
+
 			left: {$lutador.left * xy}px;
 			top : {$lutador.top * xy}px;
 			height: {xy}px; 
 			width: {xy}px;
 			z-index: 1;
-			background-image: url(/public/imagens/temp.png); 
+			background-image: url(/public/imagens/Clary.png); 
 			background-size: cover;
 			"> <!-- eh temporario ok nao me matem -->
 		
-				<div id="range-lutador"></div>
-			</div>
-		
+					<div id="range-lutador"></div>
+		</div>
+
+		{/if}
+
+
+		{#if  atiradorVivo && $atirador.vida > 0}
 			<div id="atirador" style="
+
 			top: {$atirador.top * xy}px;
 			left: {$atirador.left * xy}px;
 			height: {xy}px;
 			width: {xy}px;
-			background-image: url(/public/imagens/temp2.png); 
+
+		
+
+			background-image: url(/public/imagens/Alec.png); 
 			background-size: cover;
 			
 			
 			"></div>
+			
+		{/if}
+
+		{#if feiticeiroVivo && $feiticeiro.vida > 0}
+			<div id="feiticeiro" style="
+
+			top: {$feiticeiro.top * xy}px;
+			left: {$feiticeiro.left * xy}px;
+	
+			height: {xy}px;
+			width: {xy}px;
+
+		
+		
+			background-image: url(/public/imagens/Magnus.png); 
+			background-size: cover;
+			
+			
+			"></div>
+			
+		{/if}
+
+		{#if p4Vivo && $p4.vida > 0}
+			<div id="p4" style="
+			top: {$p4.top * xy}px;
+			left: {$p4.left * xy}px;
+
+			height: {xy}px;
+			width: {xy}px;
+
+			background-color: blue;
+
+			"></div>
+			
+		{/if}
+
+		{#if p5Vivo && $p5.vida > 0}
+			<div id="p5" style="
+			top: {$p5.top * xy}px;
+			left: {$p5.left * xy}px;
+
+			height: {xy}px;
+			width: {xy}px;
+
+			background-color: orange;
+
+		"></div>
+			
+		{/if}
+
+		{#if p6Vivo && $p6.vida > 0}
+			<div id="p6" style="
+			top: {$p6.top * xy}px;
+			left: {$p6.left * xy}px;
+
+			height: {xy}px;
+			width: {xy}px;
+
+			background-color: gray;
+
+		"></div>
+			
+		{/if}
 		
 
 </div>
+
+
+	<button class="butao" on:click={matar}>ai n sei oq n sei oq</button>
+	<button class="butao2" on:click={reviver}>fui mlk</button>
 
 
 <style>
@@ -94,9 +171,6 @@
 		  transition: all 0.550s ease; 
 		}
 	
-	#lutador {
-		position: absolute;
-	}
 
 	#range-lutador {
 		position: absolute;
@@ -108,10 +182,16 @@
 		
 	}
 
-	#atirador {
+	#atirador, #feiticeiro, #lutador, #p4, #p5, #p6{
+
 		position: absolute;
+		transition: all 0.550s ease; 
+
+
 	}
 
+
+	
 
 
 	</style>
@@ -124,14 +204,43 @@
 
 
 <script>
-    import { writable } from "svelte/store";
-	import { lutador, atirador } from "../stores/personagens";
+	import { lutador, atirador, feiticeiro } from "../stores/personagens";
+	import { p4, p5, p6 } from "../stores/personagens";
+	import { player1, player2 } from "../stores/jogador";
 
-	
+	player1.update(v => {
+		v.personagens.push(lutador)
+		v.personagens.push(atirador) 
+		v.personagens.push(feiticeiro) 
+		return v
+	})
 
-	import { feiticeiro } from "../stores/personagens";
+	player2.update(v => {
+		v.personagens.push(p4)
+		v.personagens.push(p5)
+		v.personagens.push(p6)
+		return v
+	})
 
+	console.log($player2.stamina)
 
+	function matar(){
+		console.log($atirador.vida)
+		atirador.update(v => {
+			v.vida -= 2
+			return v
+		})
+
+	}
+
+	function reviver(){
+		console.log($atirador.vida)
+
+		atirador.update(v => {
+			v.vida = 10
+			return v
+		})
+	}
 
 	function funcoes(e) {
 			selecionar(e)
@@ -196,7 +305,7 @@
 
   			}}
 
-}				
+}	
 
 	let personagemSelecionado = false;
 	let pRef;
@@ -204,15 +313,39 @@
 	let atiradorTop;
 	let atiradorLeft;
 	let atiradorSelecionado;
+	let atiradorVivo = ($atirador.vida > 0);
 
 	let lutadorTop;
 	let lutadorLeft;
 	let lutadorSelecionado;
+	let lutadorVivo = ($lutador.vida > 0);
+
+	let feiticeiroTop;
+	let feiticeiroLeft;
+	let feiticeiroSelecionado;
+	let feiticeiroVivo = ($feiticeiro.vida > 0);
+
+	let p4Top;
+	let p4Left;
+	let p4Selecionado;
+	let p4Vivo = ($p4.vida > 0);
+
+	let p5Top;
+	let p5Left;
+	let p5Selecionado;
+	let p5Vivo = ($p5.vida > 0);
+
+	let p6Top;
+	let p6Left;
+	let p6Selecionado;
+	let p6Vivo = ($p6.vida > 0);
+
 
 	atirador.subscribe(value => {
 		atiradorTop = value.top
 		atiradorLeft = value.left
 		atiradorSelecionado = value.selecionado
+
 		return value
 	})
 
@@ -220,16 +353,42 @@
 		lutadorTop = value.top
 		lutadorLeft = value.left
 		lutadorSelecionado = value.selecionado
+
 		return value
 	})
 
-	console.log()
+	feiticeiro.subscribe(value => {
+		feiticeiroTop = value.top
+		feiticeiroLeft = value.left
+		feiticeiroSelecionado = value.selecionado
 
+		return value
+	})
+
+	p4.subscribe(value => {
+		p4Top = value.top
+		p4Left = value.left
+		p4Selecionado = value.selecionado
+		
+		return value
+	})
+
+	p5.subscribe(value => {
+		p5Top = value.top
+		p5Left = value.left
+		p5Selecionado = value.selecionado
+		
+		return value
+	})
+
+	p6.subscribe(value => {
+		p6Top = value.top
+		p6Left = value.left
+		p6Selecionado = value.selecionado
+		
+		return value
+	})
 	
-
-	console.log(lutadorTop, lutadorLeft, "atifsdf")
-
-	console.log(atiradorTop, atiradorLeft, "atifsdf")
 
 	function selecionar(e) { 	
 	if(seletor){	
@@ -253,6 +412,54 @@
 				seletor = false
 
 				pRef = lutador
+
+			console.log("lutador selecionado? ", pRef)
+			}
+
+		}
+
+		if(seletorTop === feiticeiroTop && seletorLeft === feiticeiroLeft){
+			if(e.keyCode == 90 && personagemSelecionado == false){
+				personagemSelecionado = true
+				seletor = false
+
+				pRef = feiticeiro
+
+			console.log("lutador selecionado? ", pRef)
+			}
+
+		}
+
+		if(seletorTop === p4Top && seletorLeft === p4Left){
+			if(e.keyCode == 90 && personagemSelecionado == false){
+				personagemSelecionado = true
+				seletor = false
+
+				pRef = p4
+
+			console.log("lutador selecionado? ", pRef)
+			}
+
+		}
+
+		if(seletorTop === p5Top && seletorLeft === p5Left){
+			if(e.keyCode == 90 && personagemSelecionado == false){
+				personagemSelecionado = true
+				seletor = false
+
+				pRef = p5
+
+			console.log("lutador selecionado? ", pRef)
+			}
+
+		}
+
+		if(seletorTop === p6Top && seletorLeft === p6Left){
+			if(e.keyCode == 90 && personagemSelecionado == false){
+				personagemSelecionado = true
+				seletor = false
+
+				pRef = p6
 
 			console.log("lutador selecionado? ", pRef)
 			}
@@ -283,17 +490,20 @@ function mover(e) {
 
 
 	
-		if (e.keyCode == 38 && ptop - passo >= 0){
+		if (e.keyCode == 38 && ptop - passo >= 0 ){
 			pRef.update(v => {
 				v.top -= passo
 				return v
 			})
+
+			
 		}
 		if (e.keyCode == 40 ){
 			if((ptop + passo <= passo * linhas - 1)){
 			pRef.update(v => {
 				v.top += passo
 				return v
+				
 			})
 		}
 		}
