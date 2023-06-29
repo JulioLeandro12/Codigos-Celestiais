@@ -4,7 +4,7 @@ class Jogador{
     constructor(turno){
         this.personagens = [];
         this.turno = turno
-        this.stamina = 3
+        this.stamina = 8
     }
 
 

@@ -140,6 +140,7 @@
 	  top: 50%; /* Coloca o topo do tabuleiro no meio da página */
 	  left: 35%; /* Coloca a esquerda do tabuleiro no meio da página */
 	  transform: translate(-50%, -50%); /* Translada o tabuleiro de volta para centralizar */
+	  z-index: 1;
 	}
 	
 	
@@ -149,14 +150,9 @@
 		align-items: center;
 		justify-content: center;
 
-		-webkit-box-shadow:inset 0px 0px 0px 1px rgb(0, 0, 0);
-    	-moz-box-shadow:inset 0px 0px 0px 1px rgb(0, 0, 0);
-    	box-shadow:inset 0px 0px 0px 1px rgb(0, 0, 0);
-	
 
-		border: -1px solid #ff0303; 
 	
-		background-color: #731515;
+		background-image: url(/public/imagens/grama16x16.png);
 		background-size: cover; /* Redimensiona a imagem para preencher a célula */
 		background-position: center; /* Centraliza a imagem na célula */
 
@@ -189,7 +185,11 @@
 
 	}
 
-
+	#trocar-Turno {
+		position:absolute;
+		background-color: white;
+		left: 1600px;
+	}
 	
 
 
@@ -197,7 +197,7 @@
 	
 	
 
-
+<button id="trocar-Turno" on:click={proximoTurno}>Próximo turno</button>
 <svelte:window on:keydown|preventDefault={funcoes} />
 
 
@@ -243,9 +243,16 @@
 		}
 	}
 
-	let seletor = true
+	let seletor = true;
+	let seletor2 = false;
+
 	let seletorTop = 3;
   	let seletorLeft = 3;
+
+	let seletor2Top = 3;
+	let seletor2Left = 4;
+
+
 	let passo = 1; 
 
 	function seletorMovimento(e) {
@@ -370,19 +377,6 @@
 		return value
 	})
 
-	if($player1.stamina <= 0){
-		player1.update(v => {
-			v.turno = false
-			return v
-		})
-
-		player2.update(v => {
-			v.turno = true
-			v.stamina = 8
-			return v
-		})
-
-	}
 
 
 	
@@ -476,70 +470,84 @@
 	
 
 
-function mover(e) {
-		let pleft = 0;
-		let ptop = 0;
+	function mover(e) {
+  let pleft = 0;
+  let ptop = 0;
 
-	if (pRef != undefined && personagemSelecionado) {
-		
-	pRef.subscribe(value => {
-		 pleft = value.left
-		 ptop = value.top
-		return value
-	})
+  if (pRef != undefined && personagemSelecionado) {
+    pRef.subscribe(value => {
+      pleft = value.left;
+      ptop = value.top;
+      return value;
+    });
 
+    let jogadorAtual = player1
 
-	if($player1.turno && $player1.stamina > 0 && $player1.personagens.includes(pRef)){
-		if (e.keyCode == 38 && ptop - passo >= 0 ){
-			pRef.update(v => {
-				v.top -= passo
-				return v
-			})
-			player1.update(v => {
-				v.stamina --
-				return v
-			})
-			
-		}
-		if (e.keyCode == 40 ){
-			if((ptop + passo <= passo * linhas - 1)){
-			pRef.update(v => {
-				v.top += passo
-				return v
-			})
-			player1.update(v => {
-				v.stamina --
-				return v
-			})
-		}
-		}
-		if (e.keyCode == 37 && pleft - passo >= 0){
-			pRef.update(v => {
-				v.left -= passo
-				return v
-			})
-			player1.update(v => {
-				v.stamina --
-				return v
-			})
-		}
-		if (e.keyCode == 39 && pleft + passo <= passo * colunas - 1){
-			
-			pRef.update(v => {
-				v.left += passo
-				return v
-			})
-			player1.update(v => {
-				v.stamina --
-				return v
-			})
-		}
-		
-	
+    if ($player1.turno && $player1.stamina > 0 && $player1.personagens.includes(pRef)) {
+      jogadorAtual = player1;
+    } else if ($player2.turno && $player2.stamina > 0 && $player2.personagens.includes(pRef)) {
+      jogadorAtual = player2;
+    } else {
+      return;
+    }
 
-	}
-    
-	}
+    function movePersonagem(top, left) {
+      pRef.update(v => {
+        v.top += top;
+        v.left += left;
+        return v;
+      });
+      jogadorAtual.update(v => {
+        v.stamina--;
+        return v;
+      });
+    }
+
+    if (e.keyCode == 38 && ptop - passo >= 0) {
+      movePersonagem(-passo, 0);
+    }
+    if (e.keyCode == 40 && ptop + passo <= passo * linhas - 1) {
+      movePersonagem(passo, 0);
+    }
+    if (e.keyCode == 37 && pleft - passo >= 0) {
+      movePersonagem(0, -passo);
+    }
+    if (e.keyCode == 39 && pleft + passo <= passo * colunas - 1) {
+      movePersonagem(0, passo);
+    }
+  }
+}
+
+function proximoTurno() {
+	console.log($player1.turno, $player2.turno, $player1.stamina, $player2.stamina)
+
+  if ($player1.turno ) {
+    player1.update(v => {
+      v.turno = false;
+      return v;
+    });
+    player2.update(v => {
+      v.turno = true;
+	  v.stamina = 8
+
+      return v;
+    });
+
+	console.log($player1.turno, $player2.turno, $player1.stamina, $player2.stamina)
+
+  } else if ($player2.turno ) {
+    player2.update(v => {
+      v.turno = false;
+      return v;
+    });
+    player1.update(v => {
+      v.turno = true;
+	  v.stamina = 8
+      return v;
+    });
+	console.log($player1.turno, $player2.turno, $player1.stamina, $player2.stamina)
+
+  }
 }
 
 </script>
