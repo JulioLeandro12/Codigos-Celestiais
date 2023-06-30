@@ -39,9 +39,11 @@
 			background-image: url(/public/imagens/Clary.png); 
 			background-size: cover;
 			"> <!-- eh temporario ok nao me matem -->
-		
-					<div id="range-lutador"></div>
+			<div id="alcance"></div>
+					
 		</div>
+		
+		
 
 		{/if}
 
@@ -151,7 +153,7 @@
 		justify-content: center;
 
 
-	
+
 		background-image: url(/public/imagens/grama16x16.png);
 		background-size: cover; /* Redimensiona a imagem para preencher a célula */
 		background-position: center; /* Centraliza a imagem na célula */
@@ -160,14 +162,17 @@
 	
 	
 	#seletor {
-		  position: absolute;
-		  background-color: transparent;
-		  border: 1px white solid;
-		  transition: all 0.550s ease; 
+		background-image: url(../../public/imagens/seletor2.png);
+		position: absolute;
+		transition: all 0.550s ease; 
+		}
+
+		#seletor:hover {
+			background-image: url(../../public/imagens/seletor2-select.png);  /**imagem que representa após selecionar o boneco*/
 		}
 	
 
-	#range-lutador {
+	#alcance {
 		position: absolute;
 		top: -100%;
 		left: -100%;
@@ -191,11 +196,27 @@
 		left: 1600px;
 	}
 	
+	button {
+      background-image: url(../../public/imagens/voltar_botao.png) no repeat;
+      background-size: cover;
+      padding: auto;
+      height: 20px;
+      width: 100px;
+      border-radius: 15px;
+	  
+    }
+
+	.voltar {
+        background-image: url(../../public/imagens/voltar_botao.png);
+        background-size: cover;
+		background-position: center;
+    }
 
 
 	</style>
-	
-	
+
+
+<button class= "voltar" on:click={() => trocadeestado ("menu")}></button>	
 
 <button id="trocar-Turno" on:click={proximoTurno}>Próximo turno</button>
 <svelte:window on:keydown|preventDefault={funcoes} />
@@ -206,6 +227,8 @@
 	import { lutador, atirador, feiticeiro } from "../stores/personagens";
 	import { p4, p5, p6 } from "../stores/personagens";
 	import { player1, player2 } from "../stores/jogador";
+    import { trocadeestado } from "../stores/estado";
+
 
 	player1.update(v => {
 		v.personagens.push(lutador)
@@ -381,19 +404,18 @@
 
 	
 
-	function selecionar(e) { 	
-	if(seletor){	
-	// seleciona os personagens
+	function selecionar(e) { 	// seleciona os personagens
 
+		if(seletor){	
+	
 
-
-		if(seletorTop === atiradorTop && seletorLeft === atiradorLeft && seletor){
+			if(seletorTop === atiradorTop && seletorLeft === atiradorLeft && seletor){
 			
-			if(e.keyCode == 90 && personagemSelecionado == false){
-				personagemSelecionado = true
-				seletor = false
-
-				pRef = atirador
+				if(e.keyCode == 90 && personagemSelecionado == false){
+					personagemSelecionado = true;
+					seletor = false;
+				
+					pRef = atirador
 
 
 			console.log("atirador selecionado? ", atiradorSelecionado, pRef)
@@ -404,10 +426,13 @@
 			if(e.keyCode == 90 && personagemSelecionado == false){
 				personagemSelecionado = true
 				seletor = false
+				
 
 				pRef = lutador
 
 			console.log("lutador selecionado? ", pRef)
+			} else {
+				$lutador.alcance = false;
 			}
 
 		}
@@ -416,6 +441,7 @@
 			if(e.keyCode == 90 && personagemSelecionado == false){
 				personagemSelecionado = true
 				seletor = false
+				
 
 				pRef = feiticeiro
 
@@ -466,7 +492,8 @@
 			pRef = undefined;
 			personagemSelecionado = false
 		}
-	}
+	
+}
 	
 
 

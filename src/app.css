@@ -80,3 +80,19 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+ .Sobre {
+  width: 1200px;
+ }
+
+@media (max-width: 1200px){
+  .Sobre {
+    width: 1000px;
+  }
+}
+
+ .seletor {
+  background-image: url(../../public/imagens/seletor.png);
+  background-size: cover;
+  background-position: center;
+ }

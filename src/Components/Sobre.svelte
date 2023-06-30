@@ -44,7 +44,8 @@
     }
     .voltar {
       background-image: url(../../public/imagens/voltar_botao.png);
-      background-size: cover;
+      background-size: cover; /*Preencher o botão com imagem*/
+      background-position: center;  /*Centralizar a imagem no botão*/
     }
 
   .sobre {

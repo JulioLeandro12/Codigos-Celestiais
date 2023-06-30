@@ -20,4 +20,3 @@ export let feiticeiro = writable(new Personagem('feiticeiro', 10, 2, 2, 3, 0, 5,
 export let p4 = writable(new Personagem('4', 10, 3, 2, 1, 7, 1, false))
 export let p5 = writable(new Personagem('5', 10, 3, 2, 1, 7, 3, false))
 export let p6 = writable(new Personagem('6', 10, 3, 2, 1, 7, 5, false))
-
