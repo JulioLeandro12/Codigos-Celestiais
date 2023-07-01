@@ -40,6 +40,9 @@
 			background-size: cover;
 			"> <!-- eh temporario ok nao me matem -->
 			<div id="alcance"></div>
+			<div class="HPbar">
+				<span class= "HPtext"> HP:100/100</span>
+			</div>
 					
 		</div>
 		
@@ -55,14 +58,14 @@
 			left: {$atirador.left * xy}px;
 			height: {xy}px;
 			width: {xy}px;
-
 		
-
 			background-image: url(/public/imagens/Alec.png); 
 			background-size: cover;
-			
-			
-			"></div>
+			">
+			<div class="HPbar">
+				<span class= "HPtext"> HP:100/100</span>
+			</div>
+			</div>
 			
 		{/if}
 
@@ -75,13 +78,13 @@
 			height: {xy}px;
 			width: {xy}px;
 
-		
-		
 			background-image: url(/public/imagens/Magnus.png); 
 			background-size: cover;
-			
-			
-			"></div>
+			">
+			<div class="HPbar">
+				<span class= "HPtext"> HP:100/100</span>
+			</div>
+			</div>
 			
 		{/if}
 
@@ -179,8 +182,32 @@
 		width: 300%;
 		height: 300%;
 		background-color: rgba(0,0,255,0.2);
-		
 	}
+
+	.HPbar {
+		width: 126px; /* Largura da barra de HP */
+  		height: 16px; /* Altura da barra de HP */
+  		border: 1px solid #000; /* Borda preta para a barra de HP */
+  		background-color: #f00; /* Cor de fundo da barra de HP */
+  		position: relative;
+		top: -20%;
+		left: 7%;
+		width: 110px;
+		height: 16px;
+		
+		border-radius: 10px;
+	}
+		.HPtext {
+			position: absolute;
+  			top: 50%;
+  			left: 50%;
+  			transform: translate(-50%, -50%);
+  			color: #fff; /* Cor do texto */
+  			font-size: 12px; /* Tamanho do texto */
+			font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+			
+		}
+
 
 	#atirador, #feiticeiro, #lutador, #p4, #p5, #p6{
 
