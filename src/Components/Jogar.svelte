@@ -24,6 +24,8 @@
 			top: {seletorTop * xy}px; 
 			height: {xy}px; 
 			width: {xy}px; 
+
+			background-image: url({seletor == true ? seletorimg : seletorimg2})
 			"></div>
 
 		{#if  lutadorVivo && $lutador.vida > 0}
@@ -38,15 +40,13 @@
 			z-index: 1;
 			background-image: url(/public/imagens/Clary.png); 
 			background-size: cover;
-			"> <!-- eh temporario ok nao me matem -->
-			<div id="alcance"></div>
+			"> <div id="alcance"></div>
 			<div class="HPbar">
 				<span class= "HPtext"> HP:100/100</span>
-			</div>
-					
+			</div> 
+		
+					<div id="range-lutador"></div>
 		</div>
-		
-		
 
 		{/if}
 
@@ -58,14 +58,20 @@
 			left: {$atirador.left * xy}px;
 			height: {xy}px;
 			width: {xy}px;
+
 		
+
 			background-image: url(/public/imagens/Alec.png); 
 			background-size: cover;
+			
+			
 			">
+		
 			<div class="HPbar">
 				<span class= "HPtext"> HP:100/100</span>
 			</div>
 			</div>
+		
 			
 		{/if}
 
@@ -78,13 +84,18 @@
 			height: {xy}px;
 			width: {xy}px;
 
+		
+		
 			background-image: url(/public/imagens/Magnus.png); 
 			background-size: cover;
-			">
+			
+			
+			"  >
 			<div class="HPbar">
 				<span class= "HPtext"> HP:100/100</span>
 			</div>
 			</div>
+			
 			
 		{/if}
 
@@ -156,7 +167,7 @@
 		justify-content: center;
 
 
-
+	
 		background-image: url(/public/imagens/grama16x16.png);
 		background-size: cover; /* Redimensiona a imagem para preencher a célula */
 		background-position: center; /* Centraliza a imagem na célula */
@@ -165,16 +176,21 @@
 	
 	
 	#seletor {
-		background-image: url(../../public/imagens/seletor2.png);
-		position: absolute;
-		transition: all 0.550s ease; 
-		}
-
-		#seletor:hover {
-			background-image: url(../../public/imagens/seletor2-select.png);  /**imagem que representa após selecionar o boneco*/
+		  position: absolute;
+		  background-color: transparent;
+		  transition: all 0.550s ease; 
 		}
 	
 
+	#range-lutador {
+		position: absolute;
+		top: -100%;
+		left: -100%;
+		width: 300%;
+		height: 300%;
+		background-color: rgba(0,0,255,0.2);
+		
+	}	
 	#alcance {
 		position: absolute;
 		top: -100%;
@@ -184,29 +200,30 @@
 		background-color: rgba(0,0,255,0.2);
 	}
 
-	.HPbar {
-		width: 126px; /* Largura da barra de HP */
-  		height: 16px; /* Altura da barra de HP */
-  		border: 1px solid #000; /* Borda preta para a barra de HP */
-  		background-color: #f00; /* Cor de fundo da barra de HP */
-  		position: relative;
-		top: -20%;
-		left: 7%;
-		width: 110px;
-		height: 16px;
+.HPbar {
+	width: 126px; /* Largura da barra de HP */
+	  height: 16px; /* Altura da barra de HP */
+	  border: 1px solid #000; /* Borda preta para a barra de HP */
+	  background-color: #f00; /* Cor de fundo da barra de HP */
+	  position: relative;
+	top: -20%;
+	left: 7%;
+	width: 110px;
+	height: 16px;
+	
+	border-radius: 10px;
+}
+	.HPtext {
+		position: absolute;
+		  top: 50%;
+		  left: 50%;
+		  transform: translate(-50%, -50%);
+		  color: #fff; /* Cor do texto */
+		  font-size: 12px; /* Tamanho do texto */
+		font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 		
-		border-radius: 10px;
 	}
-		.HPtext {
-			position: absolute;
-  			top: 50%;
-  			left: 50%;
-  			transform: translate(-50%, -50%);
-  			color: #fff; /* Cor do texto */
-  			font-size: 12px; /* Tamanho do texto */
-			font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-			
-		}
+
 
 
 	#atirador, #feiticeiro, #lutador, #p4, #p5, #p6{
@@ -219,10 +236,10 @@
 
 	#trocar-Turno {
 		position:absolute;
+		color: rebeccapurple         ;
 		background-color: white;
 		left: 1600px;
 	}
-	
 	button {
       background-image: url(../../public/imagens/voltar_botao.png) no repeat;
       background-size: cover;
@@ -237,15 +254,16 @@
         background-image: url(../../public/imagens/voltar_botao.png);
         background-size: cover;
 		background-position: center;
+		
     }
 
 
+
 	</style>
+	
+	<button class= "voltar" on:click={() => trocadeestado ("menu")}></button>	
 
-
-<button class= "voltar" on:click={() => trocadeestado ("menu")}></button>	
-
-<button id="trocar-Turno" on:click={proximoTurno}>Próximo turno</button>
+<button id="trocar-Turno" on:click={proximoTurno} >Próximo turno</button>
 <svelte:window on:keydown|preventDefault={funcoes} />
 
 
@@ -254,8 +272,7 @@
 	import { lutador, atirador, feiticeiro } from "../stores/personagens";
 	import { p4, p5, p6 } from "../stores/personagens";
 	import { player1, player2 } from "../stores/jogador";
-    import { trocadeestado } from "../stores/estado";
-
+	import { trocadeestado } from "../stores/estado";
 
 	player1.update(v => {
 		v.personagens.push(lutador)
@@ -271,12 +288,10 @@
 		return v
 	})
 
-	console.log($player2.stamina)
-
 	function funcoes(e) {
 			selecionar(e)
-			mover(e)
 			seletorMovimento(e)
+			mover(e)
 	
 
 	}
@@ -294,14 +309,10 @@
 	}
 
 	let seletor = true;
-	let seletor2 = false;
-
+	let seletorimg = '/public/imagens/seletor.png'
+	let seletorimg2 = '/public/imagens/select.png'
 	let seletorTop = 3;
   	let seletorLeft = 3;
-
-	let seletor2Top = 3;
-	let seletor2Left = 4;
-
 
 	let passo = 1; 
 
@@ -309,6 +320,8 @@
 		console.log("personagem selecionado?", personagemSelecionado)
 
 			if(seletor){
+			seletorimg = '/public/imagens/seletor.png'
+				
 				switch (e.keyCode) {
 				case 38: // Seta para cima
 					if (seletorTop - passo >= 0){
@@ -329,7 +342,6 @@
 					if (seletorLeft - passo >= 0){
 						seletorLeft -= passo;
 						console.log(`X: ${seletorLeft} Y: ${seletorTop}`)
-
 					}
 				break;
 
@@ -337,7 +349,6 @@
 					if (seletorLeft + passo <= passo * colunas - 1){
 						seletorLeft += passo;
 						console.log(`X: ${seletorLeft} Y: ${seletorTop}`)
-
 					}
 				break;
 
@@ -378,8 +389,17 @@
 	let p6Selecionado;
 	let p6Vivo = ($p6.vida > 0);
 
+	let positions = [
+		[], [], [], [], [], []
+	]
+
+	
+	
 
 	atirador.subscribe(value => {
+		positions[0][0] = value.top
+		positions[0][1] = value.left
+
 		atiradorTop = value.top
 		atiradorLeft = value.left
 		atiradorSelecionado = value.selecionado
@@ -388,6 +408,10 @@
 	})
 
 	lutador.subscribe(value => {
+		positions[1][0] = value.top
+		positions[1][1] = value.left
+
+
 		lutadorTop = value.top
 		lutadorLeft = value.left
 		lutadorSelecionado = value.selecionado
@@ -396,6 +420,10 @@
 	})
 
 	feiticeiro.subscribe(value => {
+		positions[2][0] = value.top
+		positions[2][1] = value.left
+
+
 		feiticeiroTop = value.top
 		feiticeiroLeft = value.left
 		feiticeiroSelecionado = value.selecionado
@@ -404,6 +432,8 @@
 	})
 
 	p4.subscribe(value => {
+		positions[3][0] = value.top
+		positions[3][1] = value.left
 		p4Top = value.top
 		p4Left = value.left
 		p4Selecionado = value.selecionado
@@ -412,6 +442,8 @@
 	})
 
 	p5.subscribe(value => {
+		positions[4][0] = value.top
+		positions[4][1] = value.left
 		p5Top = value.top
 		p5Left = value.left
 		p5Selecionado = value.selecionado
@@ -420,6 +452,8 @@
 	})
 
 	p6.subscribe(value => {
+		positions[5][0] = value.top
+		positions[5][1] = value.left
 		p6Top = value.top
 		p6Left = value.left
 		p6Selecionado = value.selecionado
@@ -427,22 +461,25 @@
 		return value
 	})
 
+	
+	
 
 
 	
 
-	function selecionar(e) { 	// seleciona os personagens
+	function selecionar(e) { 	
+	if(seletor){	
+	// seleciona os personagens
 
-		if(seletor){	
-	
 
-			if(seletorTop === atiradorTop && seletorLeft === atiradorLeft && seletor){
+
+		if(seletorTop === atiradorTop && seletorLeft === atiradorLeft && seletor){
 			
-				if(e.keyCode == 90 && personagemSelecionado == false){
-					personagemSelecionado = true;
-					seletor = false;
-				
-					pRef = atirador
+			if(e.keyCode == 90 && personagemSelecionado == false){
+				personagemSelecionado = true
+				seletor = false
+
+				pRef = atirador
 
 
 			console.log("atirador selecionado? ", atiradorSelecionado, pRef)
@@ -453,13 +490,10 @@
 			if(e.keyCode == 90 && personagemSelecionado == false){
 				personagemSelecionado = true
 				seletor = false
-				
 
 				pRef = lutador
 
 			console.log("lutador selecionado? ", pRef)
-			} else {
-				$lutador.alcance = false;
 			}
 
 		}
@@ -468,7 +502,6 @@
 			if(e.keyCode == 90 && personagemSelecionado == false){
 				personagemSelecionado = true
 				seletor = false
-				
 
 				pRef = feiticeiro
 
@@ -519,14 +552,16 @@
 			pRef = undefined;
 			personagemSelecionado = false
 		}
-	
-}
+	}
 	
 
 
-	function mover(e) {
+function mover(e) {
+
+
   let pleft = 0;
   let ptop = 0;
+  
 
   if (pRef != undefined && personagemSelecionado) {
     pRef.subscribe(value => {
@@ -534,6 +569,9 @@
       ptop = value.top;
       return value;
     });
+
+
+	let poss = [ptop - 1, pleft]
 
     let jogadorAtual = player1
 
@@ -551,26 +589,52 @@
         v.left += left;
         return v;
       });
+
       jogadorAtual.update(v => {
         v.stamina--;
         return v;
       });
     }
 
-    if (e.keyCode == 38 && ptop - passo >= 0) {
-      movePersonagem(-passo, 0);
+	function moveValido(top, left){
+			return !positions.some(([ptop, pleft]) => ptop === top && pleft === left)
+        
     }
+
+
+	
+
+
+    if (e.keyCode == 38 && ptop - passo >= 0) {
+		if (moveValido((ptop - 1), pleft)){
+			movePersonagem(-passo, 0);
+
+		}
+
+	}	
     if (e.keyCode == 40 && ptop + passo <= passo * linhas - 1) {
-      movePersonagem(passo, 0);
+		if (moveValido((ptop + 1), pleft)){
+
+    	movePersonagem(passo, 0);
+		}
     }
     if (e.keyCode == 37 && pleft - passo >= 0) {
-      movePersonagem(0, -passo);
+		if (moveValido(ptop , (pleft - 1))){
+
+		movePersonagem(0, -passo);
+		}
     }
     if (e.keyCode == 39 && pleft + passo <= passo * colunas - 1) {
-      movePersonagem(0, passo);
+		if (moveValido(ptop, (pleft + 1))){
+
+		movePersonagem(0, passo);
+		}
     }
-  }
+  
 }
+}
+
+
 
 function proximoTurno() {
 	console.log($player1.turno, $player2.turno, $player1.stamina, $player2.stamina)
@@ -582,7 +646,7 @@ function proximoTurno() {
     });
     player2.update(v => {
       v.turno = true;
-	  v.stamina = 8
+	  v.stamina = 80
 
       return v;
     });
@@ -596,7 +660,7 @@ function proximoTurno() {
     });
     player1.update(v => {
       v.turno = true;
-	  v.stamina = 8
+	  v.stamina = 80
       return v;
     });
 	console.log($player1.turno, $player2.turno, $player1.stamina, $player2.stamina)
