@@ -10,6 +10,7 @@ import { writable } from "svelte/store";
     this.left = left;
     this.top = top;
     this.selecionado = selecionado
+    this.alcanceAtivo = false;
   }
 }
 

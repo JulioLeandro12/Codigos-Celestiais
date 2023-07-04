@@ -41,7 +41,11 @@
 					<span class= "HPtext"> HP:100/100</span>
 				</div> 
 
-				<div id="range-lutador"></div>
+				{#if (!seletor && pRef == lutador)}
+				
+				<div id="range-player1" class="lutador"></div>	
+				{/if}
+				
 
 			
 
@@ -57,11 +61,9 @@
 			left: {$atirador.left * xy}px;
 			height: {xy}px;
 			width: {xy}px;
-
-		
-
 			background-image: url(/public/imagens/Alec.png); 
 			background-size: cover;
+			transform: scaleX({inverso ? -1 : 1})
 			
 			
 			">
@@ -70,11 +72,10 @@
 				<span class= "HPtext"> HP:100/100</span>
 			</div>
 
-			<div id="range-lutador"></div>
-
+			{#if (!seletor && pRef == atirador)}
+				<div id="range-player1"></div>
+			{/if}
 			</div>
-		
-			
 		{/if}
 
 		{#if feiticeiroVivo && $feiticeiro.vida > 0}
@@ -97,7 +98,10 @@
 				<span class= "HPtext"> HP:100/100</span>
 			</div>
 
-			<div id="alcance"></div>
+
+			{#if (!seletor && pRef == feiticeiro)}
+				<div id="range-player1"></div>
+			{/if}
 
 			</div>
 			
@@ -116,9 +120,14 @@
 			
 
 			">
-			
-			<div id="alcance" style="background-color: rgba(255,195,160,0.4); "></div>
+			<div class="HPbar">
+				<span class= "HPtext"> HP:100/100</span>
+			</div> 
 
+			{#if (!seletor && pRef == p4)}
+				<div id="range-player2"></div>
+			{/if}
+			
 		</div>
 			
 		{/if}
@@ -127,7 +136,6 @@
 			<div id="simon" style="
 			top: {$p5.top * xy}px;
 			left: {$p5.left * xy}px;
-
 			height: {xy}px;
 			width: {xy}px;
 
@@ -135,8 +143,13 @@
 			background-image: url(/public/imagens/simon.png); 
 
 		">
-	
-		<div id="alcance" style="background-color: rgba(255,195,90,0.4); "></div>
+		<div class="HPbar">
+			<span class= "HPtext"> HP:100/100</span>
+		</div> 
+
+		{#if (!seletor && pRef == p5)}
+		<div id="range-player2"></div>
+			{/if}
 
 		</div>
 			
@@ -153,8 +166,13 @@
 			background-image: url(/public/imagens/jace.png); 
 
 		">
-	
-		<div id="alcance" style="background-color: rgba(255,195,90,0.4); "></div>
+		<div class="HPbar">
+			<span class= "HPtext"> HP:100/100</span>
+		</div> 
+
+		{#if (!seletor && pRef == p6)}
+		<div id="range-player2"></div>
+			{/if}
 
 		</div>
 			
@@ -210,35 +228,39 @@
 		}
 	
 
-	#range-lutador {
+	#range-player1 {
 		position: absolute;
 		top: -100%;
 		left: -100%;
 		width: 300%;
 		height: 300%;
-		background-color: rgba(0,0,255,0.2);
+		background-color: rgba(251, 255, 0, 0.055);
+		border: solid 4px;
+		border-color: rgba(255, 0, 0, 0.438);
 		
 	}	
-	#alcance {
+	#range-player2 {
 		position: absolute;
 		top: -100%;
 		left: -100%;
 		width: 300%;
 		height: 300%;
-		background-color: rgba(0,0,255,0.2);
+		background-color: rgba(0, 0, 255, 0.055);
+		border: solid 4px;
+		border-color: rgba(255, 0, 0, 0.438);
 	}
 
-.HPbar {
+	.HPbar {
 	width: 126px; /* Largura da barra de HP */
-	  height: 16px; /* Altura da barra de HP */
-	  border: 1px solid #000; /* Borda preta para a barra de HP */
-	  background-color: #f00; /* Cor de fundo da barra de HP */
-	  position: relative;
+	height: 16px; /* Altura da barra de HP */
+	border: 1px solid #000; /* Borda preta para a barra de HP */
+	background-color: #f00; /* Cor de fundo da barra de HP */
+	position: relative;
 	top: -20%;
 	left: 7%;
 	width: 110px;
 	height: 16px;
-	
+
 	border-radius: 10px;
 }
 	.HPtext {
@@ -264,35 +286,20 @@
 
 	#trocar-Turno {
 		position:absolute;
-		color: rebeccapurple         ;
+		color: rebeccapurple;
 		background-color: white;
 		left: 1600px;
 	}
-	button {
-      background-image: url(../../public/imagens/voltar_botao.png) no repeat;
-      background-size: cover;
-      padding: auto;
-      height: 20px;
-      width: 100px;
-      border-radius: 15px;
-	  
-    }
-
-	.voltar {
-        background-image: url(../../public/imagens/voltar_botao.png);
-        background-size: cover;
-		background-position: center;
-		
-    }
 
 
 
-	</style>
+
+</style>
 	
-	<button class= "voltar" on:click={() => trocadeestado ("menu")}></button>	
+<button class= "voltar" on:click={() => trocadeestado ("menu")}></button>	
 
 <button id="trocar-Turno" on:click={proximoTurno} >Próximo turno</button>
-<svelte:window on:keydown|preventDefault={funcoes} />
+<svelte:window on:keydown|preventDefault={funcoes}/>
 
 
 
@@ -307,21 +314,21 @@
 		v.personagens.push(lutador)
 		v.personagens.push(atirador) 
 		v.personagens.push(feiticeiro) 
-		return v
+		return v;
 	})
 
 	player2.update(v => {
 		v.personagens.push(p4)
 		v.personagens.push(p5)
 		v.personagens.push(p6)
-		return v
+		return v;
 	})
 
 	function funcoes(e) {
-			selecionar(e)
-			seletorMovimento(e)
-			mover(e)
-			atacar(e)
+			selecionar(e);
+			seletorMovimento(e);
+			mover(e);
+			atacar(e);
 
 	}
 
@@ -547,7 +554,8 @@
 			if(e.keyCode == 90 && personagemSelecionado == false){
 				personagemSelecionado = true
 				seletor = false
-
+				
+				$atirador.alcanceAtivo = true
 				pRef = atirador
 
 
@@ -559,7 +567,8 @@
 			if(e.keyCode == 90 && personagemSelecionado == false){
 				personagemSelecionado = true
 				seletor = false
-
+				
+				$lutador.alcanceAtivo = true
 				pRef = lutador
 
 			console.log("lutador selecionado? ", pRef)
