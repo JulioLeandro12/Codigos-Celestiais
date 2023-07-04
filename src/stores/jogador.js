@@ -10,8 +10,8 @@ class Jogador{
 
 }
 
-export let player1 = writable(new Jogador(true));
-export let player2 = writable(new Jogador(false));
+export let player1 = writable(new Jogador('movimento'));
+export let player2 = writable(new Jogador('inativo'));
 
 
 

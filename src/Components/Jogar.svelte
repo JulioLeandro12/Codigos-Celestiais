@@ -19,14 +19,7 @@
 			{/each}
 
 
-			<div id="seletor" style="
-			left: {seletorLeft * xy}px; 
-			top: {seletorTop * xy}px; 
-			height: {xy}px; 
-			width: {xy}px; 
 
-			background-image: url({seletor == true ? seletorimg : seletorimg2})
-			"></div>
 
 		{#if  lutadorVivo && $lutador.vida > 0}
 			
@@ -40,12 +33,18 @@
 			z-index: 1;
 			background-image: url(/public/imagens/Clary.png); 
 			background-size: cover;
-			"> <div id="alcance"></div>
-			<div class="HPbar">
-				<span class= "HPtext"> HP:100/100</span>
-			</div> 
-		
-					<div id="range-lutador"></div>
+			transform: scaleX({inverso ? -1 : 1})
+
+			"> 
+			
+				<div class="HPbar">
+					<span class= "HPtext"> HP:100/100</span>
+				</div> 
+
+				<div id="range-lutador"></div>
+
+			
+
 		</div>
 
 		{/if}
@@ -70,6 +69,9 @@
 			<div class="HPbar">
 				<span class= "HPtext"> HP:100/100</span>
 			</div>
+
+			<div id="range-lutador"></div>
+
 			</div>
 		
 			
@@ -90,56 +92,82 @@
 			background-size: cover;
 			
 			
-			"  >
+			">
 			<div class="HPbar">
 				<span class= "HPtext"> HP:100/100</span>
 			</div>
+
+			<div id="alcance"></div>
+
 			</div>
 			
 			
 		{/if}
 
 		{#if p4Vivo && $p4.vida > 0}
-			<div id="p4" style="
+			<div id="izzy" style="
 			top: {$p4.top * xy}px;
 			left: {$p4.left * xy}px;
 
 			height: {xy}px;
 			width: {xy}px;
 
-			background-color: blue;
+			background-image: url(/public/imagens/izzy.png); 
+			
 
-			"></div>
+			">
+			
+			<div id="alcance" style="background-color: rgba(255,195,160,0.4); "></div>
+
+		</div>
 			
 		{/if}
 
 		{#if p5Vivo && $p5.vida > 0}
-			<div id="p5" style="
+			<div id="simon" style="
 			top: {$p5.top * xy}px;
 			left: {$p5.left * xy}px;
 
 			height: {xy}px;
 			width: {xy}px;
 
-			background-color: orange;
 
-		"></div>
+			background-image: url(/public/imagens/simon.png); 
+
+		">
+	
+		<div id="alcance" style="background-color: rgba(255,195,90,0.4); "></div>
+
+		</div>
 			
 		{/if}
 
 		{#if p6Vivo && $p6.vida > 0}
-			<div id="p6" style="
+			<div id="jace" style="
 			top: {$p6.top * xy}px;
 			left: {$p6.left * xy}px;
 
 			height: {xy}px;
 			width: {xy}px;
 
-			background-color: gray;
+			background-image: url(/public/imagens/jace.png); 
 
-		"></div>
+		">
+	
+		<div id="alcance" style="background-color: rgba(255,195,90,0.4); "></div>
+
+		</div>
 			
 		{/if}
+
+		<div id="seletor" style="
+		left: {seletorLeft * xy}px; 
+		top: {seletorTop * xy}px; 
+		height: {xy}px; 
+		width: {xy}px; 
+
+		background-image: url({seletor == true ? seletorimg : seletorimg2})
+		"></div>
 		
 
 </div>
@@ -226,7 +254,7 @@
 
 
 
-	#atirador, #feiticeiro, #lutador, #p4, #p5, #p6{
+	#atirador, #feiticeiro, #lutador, #izzy, #simon, #jace{
 
 		position: absolute;
 		transition: all 0.550s ease; 
@@ -273,6 +301,7 @@
 	import { p4, p5, p6 } from "../stores/personagens";
 	import { player1, player2 } from "../stores/jogador";
 	import { trocadeestado } from "../stores/estado";
+    import { prevent_default } from "svelte/internal";
 
 	player1.update(v => {
 		v.personagens.push(lutador)
@@ -292,7 +321,7 @@
 			selecionar(e)
 			seletorMovimento(e)
 			mover(e)
-	
+			atacar(e)
 
 	}
 
@@ -404,8 +433,15 @@
 		atiradorLeft = value.left
 		atiradorSelecionado = value.selecionado
 
+		value.alcance = [
+			[[(value.top - 1), value.left - 1], [(value.top - 1), value.left], [(value.top - 1), value.left + 1]],
+			[[value.top, (value.left - 1)], [value.top, value.left], [value.top, (value.left + 1)]],
+			[[(value.top + 1), value.left - 1], [(value.top + 1), value.left], [(value.top + 1), value.left + 1]]
+		]
 		return value
 	})
+
+	console.log($atirador.alcance)
 
 	lutador.subscribe(value => {
 		positions[1][0] = value.top
@@ -415,6 +451,12 @@
 		lutadorTop = value.top
 		lutadorLeft = value.left
 		lutadorSelecionado = value.selecionado
+
+		value.alcance = [
+			[[(value.top - 1), value.left - 1], [(value.top - 1), value.left], [(value.top - 1), value.left + 1]],
+			[[value.top, (value.left - 1)], [value.top, value.left], [value.top, (value.left + 1)]],
+			[[(value.top + 1), value.left - 1], [(value.top + 1), value.left], [(value.top + 1), value.left + 1]]
+		]
 
 		return value
 	})
@@ -428,15 +470,28 @@
 		feiticeiroLeft = value.left
 		feiticeiroSelecionado = value.selecionado
 
+		value.alcance = [
+			[[(value.top - 1), value.left - 1], [(value.top - 1), value.left], [(value.top - 1), value.left + 1]],
+			[[value.top, (value.left - 1)], [value.top, value.left], [value.top, (value.left + 1)]],
+			[[(value.top + 1), value.left - 1], [(value.top + 1), value.left], [(value.top + 1), value.left + 1]]
+		]
+
 		return value
 	})
 
 	p4.subscribe(value => {
 		positions[3][0] = value.top
 		positions[3][1] = value.left
+
 		p4Top = value.top
 		p4Left = value.left
 		p4Selecionado = value.selecionado
+
+		value.alcance = [
+			[[(value.top - 1), value.left - 1], [(value.top - 1), value.left], [(value.top - 1), value.left + 1]],
+			[[value.top, (value.left - 1)], [value.top, value.left], [value.top, (value.left + 1)]],
+			[[(value.top + 1), value.left - 1], [(value.top + 1), value.left], [(value.top + 1), value.left + 1]]
+		]
 		
 		return value
 	})
@@ -444,9 +499,16 @@
 	p5.subscribe(value => {
 		positions[4][0] = value.top
 		positions[4][1] = value.left
+
 		p5Top = value.top
 		p5Left = value.left
 		p5Selecionado = value.selecionado
+
+		value.alcance = [
+			[[(value.top - 1), value.left - 1], [(value.top - 1), value.left], [(value.top - 1), value.left + 1]],
+			[[value.top, (value.left - 1)], [value.top, value.left], [value.top, (value.left + 1)]],
+			[[(value.top + 1), value.left - 1], [(value.top + 1), value.left], [(value.top + 1), value.left + 1]]
+		]
 		
 		return value
 	})
@@ -454,9 +516,16 @@
 	p6.subscribe(value => {
 		positions[5][0] = value.top
 		positions[5][1] = value.left
+
 		p6Top = value.top
 		p6Left = value.left
 		p6Selecionado = value.selecionado
+
+		value.alcance = [
+			[[(value.top - 1), value.left - 1], [(value.top - 1), value.left], [(value.top - 1), value.left + 1]],
+			[[value.top, (value.left - 1)], [value.top, value.left], [value.top, (value.left + 1)]],
+			[[(value.top + 1), value.left - 1], [(value.top + 1), value.left], [(value.top + 1), value.left + 1]]
+		]
 		
 		return value
 	})
@@ -553,11 +622,11 @@
 			personagemSelecionado = false
 		}
 	}
+	let inverso = false
 	
 
 
 function mover(e) {
-
 
   let pleft = 0;
   let ptop = 0;
@@ -571,13 +640,12 @@ function mover(e) {
     });
 
 
-	let poss = [ptop - 1, pleft]
 
     let jogadorAtual = player1
 
-    if ($player1.turno && $player1.stamina > 0 && $player1.personagens.includes(pRef)) {
+    if ($player1.turno === 'movimento' && $player1.stamina > 0 && $player1.personagens.includes(pRef)) {
       jogadorAtual = player1;
-    } else if ($player2.turno && $player2.stamina > 0 && $player2.personagens.includes(pRef)) {
+    } else if ($player2.turno === 'movimento' && $player2.stamina > 0 && $player2.personagens.includes(pRef)) {
       jogadorAtual = player2;
     } else {
       return;
@@ -594,6 +662,9 @@ function mover(e) {
         v.stamina--;
         return v;
       });
+
+		console.log($pRef.alcance)
+
     }
 
 	function moveValido(top, left){
@@ -620,12 +691,13 @@ function mover(e) {
     }
     if (e.keyCode == 37 && pleft - passo >= 0) {
 		if (moveValido(ptop , (pleft - 1))){
-
+			inverso = true
 		movePersonagem(0, -passo);
 		}
     }
     if (e.keyCode == 39 && pleft + passo <= passo * colunas - 1) {
 		if (moveValido(ptop, (pleft + 1))){
+			inverso = false
 
 		movePersonagem(0, passo);
 		}
@@ -634,38 +706,46 @@ function mover(e) {
 }
 }
 
+function atacar(e){}
 
+console.log('p1: ',$player1.turno, 'p2: ',$player2.turno, $player1.stamina, $player2.stamina)
 
 function proximoTurno() {
-	console.log($player1.turno, $player2.turno, $player1.stamina, $player2.stamina)
 
-  if ($player1.turno ) {
+  if ($player1.turno === 'movimento') {
     player1.update(v => {
-      v.turno = false;
+      v.turno = 'ataque';
       return v;
     });
-    player2.update(v => {
-      v.turno = true;
-	  v.stamina = 80
+} else if ($player1.turno === 'ataque') {
+	player1.update(v => {
+		v.turno = 'inativo'
+		return v
+	})
+	player2.update(v => {
+		v.turno = 'movimento';
+		v.stamina = 8
+		return v;
+	})
+} else if ($player2.turno === 'movimento') {
+	player2.update(v => {
+		v.turno = 'ataque'
+		return v
+	})
+} else if ($player2.turno === 'ataque') {
+	player2.update(v => {
+		v.turno = 'inativo'
+		return v
+	})
+	player1.update(v => {
+		v.turno = 'movimento'
+		v.stamina = 8
+		return v
+	})
+}
 
-      return v;
-    });
+console.log('p1: ',$player1.turno, 'p2: ',$player2.turno, $player1.stamina, $player2.stamina)
 
-	console.log($player1.turno, $player2.turno, $player1.stamina, $player2.stamina)
-
-  } else if ($player2.turno ) {
-    player2.update(v => {
-      v.turno = false;
-      return v;
-    });
-    player1.update(v => {
-      v.turno = true;
-	  v.stamina = 80
-      return v;
-    });
-	console.log($player1.turno, $player2.turno, $player1.stamina, $player2.stamina)
-
-  }
 }
 
 </script>
