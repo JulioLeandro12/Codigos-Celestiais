@@ -286,19 +286,28 @@
 
 	#trocar-Turno {
 		position:absolute;
-		color: rebeccapurple;
-		background-color: white;
-		left: 1600px;
-	}
+		left: 400px;
+		top: 88%;
+		width: 200px;
+		height: 80px;
+		border-radius: 30px;
+		background-image: url("../../public/imagens/Next-turn.png");
+		background-size: cover;
+		background-position: center;
 
+	}
+	#trocar-Turno:hover{
+		background-image: url("../../public/imagens/Next-turn-press.png");
+		background-size: cover;
+		background-position: center;
+	}
 
 
 
 </style>
 	
-<button class= "voltar" on:click={() => trocadeestado ("menu")}></button>	
 
-<button id="trocar-Turno" on:click={proximoTurno} >Próximo turno</button>
+<button id="trocar-Turno" on:click={proximoTurno} ></button>
 <svelte:window on:keydown|preventDefault={funcoes}/>
 
 
