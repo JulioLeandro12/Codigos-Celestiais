@@ -9,16 +9,20 @@
         <h2>Usando as setas do teclado
             <br><br>
             <div class ="setinhas"> 
-                <img src="..\..\public\imagens\Setinhas150-97.png" alt="Setinhas">
+                <img src="..\..\public\imagens\KeyArrow.png" alt="Setinhas" style=
+                "height: 135px
+                ">
             </div>
-            <br>
-            Selecione o personagem com a <br> tecla Enter
+           
+            Selecione o personagem com a <br> tecla "Z"
             <br><br>
-            <div class = "enter">
-                <img src="../../public/imagens/Enter150-150.png" alt="Enter">
+            <div id = "Z">
+                <img src="../../public/imagens/KeyZ.png" alt="Z" style=
+                "height: 80px;
+                margin-top: -30px
+                ">
             </div>
-            <br>
-
+            
             Escolha a ação do seu personagem.<br><br>
             Good Game!!
         </h2>
@@ -31,16 +35,6 @@
 
 
 <style>
-    button {
-      background-image: url(../../public/imagens/voltar_botao.png) no repeat;
-      background-size: cover;
-      padding: auto;
-      height: 20px;
-      width: 100px;
-      border-radius: 15px;
-
-
-    }
     .ajuda{
         background-color: #000000aa ;
         text-align: center;
@@ -50,7 +44,7 @@
         margin-right: 20px;
         font-family: inherit;
         font-size: 20px;
-        color: rebeccapurple;
+        color: rgb(186, 157, 214);
         box-shadow: 0 2px 4px rgba(249, 248, 248, 0.1);
         border:3px solid #39393984
         
@@ -60,8 +54,11 @@
     .voltar {
         background-image: url(../../public/imagens/voltar_botao.png);
         background-size: cover;
+        padding: auto;
+        height: 20px;
+        width: 100px;
+        border-radius: 15px;
     }
-
 
     
 </style>
