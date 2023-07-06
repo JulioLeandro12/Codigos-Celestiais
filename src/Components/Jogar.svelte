@@ -1,4 +1,6 @@
 
+<h1 class="header" >{turnoGlobal}</h1>
+
 <div class="mapa" style="
 		display: grid;
 		grid-template-columns: repeat({colunas}, 1fr);
@@ -30,10 +32,9 @@
 			top : {$lutador.top * xy}px;
 			height: {xy}px; 
 			width: {xy}px;
-			z-index: 1;
 			background-image: url(/public/imagens/Clary.png); 
 			background-size: cover;
-			transform: scaleX({inverso ? -1 : 1})
+			transform: scaleX({pRef == lutador && inverso ? -1 : 1})
 
 			"> 
 			
@@ -63,7 +64,7 @@
 			width: {xy}px;
 			background-image: url(/public/imagens/Alec.png); 
 			background-size: cover;
-			transform: scaleX({inverso ? -1 : 1})
+			transform: scaleX({pRef == atirador && inverso ? -1 : 1})
 			
 			
 			">
@@ -80,18 +81,15 @@
 
 		{#if feiticeiroVivo && $feiticeiro.vida > 0}
 			<div id="feiticeiro" style="
-
 			top: {$feiticeiro.top * xy}px;
 			left: {$feiticeiro.left * xy}px;
-	
 			height: {xy}px;
 			width: {xy}px;
-
-		
-		
 			background-image: url(/public/imagens/Magnus.png); 
 			background-size: cover;
+			transform: scaleX({pRef == feiticeiro && inverso ? -1 : 1})
 			
+
 			
 			">
 			<div class="HPbar">
@@ -112,11 +110,11 @@
 			<div id="izzy" style="
 			top: {$p4.top * xy}px;
 			left: {$p4.left * xy}px;
-
 			height: {xy}px;
 			width: {xy}px;
-
 			background-image: url(/public/imagens/izzy.png); 
+			transform: scaleX({pRef == p4 && inverso2 ? -1 : 1})
+
 			
 
 			">
@@ -138,9 +136,9 @@
 			left: {$p5.left * xy}px;
 			height: {xy}px;
 			width: {xy}px;
-
-
 			background-image: url(/public/imagens/simon.png); 
+			transform: scaleX({pRef == p5 && inverso2 ? -1 : 1})
+
 
 		">
 		<div class="HPbar">
@@ -159,11 +157,11 @@
 			<div id="jace" style="
 			top: {$p6.top * xy}px;
 			left: {$p6.left * xy}px;
-
 			height: {xy}px;
 			width: {xy}px;
-
 			background-image: url(/public/imagens/jace.png); 
+			transform: scaleX({pRef == p6 && inverso2 ? -1 : 1})
+
 
 		">
 		<div class="HPbar">
@@ -196,6 +194,12 @@
 
 <style>
 	
+	.header {
+		position: absolute;
+		top: 0cqmin;
+
+	}
+
 	.mapa {
 	  /* Adicione as seguintes propriedades para centralizar o tabuleiro */
 	  position: absolute; /* Posicionamento absoluto */
@@ -316,7 +320,11 @@
 	import { lutador, atirador, feiticeiro } from "../stores/personagens";
 	import { p4, p5, p6 } from "../stores/personagens";
 	import { player1, player2 } from "../stores/jogador";
+	// @ts-ignore
+	// @ts-ignore
 	import { trocadeestado } from "../stores/estado";
+    // @ts-ignore
+    // @ts-ignore
     import { prevent_default } from "svelte/internal";
 
 	player1.update(v => {
@@ -337,7 +345,8 @@
 			selecionar(e);
 			seletorMovimento(e);
 			mover(e);
-			atacar(e);
+			xuxu(e)
+			combate(e)
 
 	}
 
@@ -362,9 +371,10 @@
 	let passo = 1; 
 
 	function seletorMovimento(e) {
-		console.log("personagem selecionado?", personagemSelecionado)
 
 			if(seletor){
+			console.log('inv', inverso)
+			console.log(pRef)
 			seletorimg = '/public/imagens/seletor.png'
 				
 				switch (e.keyCode) {
@@ -401,8 +411,14 @@
 
 }	
 
-	let personagemSelecionado = false;
 	let pRef;
+	
+	// @ts-ignore
+	// @ts-ignore
+	let perAtq;
+	// @ts-ignore
+	// @ts-ignore
+	let perAlvo;
 
 	let atiradorTop;
 	let atiradorLeft;
@@ -547,88 +563,198 @@
 	})
 
 	
+	let p1;
+			let p2;
+
+	function xuxu(e){
+		if(e.keyCode == 88 ){
+			
+
+			if(turnoGlobal == 'ataque' && $player1.turno == 'ataque'){
+
+				$player1.personagemSelecionado.subscribe(
+					v => {
+						p1 = v.nome
+						return v
+					}
+				)
+			$player1.personagemAlvo.subscribe(
+				v => {
+					p2 = v.nome
+					return v
+				}
+			) 
+			console.log(p1, p2)
+
+			}
+
+
+	if(turnoGlobal == 'ataque' && $player2.turno == 'ataque'){
+
+					$player2.personagemSelecionado.subscribe(
+						v => {
+							p1 = v.nome
+							return v
+						}
+					)
+				$player2.personagemAlvo.subscribe(
+					v => {
+						p2 = v.nome
+						return v
+					}
+				) 
+				console.log(p1, p2)
+
+				}	else {
+					console.log('nao ha personagens selecionados ou não está no turno de ataque')
+				}			
+				
+	}
+	}
 	
-
-
 	
 
 	function selecionar(e) { 	
 	if(seletor){	
-	// seleciona os personagens
-
-
 
 		if(seletorTop === atiradorTop && seletorLeft === atiradorLeft && seletor){
 			
-			if(e.keyCode == 90 && personagemSelecionado == false){
-				personagemSelecionado = true
-				seletor = false
+			if(e.keyCode == 90){
+
+				if(turnoGlobal == 'Movimento'){
+					pRef = atirador
+					seletor = false
+				}
+
+				else {
+					if($player1.turno == 'ataque'){
+							$player1.personagemSelecionado = atirador
+							console.log('personagem selecionado:', atirador)
+					} else {
+						$player2.personagemAlvo = atirador
+					}
+					
+				}
 				
-				$atirador.alcanceAtivo = true
-				pRef = atirador
-
-
-			console.log("atirador selecionado? ", atiradorSelecionado, pRef)
 			}
 		}
 
 		 if(seletorTop === lutadorTop && seletorLeft === lutadorLeft){
-			if(e.keyCode == 90 && personagemSelecionado == false){
-				personagemSelecionado = true
-				seletor = false
+			if(e.keyCode == 90 ){
 				
-				$lutador.alcanceAtivo = true
-				pRef = lutador
+				if(turnoGlobal == 'Movimento'){
+					pRef = lutador
+					seletor = false
+				}
 
-			console.log("lutador selecionado? ", pRef)
+				else {
+					if($player1.turno == 'ataque'){
+							$player1.personagemSelecionado = lutador
+							console.log('personagem selecionado:', lutador)
+					} else {
+						$player2.personagemAlvo = lutador
+					}
+					
+				}
+
 			}
 
 		}
 
 		if(seletorTop === feiticeiroTop && seletorLeft === feiticeiroLeft){
-			if(e.keyCode == 90 && personagemSelecionado == false){
-				personagemSelecionado = true
-				seletor = false
+			if(e.keyCode == 90 ){
+				
+				if(turnoGlobal == 'Movimento'){
+					pRef = feiticeiro
+					seletor = false
+				}
 
-				pRef = feiticeiro
+				else {
+					if($player1.turno == 'ataque'){
+						
+							$player1.personagemSelecionado = feiticeiro
+							console.log('personagem selecionado:', feiticeiro)
+						
+					} else {
+						$player2.personagemAlvo = feiticeiro
+					}
+					
+				}
 
-			console.log("lutador selecionado? ", pRef)
 			}
 
 		}
 
 		if(seletorTop === p4Top && seletorLeft === p4Left){
-			if(e.keyCode == 90 && personagemSelecionado == false){
-				personagemSelecionado = true
-				seletor = false
+			if(e.keyCode == 90 ){
+				
+				if(turnoGlobal == 'Movimento'){
+					pRef = p4
+					seletor = false
+				}
 
-				pRef = p4
+				else {
+					if($player2.turno == 'ataque'){
+							$player2.personagemSelecionado = p4
+							console.log('personagem selecionado:', p4)
+					} else {
+						$player1.personagemAlvo = p4
 
-			console.log("lutador selecionado? ", pRef)
+						console.log('personagem alvo:', p4)
+
+					}
+					
+				}
 			}
 
 		}
 
 		if(seletorTop === p5Top && seletorLeft === p5Left){
-			if(e.keyCode == 90 && personagemSelecionado == false){
-				personagemSelecionado = true
-				seletor = false
+			if(e.keyCode == 90 ){
 
-				pRef = p5
 
-			console.log("lutador selecionado? ", pRef)
+				if(turnoGlobal == 'Movimento'){
+					pRef = p5
+					seletor = false
+				}
+
+				else {
+					if($player2.turno == 'ataque'){
+							$player2.personagemSelecionado = p5
+							console.log('personagem selecionado:', p5)
+					} else {
+						$player1.personagemAlvo = p5
+
+						console.log('personagem alvo:', p5)
+
+					}
+					
+				}
+
 			}
 
 		}
 
 		if(seletorTop === p6Top && seletorLeft === p6Left){
-			if(e.keyCode == 90 && personagemSelecionado == false){
-				personagemSelecionado = true
-				seletor = false
+			if(e.keyCode == 90 ){
+				
+				if(turnoGlobal == 'Movimento'){
+					pRef = p6
+					seletor = false
+				}
 
-				pRef = p6
+				else {
+					if($player2.turno == 'ataque'){
+							$player2.personagemSelecionado = p6
+							console.log('personagem selecionado:', p6)
+					} else {
+						$player1.personagemAlvo = p6
 
-			console.log("lutador selecionado? ", pRef)
+						console.log('personagem alvo:', p6)
+
+					}
+					
+				}
 			}
 
 		}
@@ -636,13 +762,23 @@
 
 		} else if (e.keyCode === 90){
 			seletor = true
-			pRef = undefined;
-			personagemSelecionado = false
+			pRef = undefined
+			inverso = false
+			inverso2 = false
+
+			$player1.personagemSelecionado = null
+			$player2.personagemSelecionado = null
+			$player1.personagemAlvo = null
+			$player2.personagemAlvo = null
+
+			p1 = null
+			p2 = null
+			
 		}
 	}
-	let inverso = false
 	
-
+	let inverso = false
+	let inverso2 = false
 
 function mover(e) {
 
@@ -650,16 +786,15 @@ function mover(e) {
   let ptop = 0;
   
 
-  if (pRef != undefined && personagemSelecionado) {
+  if (pRef != undefined) {
     pRef.subscribe(value => {
       pleft = value.left;
       ptop = value.top;
       return value;
     });
 
+	let jogadorAtual = player1
 
-
-    let jogadorAtual = player1
 
     if ($player1.turno === 'movimento' && $player1.stamina > 0 && $player1.personagens.includes(pRef)) {
       jogadorAtual = player1;
@@ -690,10 +825,6 @@ function mover(e) {
         
     }
 
-
-	
-
-
     if (e.keyCode == 38 && ptop - passo >= 0) {
 		if (moveValido((ptop - 1), pleft)){
 			movePersonagem(-passo, 0);
@@ -710,12 +841,14 @@ function mover(e) {
     if (e.keyCode == 37 && pleft - passo >= 0) {
 		if (moveValido(ptop , (pleft - 1))){
 			inverso = true
+			inverso2 = false
 		movePersonagem(0, -passo);
 		}
     }
     if (e.keyCode == 39 && pleft + passo <= passo * colunas - 1) {
 		if (moveValido(ptop, (pleft + 1))){
 			inverso = false
+			inverso2 = true
 
 		movePersonagem(0, passo);
 		}
@@ -724,9 +857,10 @@ function mover(e) {
 }
 }
 
-function atacar(e){}
 
 console.log('p1: ',$player1.turno, 'p2: ',$player2.turno, $player1.stamina, $player2.stamina)
+
+let turnoGlobal = 'Movimento'
 
 function proximoTurno() {
 
@@ -735,6 +869,8 @@ function proximoTurno() {
       v.turno = 'ataque';
       return v;
     });
+	turnoGlobal = 'ataque'
+
 } else if ($player1.turno === 'ataque') {
 	player1.update(v => {
 		v.turno = 'inativo'
@@ -742,14 +878,19 @@ function proximoTurno() {
 	})
 	player2.update(v => {
 		v.turno = 'movimento';
-		v.stamina = 8
+		v.stamina = 800
 		return v;
 	})
+
+	turnoGlobal = 'Movimento'
+
 } else if ($player2.turno === 'movimento') {
 	player2.update(v => {
 		v.turno = 'ataque'
 		return v
 	})
+	turnoGlobal = 'ataque'
+
 } else if ($player2.turno === 'ataque') {
 	player2.update(v => {
 		v.turno = 'inativo'
@@ -757,14 +898,55 @@ function proximoTurno() {
 	})
 	player1.update(v => {
 		v.turno = 'movimento'
-		v.stamina = 8
+		v.stamina = 800
 		return v
 	})
+	turnoGlobal = 'Movimento'
 }
 
 console.log('p1: ',$player1.turno, 'p2: ',$player2.turno, $player1.stamina, $player2.stamina)
 
 }
+
+function combate(e){
+	let personagemSelecionado;
+	let personagemAlvo;
+	let range = []
+
+	let coord = []
+
+	if(turnoGlobal == 'ataque'){
+		if($player1.turno == 'ataque'){
+				$player1.personagemSelecionado.subscribe
+				(v => {
+					personagemSelecionado = v
+					range = v.alcance
+					return v
+				})
+				$player1.personagemAlvo.subscribe(v => {
+					personagemAlvo = v;
+					coord = [v.top, v.left]
+					return v
+				})
+			
+		}
+	}	
+		
+	// @ts-ignore
+
+	if(e.keyCode == 96)	{
+		// @ts-ignore
+		if(range.includes(coord)){
+			console.log('sdfsd')
+		}
+		}
+
+	
+}
+     
+
+
+
 
 </script>
 
