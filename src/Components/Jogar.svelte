@@ -1,4 +1,4 @@
-
+<div id="Jogar">
 <h1 class="header" >{turnoGlobal}</h1>
 
 <div class="mapa" style="
@@ -247,11 +247,17 @@
 </div>
 
 
-
+</div>
 
 
 
 <style>
+
+	:global(#Jogar) {
+		background-image: url(/public/imagens/chao.png);
+		background-size: cover;
+		background-position: center;
+	}
 	
 	.header {
 		position: absolute;
@@ -386,6 +392,7 @@
 		background-image: url("../../public/imagens/Next-turn.png");
 		background-size: cover;
 		background-position: center;
+		z-index: 4;
 
 	}
 	#trocar-Turno:hover{
@@ -433,7 +440,6 @@
 			selecionar(e);
 			seletorMovimento(e);
 			mover(e);
-			xuxu(e)
 			combate(e)
 
 	}
@@ -650,57 +656,6 @@
 		return value
 	})
 
-	
-	let p1;
-			let p2;
-
-	function xuxu(e){
-		if(e.keyCode == 88 ){
-			
-
-			if(turnoGlobal == 'ataque' && $player1.turno == 'ataque'){
-
-				$player1.personagemSelecionado.subscribe(
-					v => {
-						p1 = v.nome
-						return v
-					}
-				)
-			$player1.personagemAlvo.subscribe(
-				v => {
-					p2 = v.nome
-					return v
-				}
-			) 
-			console.log(p1, p2)
-
-			}
-
-
-	if(turnoGlobal == 'ataque' && $player2.turno == 'ataque'){
-
-					$player2.personagemSelecionado.subscribe(
-						v => {
-							p1 = v.nome
-							return v
-						}
-					)
-				$player2.personagemAlvo.subscribe(
-					v => {
-						p2 = v.nome
-						return v
-					}
-				) 
-				console.log(p1, p2)
-
-				}	else {
-					console.log('nao ha personagens selecionados ou não está no turno de ataque')
-				}			
-				
-	}
-	}
-	
-	
 
 	function selecionar(e) { 	
 	if(seletor){	
@@ -858,9 +813,6 @@
 			$player2.personagemSelecionado = null
 			$player1.personagemAlvo = null
 			$player2.personagemAlvo = null
-
-			p1 = null
-			p2 = null
 			
 		}
 	}
@@ -941,8 +893,7 @@ function mover(e) {
 		movePersonagem(0, passo);
 		}
     }
-  
-}
+	}
 }
 
 
@@ -1002,7 +953,7 @@ function combate(e) {
 	let range;
 	let dadosB;
 	let location = []
-	if(turnoGlobal == 'ataque'){
+	if(turnoGlobal == 'Ataque'){
 		if($player1.turno == 'ataque'){
 
 			player1.subscribe(v => {
@@ -1086,11 +1037,8 @@ function combate(e) {
 						}
 					}
 				}
-
 			}
 		}
-
-
 
 		function inRange(arr, pos){
 			for(let i = 0; i < arr.length; i++){
@@ -1103,9 +1051,6 @@ function combate(e) {
 		} 	
 	}
 }
-
-			
-
 
 
 </script>
