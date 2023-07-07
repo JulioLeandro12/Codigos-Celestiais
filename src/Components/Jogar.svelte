@@ -253,12 +253,7 @@
 
 <style>
 
-	:global(#Jogar) {
-		background-image: url(/public/imagens/chao.png);
-		background-size: cover;
-		background-position: center;
-	}
-	
+
 	.header {
 		position: absolute;
 		top: 0cqmin;
