@@ -5,8 +5,10 @@
 
 <main>
     <div class = "ajuda">
-        <h1>Como jogar:</h1>
-        <h2>Usando as setas do teclado
+        <h1>Como jogar:
+        </h1>
+        <h2>Use as setas do teclado para<br>
+             movimentar seu personagem:
             <br><br>
             <div class ="setinhas"> 
                 <img src="..\..\public\imagens\KeyArrow.png" alt="Setinhas" style=
@@ -14,8 +16,10 @@
                 ">
             </div>
            
-            Selecione o personagem com a <br> tecla "Z"
-            <br><br>
+            Para selecionar seu personagem <br> 
+            aperte a tecla "Z"
+            <br>
+            <br>
             <div id = "Z">
                 <img src="../../public/imagens/KeyZ.png" alt="Z" style=
                 "height: 80px;
@@ -24,7 +28,7 @@
             </div>
             
             Movimente o personagem e ataque!!<br><br>
-            Good Game!!
+            Good Game :D
         </h2>
     </div>
     <div> 
@@ -42,7 +46,7 @@
         margin-bottom: 20px;
         margin-left: 20px;
         margin-right: 20px;
-        font-family: inherit;
+        font-family: 'HISKYFLIPPERHIBOLD', sans-serif;
         font-size: 20px;
         color: rgb(186, 157, 214);
         box-shadow: 0 2px 4px rgba(249, 248, 248, 0.1);
@@ -58,6 +62,8 @@
         height: 20px;
         width: 100px;
         border-radius: 15px;
+
+    
     }
 
     
