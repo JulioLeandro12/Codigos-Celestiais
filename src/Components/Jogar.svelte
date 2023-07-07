@@ -466,14 +466,14 @@
 				
 				switch (e.keyCode) {
 				case 38: // Seta para cima
-					if (seletorTop - passo >= 0){
+					if (seletorTop - passo > 0){
 						seletorTop -= passo;
 						console.log(`X: ${seletorLeft} Y: ${seletorTop}`)
 					}
 				break;
 
 				case 40: // Seta para baixo
-					if (seletorTop + passo <= passo * linhas - 1){
+					if (seletorTop + passo <= passo * linhas - 2){
 						seletorTop += passo;
 						console.log(`X: ${seletorLeft} Y: ${seletorTop}`)
 					}
@@ -481,14 +481,14 @@
 
 
 				case 37: // Seta para a esquerda
-					if (seletorLeft - passo >= 0){
+					if (seletorLeft - passo > 0){
 						seletorLeft -= passo;
 						console.log(`X: ${seletorLeft} Y: ${seletorTop}`)
 					}
 				break;
 
 				case 39: // Seta para a direita
-					if (seletorLeft + passo <= passo * colunas - 1){
+					if (seletorLeft + passo <= passo * colunas - 2){
 						seletorLeft += passo;
 						console.log(`X: ${seletorLeft} Y: ${seletorTop}`)
 					}
@@ -912,27 +912,27 @@ function mover(e) {
         
     }
 
-    if (e.keyCode == 38 && ptop - passo >= 0) {
+    if (e.keyCode == 38 && ptop - passo > 0) {
 		if (moveValido((ptop - 1), pleft)){
 			movePersonagem(-passo, 0);
 
 		}
 
 	}	
-    if (e.keyCode == 40 && ptop + passo <= passo * linhas - 1) {
+    if (e.keyCode == 40 && ptop + passo <= passo * linhas - 2) {
 		if (moveValido((ptop + 1), pleft)){
 
     	movePersonagem(passo, 0);
 		}
     }
-    if (e.keyCode == 37 && pleft - passo >= 0) {
+    if (e.keyCode == 37 && pleft - passo > 0) {
 		if (moveValido(ptop , (pleft - 1))){
 			inverso = true
 			inverso2 = false
 		movePersonagem(0, -passo);
 		}
     }
-    if (e.keyCode == 39 && pleft + passo <= passo * colunas - 1) {
+    if (e.keyCode == 39 && pleft + passo <= passo * colunas - 2) {
 		if (moveValido(ptop, (pleft + 1))){
 			inverso = false
 			inverso2 = true
@@ -956,7 +956,7 @@ function proximoTurno() {
       v.turno = 'ataque';
       return v;
     });
-	turnoGlobal = 'ataque'
+	turnoGlobal = 'Ataque'
 
 } else if ($player1.turno === 'ataque') {
 	player1.update(v => {
@@ -965,7 +965,7 @@ function proximoTurno() {
 	})
 	player2.update(v => {
 		v.turno = 'movimento';
-		v.stamina = 20
+		v.stamina = 200
 		return v;
 	})
 
@@ -976,7 +976,7 @@ function proximoTurno() {
 		v.turno = 'ataque'
 		return v
 	})
-	turnoGlobal = 'ataque'
+	turnoGlobal = 'Ataque'
 
 } else if ($player2.turno === 'ataque') {
 	player2.update(v => {
@@ -985,7 +985,7 @@ function proximoTurno() {
 	})
 	player1.update(v => {
 		v.turno = 'movimento'
-		v.stamina = 20
+		v.stamina = 200
 		return v
 	})
 	turnoGlobal = 'Movimento'
@@ -1092,26 +1092,18 @@ function combate(e) {
 
 
 		function inRange(arr, pos){
-
-			//return arr.some(item => item[0] === pos[0] && item[1] === pos[1]); nao funciona :(
-			
-			
 			for(let i = 0; i < arr.length; i++){
 				for(let j = 0; j < arr[i].length; j++){
-					console.log(arr[i][j])
-					if(arr[i][j][0] == pos[0] && arr[i][j][1] == pos[1]){
+					if(arr[i][j][0] == pos[0] && arr[i][j][1] == pos[1]){//return arr.some(item => item[0] === pos[0] && item[1] === pos[1]); nao funciona :(
 						return true
-						break;
 					}
 				}
 			} return false
-	} 
-		
-	
+		} 	
+	}
 }
 
-     
-}
+			
 
 
 
