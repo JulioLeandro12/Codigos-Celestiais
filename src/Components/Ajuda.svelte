@@ -23,7 +23,7 @@
                 ">
             </div>
             
-            Escolha a ação do seu personagem.<br><br>
+            Movimente o personagem e ataque!!<br><br>
             Good Game!!
         </h2>
     </div>

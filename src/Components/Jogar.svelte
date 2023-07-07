@@ -6,7 +6,7 @@
 		grid-template-columns: repeat({colunas}, 1fr);
 		grid-template-rows: repeat({linhas}, 1fr);
 		background-color: black;
-">
+		">
 	
 
 			{#each mapa as linha, linhaIndex}
@@ -15,9 +15,69 @@
 					<!-- svelte-ignore a11y-mouse-events-have-key-events -->
 					<div class="celula" on:mouseover={cellPos(linhaIndex, celulaIndex)} style="
 					height: {xy}px; 
-					width: {xy}px; "></div>
+					width: {xy}px; 
+					">
+					{#if (linhaIndex == 0 && celulaIndex == 0)}
+					<div id="celulaColuna1" style="
+					height: {xy}px; 
+					width: {xy}px;">
+					</div>
+					{/if}
+
+					{#if (linhaIndex > 0 && linhaIndex < 7 && celulaIndex == 0)}
+					<div id="celulaArbusto" style="
+					height: {xy}px; 
+					width: {xy}px;">
+					</div>
+					{/if}
+
+					{#if (linhaIndex == 7 && celulaIndex == 0)}
+					<div id="celulaColuna2" style="
+					height: {xy}px; 
+					width: {xy}px;">
+					</div>
+					{/if}
+
+					{#if (linhaIndex == 0 && celulaIndex > 0 && celulaIndex < 8)}
+					<div id="celulaArbusto2" style="
+					height: {xy}px; 
+					width: {xy}px;">
+					</div>
+					{/if}
+
+					{#if (linhaIndex < 1 && celulaIndex === 8)}
+					<div id="celulaColuna2Flor" style="
+					height: {xy}px; 
+					width: {xy}px;">
+					</div>
+					{/if}
+
+					{#if (linhaIndex === 7 && celulaIndex > 0 && celulaIndex < 8)}
+					<div id="celulaArbusto2" style="
+					height: {xy}px; 
+					width: {xy}px;">
+					</div>
+					{/if}
+
+					{#if (celulaIndex === 8 && linhaIndex === 7)}
+					<div id="celulaColuna2Sangue" style="
+					height: {xy}px; 
+					width: {xy}px;">
+					</div>
+					{/if}
+
+					{#if (celulaIndex === 8 && linhaIndex > 0 && linhaIndex < 7)}
+					<div id="celulaArbusto" style="
+					height: {xy}px; 
+					width: {xy}px;">
+					</div>
+					{/if}
+
+
+					</div>
+				
 					
-				{/each}	
+					{/each}	
 			{/each}
 
 
@@ -43,8 +103,7 @@
 				</div> 
 
 				{#if (!seletor && pRef == lutador)}
-				
-				<div id="range-player1" class="lutador"></div>	
+					<div id="range-player1" class="lutador"></div>	
 				{/if}
 				
 
@@ -185,8 +244,8 @@
 		background-image: url({seletor == true ? seletorimg : seletorimg2})
 		"></div>
 		
-
 </div>
+
 
 
 
@@ -215,14 +274,42 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-
-
-	
 		background-image: url(/public/imagens/grama16x16.png);
 		background-size: cover; /* Redimensiona a imagem para preencher a célula */
 		background-position: center; /* Centraliza a imagem na célula */
-
 	}
+
+	#celulaColuna1 {
+		background-image: url(/public/imagens/coluna1.png);
+		background-size: cover;
+	}
+	
+	#celulaColuna2 {
+		background-image: url(/public/imagens/coluna2.png);
+		background-size: cover;
+	}
+
+	#celulaColuna2Flor {
+		background-image: url(/public/imagens/coluna1-flor.png);
+		background-size: cover;
+	}
+
+	#celulaColuna2Sangue {
+		background-image: url(/public/imagens/coluna2-sangue.png);
+		background-size: cover;
+	}
+
+	#celulaArbusto {
+		background-image: url(/public/imagens/arbusto1.png);
+		background-size: cover;
+	}
+
+	#celulaArbusto2 {
+		background-image: url(/public/imagens/arbusto2.png);
+		background-size: cover;
+	}
+
+
 	
 	
 	#seletor {
@@ -352,8 +439,8 @@
 
 	
 	let xy = 128 // tamanho das celulas e do seletor
-	let linhas = 7
-	let colunas = 8
+	let linhas = 8
+	let colunas = 9
 	let mapa = Array(linhas).fill(null).map(() => Array(colunas).fill(null));
 
 	function cellPos(linha, coluna) {
