@@ -8,16 +8,16 @@
         <h2>Sobre o Jogo Rpg Tático <br> (Códigos Celestiais):</h2>
         <p>
             Este projeto de RPG Tático foi desenvolvido como parte do trabalho de conclusão da disciplina 
-            de Lógica de Programação e Estrutura de Dados. 
+           <br> de Lógica de Programação e Estrutura de Dados. <br>
             O jogo foi desenvolvido com o objetivo de proporcionar uma
-            experiência envolvente e estratégica para os fãs da série de livros
+            experiência envolvente e estratégica para os fãs da série de livros<br>
             "Instrumentos Mortais" (Shadowhunters) escrita por Cassandra Clare.
         </p>
         <p>
             Neste jogo, os jogadores assumem o papel de caçadores de sombras e
-            enfrentam desafios táticos em batalhas estratégicas contra demônios,
-            vampiros, lobisomens e outras criaturas sobrenaturais. Os jogadores
-            devem usar suas habilidades, magias e armas para proteger o mundo
+            enfrentam desafios táticos <br> em batalhas estratégicas contra demônios,
+            vampiros, lobisomens e outras criaturas sobrenaturais.<br> Os jogadores
+            devem usar suas habilidades, magias <br> e armas para proteger o mundo
             dos mundanos e manter o equilíbrio entre a luz e as sombras.
         </p>
         
