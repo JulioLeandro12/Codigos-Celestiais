@@ -263,9 +263,10 @@
 	  /* Adicione as seguintes propriedades para centralizar o tabuleiro */
 	  position: absolute; /* Posicionamento absoluto */
 	  top: 50%; /* Coloca o topo do tabuleiro no meio da página */
-	  left: 35%; /* Coloca a esquerda do tabuleiro no meio da página */
+	  left: 50%; /* Coloca a esquerda do tabuleiro no meio da página */
 	  transform: translate(-50%, -50%); /* Translada o tabuleiro de volta para centralizar */
 	  z-index: 1;
+
 	}
 	
 	
@@ -327,7 +328,7 @@
 		height: 300%;
 		background-color: rgba(251, 255, 0, 0.055);
 		border: solid 4px;
-		border-color: rgba(255, 0, 0, 0.438);
+		border-color: rgba(101, 24, 91, 0.438);
 		
 	}	
 	#range-player2 {
@@ -338,7 +339,7 @@
 		height: 300%;
 		background-color: rgba(0, 0, 255, 0.055);
 		border: solid 4px;
-		border-color: rgba(255, 0, 0, 0.438);
+		border-color: rgba(59, 8, 56, 0.438);
 	}
 
 	.HPbar {
