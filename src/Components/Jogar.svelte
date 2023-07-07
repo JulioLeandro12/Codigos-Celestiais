@@ -878,7 +878,7 @@ function proximoTurno() {
 	})
 	player2.update(v => {
 		v.turno = 'movimento';
-		v.stamina = 800
+		v.stamina = 20
 		return v;
 	})
 
@@ -898,7 +898,7 @@ function proximoTurno() {
 	})
 	player1.update(v => {
 		v.turno = 'movimento'
-		v.stamina = 800
+		v.stamina = 20
 		return v
 	})
 	turnoGlobal = 'Movimento'
@@ -908,43 +908,123 @@ console.log('p1: ',$player1.turno, 'p2: ',$player2.turno, $player1.stamina, $pla
 
 }
 
-function combate(e){
-	let personagemSelecionado;
-	let personagemAlvo;
-	let range = []
-
-	let coord = []
-
+function combate(e) {
+	let stamina;
+	let dados;
+	let range;
+	let dadosB;
+	let location = []
 	if(turnoGlobal == 'ataque'){
 		if($player1.turno == 'ataque'){
-				$player1.personagemSelecionado.subscribe
-				(v => {
-					personagemSelecionado = v
-					range = v.alcance
-					return v
-				})
+
+			player1.subscribe(v => {
+				stamina = v.stamina
+				return v
+			})
+
+			if($player1.personagemSelecionado && $player1.personagemAlvo){
+
+				$player1.personagemSelecionado.subscribe(v => {
+				dados = v
+				range = dados.alcance
+				return v
+			}) 
 				$player1.personagemAlvo.subscribe(v => {
-					personagemAlvo = v;
-					coord = [v.top, v.left]
-					return v
-				})
+				dadosB = v
+				location = [dadosB.top, dadosB.left]
+				return v	
+			})
+				if(e.keyCode == 88){
+					if(inRange(range, location)){
+						// @ts-ignore
+						if(dadosB.vida > 0 && stamina > 0){
+								// @ts-ignore
+								player1.update(v => {
+									v.stamina--
+									return v
+								})
+								console.log(stamina)
+								$player1.personagemAlvo.update(v => {
+								v.vida -= dados.ataque
+								console.log(`${dados.nome} atacou ${dadosB.nome} com ${dados.ataque} pontos de força.`)
+								console.log(`${dadosB.nome} possui ${dadosB.vida} pontos de vida.`)
+								return v
+								})
+						}
+					}
+				}
+			}
+
+
+		} else {
+
+			player2.subscribe(v => {
+				stamina = v.stamina
+				return v
+			})
+
+			if($player2.personagemSelecionado && $player2.personagemAlvo){
+
+				$player2.personagemSelecionado.subscribe(v => {
+				dados = v
+				range = dados.alcance
+				return v
+			}) 
+				$player2.personagemAlvo.subscribe(v => {
+				dadosB = v
+				location = [dadosB.top, dadosB.left]
+				return v	
+			})
+
+			if(e.keyCode == 88){
+				console.log(dados)
+				console.log(dadosB)
+				console.log(stamina)
+					if(inRange(range, location)){
+						// @ts-ignore
+						if(dadosB.vida > 0 && stamina > 0){
+								// @ts-ignore
+								player2.update(v => {
+									v.stamina--
+									return v
+								})
+								console.log(stamina)
+								$player2.personagemAlvo.update(v => {
+								v.vida -= dados.ataque
+								console.log(`${dados.nome} atacou ${dadosB.nome} com ${dados.ataque} pontos de força.`)
+								console.log(`${dadosB.nome} possui ${dadosB.vida} pontos de vida.`)
+								return v
+								})
+						}
+					}
+				}
+
+			}
+		}
+
+
+
+		function inRange(arr, pos){
+
+			//return arr.some(item => item[0] === pos[0] && item[1] === pos[1]); nao funciona :(
 			
-		}
-	}	
+			
+			for(let i = 0; i < arr.length; i++){
+				for(let j = 0; j < arr[i].length; j++){
+					console.log(arr[i][j])
+					if(arr[i][j][0] == pos[0] && arr[i][j][1] == pos[1]){
+						return true
+						break;
+					}
+				}
+			} return false
+	} 
 		
-	// @ts-ignore
-
-	if(e.keyCode == 96)	{
-		// @ts-ignore
-		if(range.includes(coord)){
-			console.log('sdfsd')
-		}
-		}
-
 	
 }
-     
 
+     
+}
 
 
 
