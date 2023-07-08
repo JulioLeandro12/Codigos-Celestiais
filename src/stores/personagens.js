@@ -17,7 +17,7 @@ import { writable } from "svelte/store";
 }
 
 export let lutador = writable(new Personagem('Clary', 10, 3, 2, 1, 1, false))
-export let atirador = writable(new Personagem('Alec', 10, 2, 4, 1, 3, false))
+export let atirador = writable(new Personagem('Alec', 10, 2, 3, 1, 3, false))
 export let feiticeiro = writable(new Personagem('Magnus', 10, 2, 3, 1, 5, false))
 
 export let p4 = writable(new Personagem('Izzy', 10, 3, 2, 7, 1, false))

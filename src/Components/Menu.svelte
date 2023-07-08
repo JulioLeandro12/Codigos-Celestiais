@@ -10,7 +10,7 @@
     <link href="https://fonts.cdnfonts.com/css/hiskyflipper" rel="stylesheet">
 
 
-    <h1 class="titulo">Códigos <br> Celestiais</h1>
+    <h1 class="titulo">Codigos <br> Celestiais</h1>
     <!--titulo do jogo-->
 
     <div class="div-posicao">

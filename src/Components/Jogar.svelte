@@ -85,7 +85,6 @@
 
 		{#if  lutadorVivo && $lutador.vida > 0}
 			
-			
 			<div id="lutador" style="
 
 			left: {$lutador.left * xy}px;
@@ -95,23 +94,32 @@
 			background-image: url(/public/imagens/Clary.png); 
 			background-size: cover;
 			transform: scaleX({pRef == lutador && inverso ? -1 : 1})
-
-			"> 
-			
-				<div class="HPbar">
-					<span class= "HPtext"> HP:100/100</span>
+			"> 			
+				<div id="HPbar">
+					<div id="HPplayer1" style="width: {100 * $lutador.vida / 10}%;"></div>
 				</div> 
 
 				{#if (!seletor && pRef == lutador)}
-					<div id="range-player1" class="lutador"></div>	
-				{/if}
-				
+					<div id="range-player1" class="lutador"></div>		
+					{/if}	
 
-			
-
-		</div>
-
+			</div>
+							
 		{/if}
+
+		{#if ($lutador.vida <= 0)}
+		<div id="lutadorMorto" style="
+			left: {$lutador.left * xy}px;
+			top : {$lutador.top * xy}px;
+			height: {xy}px; 
+			width: {xy}px;
+			position: absolute;
+			background-image: url(/public/imagens/lapide1-sangue.png);
+			background-size: cover;
+		">
+			</div>
+			{/if}
+
 
 
 		{#if  atiradorVivo && $atirador.vida > 0}
@@ -123,20 +131,33 @@
 			width: {xy}px;
 			background-image: url(/public/imagens/Alec.png); 
 			background-size: cover;
-			transform: scaleX({pRef == atirador && inverso ? -1 : 1})
-			
-			
+			transform: scaleX({pRef == atirador && inverso ? -1 : 1})			
 			">
 		
-			<div class="HPbar">
-				<span class= "HPtext"> HP:100/100</span>
-			</div>
+				<div id="HPbar">
+					<div id="HPplayer1" style="width: {100 * $atirador.vida / 10}%;"></div>
+				</div> 
 
 			{#if (!seletor && pRef == atirador)}
 				<div id="range-player1"></div>
-			{/if}
+				{/if}
 			</div>
 		{/if}
+
+		{#if ($atirador.vida <= 0)}
+		<div id="atiradorMorto" style="
+			left: {$atirador.left * xy}px;
+			top : {$atirador.top * xy}px;
+			height: {xy}px; 
+			width: {xy}px;
+			position: absolute;
+			background-image: url(/public/imagens/lapide1-sangue.png);
+			background-size: cover;
+		">
+		</div>
+		{/if}
+
+
 
 		{#if feiticeiroVivo && $feiticeiro.vida > 0}
 			<div id="feiticeiro" style="
@@ -146,14 +167,11 @@
 			width: {xy}px;
 			background-image: url(/public/imagens/Magnus.png); 
 			background-size: cover;
-			transform: scaleX({pRef == feiticeiro && inverso ? -1 : 1})
-			
-
-			
+			transform: scaleX({pRef == feiticeiro && inverso ? -1 : 1})						
 			">
-			<div class="HPbar">
-				<span class= "HPtext"> HP:100/100</span>
-			</div>
+				<div id="HPbar">
+					<div id="HPplayer1" style="width: {100 * $feiticeiro.vida / 10}%;"></div>
+				</div> 
 
 
 			{#if (!seletor && pRef == feiticeiro)}
@@ -161,9 +179,23 @@
 			{/if}
 
 			</div>
-			
-			
+						
 		{/if}
+
+		{#if ($feiticeiro.vida <= 0)}
+		<div id="feiticeiroMorto" style="
+			left: {$feiticeiro.left * xy}px;
+			top : {$feiticeiro.top * xy}px;
+			height: {xy}px; 
+			width: {xy}px;
+			position: absolute;
+			background-image: url(/public/imagens/lapide1.png);
+			background-size: cover;
+		">
+		</div>
+		{/if}
+
+
 
 		{#if p4Vivo && $p4.vida > 0}
 			<div id="izzy" style="
@@ -172,14 +204,11 @@
 			height: {xy}px;
 			width: {xy}px;
 			background-image: url(/public/imagens/izzy.png); 
-			transform: scaleX({pRef == p4 && inverso2 ? -1 : 1})
-
-			
-
+			transform: scaleX({pRef == p4 && inverso2 ? -1 : 1})		
 			">
-			<div class="HPbar">
-				<span class= "HPtext"> HP:100/100</span>
-			</div> 
+				<div id="HPbar">
+					<div id="HPplayer2" style="width: {100 * $p4.vida / 10}%;"></div>
+				</div> 
 
 			{#if (!seletor && pRef == p4)}
 				<div id="range-player2"></div>
@@ -189,6 +218,21 @@
 			
 		{/if}
 
+		{#if ($p4.vida <= 0)}
+		<div id="p4Morto" style="
+			left: {$p4.left * xy}px;
+			top : {$p4.top * xy}px;
+			height: {xy}px; 
+			width: {xy}px;
+			position: absolute;
+			background-image: url(/public/imagens/lapide1.png);
+			background-size: cover;
+		">
+		</div>
+		{/if}
+
+
+
 		{#if p5Vivo && $p5.vida > 0}
 			<div id="simon" style="
 			top: {$p5.top * xy}px;
@@ -197,20 +241,33 @@
 			width: {xy}px;
 			background-image: url(/public/imagens/simon.png); 
 			transform: scaleX({pRef == p5 && inverso2 ? -1 : 1})
-
-
 		">
-		<div class="HPbar">
-			<span class= "HPtext"> HP:100/100</span>
-		</div> 
+			<div id="HPbar">
+				<div id="HPplayer2" style="width: {100 * $p5.vida / 10}%;"></div>
+			</div> 
 
-		{#if (!seletor && pRef == p5)}
-		<div id="range-player2"></div>
+			{#if (!seletor && pRef == p5)}
+				<div id="range-player2"></div>
 			{/if}
 
-		</div>
+			</div>
 			
 		{/if}
+
+		{#if ($p5.vida <= 0)}
+		<div id="p4Morto" style="
+			left: {$p5.left * xy}px;
+			top : {$p5.top * xy}px;
+			height: {xy}px; 
+			width: {xy}px;
+			position: absolute;
+			background-image: url(/public/imagens/lapide1-sangue.png);
+			background-size: cover;
+		">
+		</div>
+		{/if}
+
+
 
 		{#if p6Vivo && $p6.vida > 0}
 			<div id="jace" style="
@@ -220,20 +277,33 @@
 			width: {xy}px;
 			background-image: url(/public/imagens/jace.png); 
 			transform: scaleX({pRef == p6 && inverso2 ? -1 : 1})
-
-
 		">
-		<div class="HPbar">
-			<span class= "HPtext"> HP:100/100</span>
-		</div> 
+			<div id="HPbar">
+				<div id="HPplayer2" style="width: {100 * $p6.vida / 10}%;"></div>
+			</div> 
 
-		{#if (!seletor && pRef == p6)}
-		<div id="range-player2"></div>
+			{#if (!seletor && pRef == p6)}
+				<div id="range-player2"></div>
 			{/if}
 
-		</div>
+			</div>
 			
 		{/if}
+
+		{#if ($p6.vida <= 0)}
+		<div id="p4Morto" style="
+			left: {$p6.left * xy}px;
+			top : {$p6.top * xy}px;
+			height: {xy}px; 
+			width: {xy}px;
+			position: absolute;
+			background-image: url(/public/imagens/lapide1.png);
+			background-size: cover;
+		">
+		</div>
+		{/if}
+
+
 
 		<div id="seletor" style="
 		left: {seletorLeft * xy}px; 
@@ -343,28 +413,29 @@
 		border-color: rgba(59, 8, 56, 0.438);
 	}
 
-	.HPbar {
-	width: 126px; /* Largura da barra de HP */
-	height: 16px; /* Altura da barra de HP */
-	border: 1px solid #000; /* Borda preta para a barra de HP */
-	background-color: #f00; /* Cor de fundo da barra de HP */
-	position: relative;
-	top: -20%;
-	left: 7%;
-	width: 110px;
-	height: 16px;
+	#HPbar {
+		width: 110px; /* Largura da barra de HP */
+		height: 16px; /* Altura da barra de HP */
+		border: 3px solid #000; /* Borda preta para a barra de HP */
+		background-color: rgb(59, 59, 59); /* Cor de fundo da barra de HP */
+		position: relative;
+		top: -20%;
+		left: 7%;
+		border-radius: 10px;
 
-	border-radius: 10px;
 }
-	.HPtext {
-		position: absolute;
-		  top: 50%;
-		  left: 50%;
-		  transform: translate(-50%, -50%);
-		  color: #fff; /* Cor do texto */
-		  font-size: 12px; /* Tamanho do texto */
-		font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-		
+	#HPplayer1 {
+		background-color: rgba(255, 34, 34, 0.671);
+		height: 100%;
+		border-radius: 10px;
+		transition: 0.5s
+	}
+
+	#HPplayer2 {
+		background-color: rgba(30, 3, 182, 0.795);
+		height: 100%;
+		border-radius: 10px;
+		transition: 0.5s;
 	}
 
 
@@ -376,6 +447,11 @@
 
 
 	}
+/* 
+	#lutadorMorto {
+		background-image: url(/public/imagens/KeyZ.png);
+		background-size: cover;
+	} */
 
 	#trocar-Turno {
 		position:absolute;
@@ -518,6 +594,7 @@
 	let lutadorLeft;
 	let lutadorSelecionado;
 	let lutadorVivo = ($lutador.vida > 0);
+	
 
 	let feiticeiroTop;
 	let feiticeiroLeft;
@@ -942,6 +1019,7 @@ console.log('p1: ',$player1.turno, 'p2: ',$player2.turno, $player1.stamina, $pla
 
 }
 
+
 function combate(e) {
 	let stamina;
 	let dados;
@@ -953,7 +1031,7 @@ function combate(e) {
 
 			player1.subscribe(v => {
 				stamina = v.stamina
-				return v
+				return v;
 			})
 
 			if($player1.personagemSelecionado && $player1.personagemAlvo){
@@ -1046,6 +1124,8 @@ function combate(e) {
 		} 	
 	}
 }
+
+
 
 
 </script>
