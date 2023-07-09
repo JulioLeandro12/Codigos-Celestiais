@@ -8,7 +8,7 @@ import { writable } from "svelte/store";
     this.ataque = ataque;
     this.left = left;
     this.top = top;
-    this.selecionado = 
+    this.selecionado = selecionado
     this.location = [top, left]
     this.alcance = []
 

@@ -1,384 +1,382 @@
 <div id="Jogar">
 <h1 class="header" >{turnoGlobal}</h1>
 
-<div class="mapa" style="
-		display: grid;
-		grid-template-columns: repeat({colunas}, 1fr);
-		grid-template-rows: repeat({linhas}, 1fr);
-		background-color: black;
-		">
-	
+	<div id="container">
 
-			{#each mapa as linha, linhaIndex}
-				{#each linha as celula, celulaIndex}
-
-					<!-- svelte-ignore a11y-mouse-events-have-key-events -->
-					<div class="celula" on:mouseover={cellPos(linhaIndex, celulaIndex)} style="
-					height: {xy}px; 
-					width: {xy}px; 
-					">
-					{#if (linhaIndex == 0 && celulaIndex == 0)}
-					<div id="celulaColuna1" style="
-					height: {xy}px; 
-					width: {xy}px;">
-					</div>
-					{/if}
-
-					{#if (linhaIndex > 0 && linhaIndex < 7 && celulaIndex == 0)}
-					<div id="celulaArbusto" style="
-					height: {xy}px; 
-					width: {xy}px;">
-					</div>
-					{/if}
-
-					{#if (linhaIndex == 7 && celulaIndex == 0)}
-					<div id="celulaColuna2" style="
-					height: {xy}px; 
-					width: {xy}px;">
-					</div>
-					{/if}
-
-					{#if (linhaIndex == 0 && celulaIndex > 0 && celulaIndex < 8)}
-					<div id="celulaArbusto2" style="
-					height: {xy}px; 
-					width: {xy}px;">
-					</div>
-					{/if}
-
-					{#if (linhaIndex < 1 && celulaIndex === 8)}
-					<div id="celulaColuna2Flor" style="
-					height: {xy}px; 
-					width: {xy}px;">
-					</div>
-					{/if}
-
-					{#if (linhaIndex === 7 && celulaIndex > 0 && celulaIndex < 8)}
-					<div id="celulaArbusto2" style="
-					height: {xy}px; 
-					width: {xy}px;">
-					</div>
-					{/if}
-
-					{#if (celulaIndex === 8 && linhaIndex === 7)}
-					<div id="celulaColuna2Sangue" style="
-					height: {xy}px; 
-					width: {xy}px;">
-					</div>
-					{/if}
-
-					{#if (celulaIndex === 8 && linhaIndex > 0 && linhaIndex < 7)}
-					<div id="celulaArbusto" style="
-					height: {xy}px; 
-					width: {xy}px;">
-					</div>
-					{/if}
-
-
-					</div>
-				
-					
-					{/each}	
-			{/each}
-
-
-
-
-		{#if  lutadorVivo && $lutador.vida > 0}
+		<div class="mapa" style="
+				display: grid;
+				grid-template-columns: repeat({colunas}, 1fr);
+				grid-template-rows: repeat({linhas}, 1fr);
+				background-color: black;
+				">
 			
-			<div id="lutador" style="
 
-			left: {$lutador.left * xy}px;
-			top : {$lutador.top * xy}px;
-			height: {xy}px; 
-			width: {xy}px;
-			background-image: url(/public/imagens/Clary.png); 
-			background-size: cover;
-			transform: scaleX({pRef == lutador && inverso ? -1 : 1})
-			"> 			
-				<div id="HPbar">
-					<div id="HPplayer1" style="width: {100 * $lutador.vida / 10}%;"></div>
-				</div> 
+					{#each mapa as linha, linhaIndex}
+						{#each linha as celula, celulaIndex}
 
-				{#if $player1.turno == 'ataque' && $player1.personagemSelecionado == lutador}
-					<div class="selecionado1"></div>
-				{/if}
+							<!-- svelte-ignore a11y-mouse-events-have-key-events -->
+							<div class="celula" on:mouseover={cellPos(linhaIndex, celulaIndex)} style="
+							height: {xy}px; 
+							width: {xy}px; 
+							">
+							{#if (linhaIndex == 0 && celulaIndex == 0)}
+							<div id="celulaColuna1" style="
+							height: {xy}px; 
+							width: {xy}px;">
+							</div>
+							{/if}
 
-				{#if $player2.turno == 'ataque' && $player2.personagemAlvo == lutador}
-					<div class="selecionado2"></div>
-				{/if}
+							{#if (linhaIndex > 0 && linhaIndex < 7 && celulaIndex == 0)}
+							<div id="celulaArbusto" style="
+							height: {xy}px; 
+							width: {xy}px;">
+							</div>
+							{/if}
 
-				{#if (!seletor && pRef == lutador)}
-					<div id="range-player1" class="lutador"></div>		
-					{/if}	
+							{#if (linhaIndex == 7 && celulaIndex == 0)}
+							<div id="celulaColuna2" style="
+							height: {xy}px; 
+							width: {xy}px;">
+							</div>
+							{/if}
 
-			</div>
-							
-		{/if}
+							{#if (linhaIndex == 0 && celulaIndex > 0 && celulaIndex < 8)}
+							<div id="celulaArbusto2" style="
+							height: {xy}px; 
+							width: {xy}px;">
+							</div>
+							{/if}
 
-		{#if ($lutador.vida <= 0)}
-		<div id="lutadorMorto" style="
-			left: {$lutador.left * xy}px;
-			top : {$lutador.top * xy}px;
-			height: {xy}px; 
-			width: {xy}px;
-			position: absolute;
-			background-image: url(/public/imagens/lapide1-sangue.png);
-			background-size: cover;
-		">
-			</div>
-			{/if}
+							{#if (linhaIndex < 1 && celulaIndex === 8)}
+							<div id="celulaColuna2Flor" style="
+							height: {xy}px; 
+							width: {xy}px;">
+							</div>
+							{/if}
 
+							{#if (linhaIndex === 7 && celulaIndex > 0 && celulaIndex < 8)}
+							<div id="celulaArbusto2" style="
+							height: {xy}px; 
+							width: {xy}px;">
+							</div>
+							{/if}
 
+							{#if (celulaIndex === 8 && linhaIndex === 7)}
+							<div id="celulaColuna2Sangue" style="
+							height: {xy}px; 
+							width: {xy}px;">
+							</div>
+							{/if}
 
-		{#if  atiradorVivo && $atirador.vida > 0}
-			<div id="atirador" style="
-
-			top: {$atirador.top * xy}px;
-			left: {$atirador.left * xy}px;
-			height: {xy}px;
-			width: {xy}px;
-			background-image: url(/public/imagens/Alec.png); 
-			background-size: cover;
-			transform: scaleX({pRef == atirador && inverso ? -1 : 1})			
-			">
-		
-				<div id="HPbar">
-					<div id="HPplayer1" style="width: {100 * $atirador.vida / 10}%;"></div>
-				</div> 
-
-				{#if $player1.turno == 'ataque' && $player1.personagemSelecionado == atirador}
-					<div class="selecionado1"></div>
-				{/if}
-
-				{#if $player2.turno == 'ataque' && $player2.personagemAlvo == atirador}
-					<div class="selecionado2"></div>
-				{/if}
-				
-				{#if (!seletor && pRef == atirador)}
-				<div id="range-player1"></div>
-				{/if}
+							{#if (celulaIndex === 8 && linhaIndex > 0 && linhaIndex < 7)}
+							<div id="celulaArbusto" style="
+							height: {xy}px; 
+							width: {xy}px;">
+							</div>
+							{/if}
 
 
-			</div>
-
-
-
-
-		{/if}
-
-		{#if ($atirador.vida <= 0)}
-		<div id="atiradorMorto" style="
-			left: {$atirador.left * xy}px;
-			top : {$atirador.top * xy}px;
-			height: {xy}px; 
-			width: {xy}px;
-			position: absolute;
-			background-image: url(/public/imagens/lapide1-sangue.png);
-			background-size: cover;
-		">
-		</div>
-		{/if}
-
-
-
-		{#if feiticeiroVivo && $feiticeiro.vida > 0}
-			<div id="feiticeiro" style="
-			top: {$feiticeiro.top * xy}px;
-			left: {$feiticeiro.left * xy}px;
-			height: {xy}px;
-			width: {xy}px;
-			background-image: url(/public/imagens/Magnus.png); 
-			background-size: cover;
-			transform: scaleX({pRef == feiticeiro && inverso ? -1 : 1})						
-			">
-				<div id="HPbar">
-					<div id="HPplayer1" style="width: {100 * $feiticeiro.vida / 10}%;"></div>
-				</div> 
-			
-				{#if $player1.turno == 'ataque' && $player1.personagemSelecionado == feiticeiro}
-					<div class="selecionado1"></div>
-				{/if}
-
-				{#if $player2.turno == 'ataque' && $player2.personagemAlvo == feiticeiro}
-					<div class="selecionado2"></div>
-				{/if}
-
-			{#if (!seletor && pRef == feiticeiro)}
-				<div id="range-player1"></div>
-			{/if}
-
-			</div>
+							</div>
 						
-		{/if}
-
-		{#if ($feiticeiro.vida <= 0)}
-		<div id="feiticeiroMorto" style="
-			left: {$feiticeiro.left * xy}px;
-			top : {$feiticeiro.top * xy}px;
-			height: {xy}px; 
-			width: {xy}px;
-			position: absolute;
-			background-image: url(/public/imagens/lapide1.png);
-			background-size: cover;
-		">
-		</div>
-		{/if}
+							
+							{/each}	
+					{/each}
 
 
 
-		{#if p4Vivo && $p4.vida > 0}
-			<div id="izzy" style="
-			top: {$p4.top * xy}px;
-			left: {$p4.left * xy}px;
-			height: {xy}px;
-			width: {xy}px;
-			background-image: url(/public/imagens/izzy.png); 
-			transform: scaleX({pRef == p4 && inverso2 ? -1 : 1})		
-			">
-				<div id="HPbar">
-					<div id="HPplayer2" style="width: {100 * $p4.vida / 10}%;"></div>
-				</div> 
 
-				{#if $player2.turno == 'ataque' && $player2.personagemSelecionado == p4}
+				{#if  lutadorVivo && $lutador.vida > 0}
+					
+					<div id="lutador" style="
+
+					left: {$lutador.left * xy}px;
+					top : {$lutador.top * xy}px;
+					height: {xy}px; 
+					width: {xy}px;
+					background-image: url(/public/imagens/Clary.png); 
+					background-size: cover;
+					transform: scaleX({pRef == lutador && inverso ? -1 : 1})
+					"> 			
+						<div id="HPbar">
+							<div id="HPplayer1" style="width: {100 * $lutador.vida / 10}%;"></div>
+						</div> 
+
+						{#if $player1.turno == 'ataque' && $player1.personagemSelecionado == lutador}
+							<div class="selecionado1"></div>
+						{/if}
+
+						{#if $player2.turno == 'ataque' && $player2.personagemAlvo == lutador}
+							<div class="selecionado2"></div>
+						{/if}
+
+						{#if (!seletor && pRef == lutador)}
+							<div id="range-player1" class="lutador"></div>		
+							{/if}	
+
+					</div>
+									
+				{/if}
+
+				{#if ($lutador.vida <= 0)}
+				<div id="lutadorMorto" style="
+					left: {$lutador.left * xy}px;
+					top : {$lutador.top * xy}px;
+					height: {xy}px; 
+					width: {xy}px;
+					position: absolute;
+					background-image: url(/public/imagens/lapide1-sangue.png);
+					background-size: cover;
+				">
+					</div>
+					{/if}
+
+
+
+				{#if  atiradorVivo && $atirador.vida > 0}
+					<div id="atirador" style="
+
+					top: {$atirador.top * xy}px;
+					left: {$atirador.left * xy}px;
+					height: {xy}px;
+					width: {xy}px;
+					background-image: url(/public/imagens/Alec.png); 
+					background-size: cover;
+					transform: scaleX({pRef == atirador && inverso ? -1 : 1})			
+					">
+				
+						<div id="HPbar">
+							<div id="HPplayer1" style="width: {100 * $atirador.vida / 10}%;"></div>
+						</div> 
+
+						{#if $player1.turno == 'ataque' && $player1.personagemSelecionado == atirador}
+							<div class="selecionado1"></div>
+						{/if}
+
+						{#if $player2.turno == 'ataque' && $player2.personagemAlvo == atirador}
+							<div class="selecionado2"></div>
+						{/if}
+						
+						{#if (!seletor && pRef == atirador)}
+						<div id="range-player1"></div>
+						{/if}
+					</div>
+
+				{/if}
+
+				{#if ($atirador.vida <= 0)}
+				<div id="atiradorMorto" style="
+					left: {$atirador.left * xy}px;
+					top : {$atirador.top * xy}px;
+					height: {xy}px; 
+					width: {xy}px;
+					position: absolute;
+					background-image: url(/public/imagens/lapide1-sangue.png);
+					background-size: cover;
+				">
+				</div>
+				{/if}
+				{#if feiticeiroVivo && $feiticeiro.vida > 0}
+					<div id="feiticeiro" style="
+					top: {$feiticeiro.top * xy}px;
+					left: {$feiticeiro.left * xy}px;
+					height: {xy}px;
+					width: {xy}px;
+					background-image: url(/public/imagens/Magnus.png); 
+					background-size: cover;
+					transform: scaleX({pRef == feiticeiro && inverso ? -1 : 1})						
+					">
+						<div id="HPbar">
+							<div id="HPplayer1" style="width: {100 * $feiticeiro.vida / 10}%;"></div>
+						</div> 
+					
+						{#if $player1.turno == 'ataque' && $player1.personagemSelecionado == feiticeiro}
+							<div class="selecionado1"></div>
+						{/if}
+
+						{#if $player2.turno == 'ataque' && $player2.personagemAlvo == feiticeiro}
+							<div class="selecionado2"></div>
+						{/if}
+
+					{#if (!seletor && pRef == feiticeiro)}
+						<div id="range-player1"></div>
+					{/if}
+
+					</div>
+								
+				{/if}
+
+				{#if ($feiticeiro.vida <= 0)}
+				<div id="feiticeiroMorto" style="
+					left: {$feiticeiro.left * xy}px;
+					top : {$feiticeiro.top * xy}px;
+					height: {xy}px; 
+					width: {xy}px;
+					position: absolute;
+					background-image: url(/public/imagens/lapide1.png);
+					background-size: cover;
+				">
+				</div>
+				{/if}
+
+
+
+				{#if p4Vivo && $p4.vida > 0}
+					<div id="izzy" style="
+					top: {$p4.top * xy}px;
+					left: {$p4.left * xy}px;
+					height: {xy}px;
+					width: {xy}px;
+					background-image: url(/public/imagens/izzy.png); 
+					transform: scaleX({pRef == p4 && inverso2 ? -1 : 1})		
+					">
+						<div id="HPbar">
+							<div id="HPplayer2" style="width: {100 * $p4.vida / 10}%;"></div>
+						</div> 
+
+						{#if $player2.turno == 'ataque' && $player2.personagemSelecionado == p4}
+							<div class="selecionado1"></div>
+						{/if}
+
+						{#if $player1.turno == 'ataque' && $player1.personagemAlvo == p4}
+							<div class="selecionado2"></div>
+						{/if}
+
+
+					{#if (!seletor && pRef == p4)}
+						<div id="range-player2"></div>
+					{/if}
+					
+				</div>
+					
+				{/if}
+
+				{#if ($p4.vida <= 0)}
+				<div id="p4Morto" style="
+					left: {$p4.left * xy}px;
+					top : {$p4.top * xy}px;
+					height: {xy}px; 
+					width: {xy}px;
+					position: absolute;
+					background-image: url(/public/imagens/lapide1.png);
+					background-size: cover;
+				">
+				</div>
+				{/if}
+
+
+
+				{#if p5Vivo && $p5.vida > 0}
+					<div id="simon" style="
+					top: {$p5.top * xy}px;
+					left: {$p5.left * xy}px;
+					height: {xy}px;
+					width: {xy}px;
+					background-image: url(/public/imagens/simon.png); 
+					transform: scaleX({pRef == p5 && inverso2 ? -1 : 1})
+				">
+					<div id="HPbar">
+						<div id="HPplayer2" style="width: {100 * $p5.vida / 10}%;"></div>
+					</div> 
+
+
+					{#if $player2.turno == 'ataque' && $player2.personagemSelecionado == p5}
 					<div class="selecionado1"></div>
+					{/if}
+
+					{#if $player1.turno == 'ataque' && $player1.personagemAlvo == p5}
+						<div class="selecionado2"></div>
+					{/if}
+
+					{#if (!seletor && pRef == p5)}
+						<div id="range-player2"></div>
+					{/if}
+
+					</div>
+					
 				{/if}
 
-				{#if $player1.turno == 'ataque' && $player1.personagemAlvo == p4}
-					<div class="selecionado2"></div>
+				{#if ($p5.vida <= 0)}
+				<div id="p4Morto" style="
+					left: {$p5.left * xy}px;
+					top : {$p5.top * xy}px;
+					height: {xy}px; 
+					width: {xy}px;
+					position: absolute;
+					background-image: url(/public/imagens/lapide1-sangue.png);
+					background-size: cover;
+				">
+				</div>
 				{/if}
 
 
-			{#if (!seletor && pRef == p4)}
-				<div id="range-player2"></div>
-			{/if}
-			
-		</div>
-			
-		{/if}
 
-		{#if ($p4.vida <= 0)}
-		<div id="p4Morto" style="
-			left: {$p4.left * xy}px;
-			top : {$p4.top * xy}px;
-			height: {xy}px; 
-			width: {xy}px;
-			position: absolute;
-			background-image: url(/public/imagens/lapide1.png);
-			background-size: cover;
-		">
-		</div>
-		{/if}
+				{#if p6Vivo && $p6.vida > 0}
+					<div id="jace" style="
+					top: {$p6.top * xy}px;
+					left: {$p6.left * xy}px;
+					height: {xy}px;
+					width: {xy}px;
+					background-image: url(/public/imagens/jace.png); 
+					transform: scaleX({pRef == p6 && inverso2 ? -1 : 1})
+				">
+					<div id="HPbar">
+						<div id="HPplayer2" style="width: {100 * $p6.vida / 10}%;"></div>
+					</div> 
 
 
+					{#if $player2.turno == 'ataque' && $player2.personagemSelecionado == p6}
+					<div class="selecionado1"></div>
+					{/if}
 
-		{#if p5Vivo && $p5.vida > 0}
-			<div id="simon" style="
-			top: {$p5.top * xy}px;
-			left: {$p5.left * xy}px;
-			height: {xy}px;
-			width: {xy}px;
-			background-image: url(/public/imagens/simon.png); 
-			transform: scaleX({pRef == p5 && inverso2 ? -1 : 1})
-		">
-			<div id="HPbar">
-				<div id="HPplayer2" style="width: {100 * $p5.vida / 10}%;"></div>
-			</div> 
+					{#if $player1.turno == 'ataque' && $player1.personagemAlvo == p6}
+						<div class="selecionado2"></div>
+					{/if}
 
+					{#if (!seletor && pRef == p6)}
+						<div id="range-player2"></div>
+					{/if}
 
-			{#if $player2.turno == 'ataque' && $player2.personagemSelecionado == p5}
-			<div class="selecionado1"></div>
-			{/if}
+					</div>
+					
+				{/if}
 
-			{#if $player1.turno == 'ataque' && $player1.personagemAlvo == p5}
-				<div class="selecionado2"></div>
-			{/if}
+				{#if ($p6.vida <= 0)}
+				<div id="p4Morto" style="
+					left: {$p6.left * xy}px;
+					top : {$p6.top * xy}px;
+					height: {xy}px; 
+					width: {xy}px;
+					position: absolute;
+					background-image: url(/public/imagens/lapide1.png);
+					background-size: cover;
+				">
+				</div>
+				{/if}
 
-			{#if (!seletor && pRef == p5)}
-				<div id="range-player2"></div>
-			{/if}
-
+				<div id="seletor" style="
+				left: {seletorLeft * xy}px; 
+				top: {seletorTop * xy}px; 
+				height: {xy}px; 
+				width: {xy}px; 
+				background-image: url({seletor == true ? seletorimg : seletorimg2})
+				"></div>
+				
 			</div>
-			
-		{/if}
-
-		{#if ($p5.vida <= 0)}
-		<div id="p4Morto" style="
-			left: {$p5.left * xy}px;
-			top : {$p5.top * xy}px;
-			height: {xy}px; 
-			width: {xy}px;
-			position: absolute;
-			background-image: url(/public/imagens/lapide1-sangue.png);
-			background-size: cover;
-		">
-		</div>
-		{/if}
-
-
-
-		{#if p6Vivo && $p6.vida > 0}
-			<div id="jace" style="
-			top: {$p6.top * xy}px;
-			left: {$p6.left * xy}px;
-			height: {xy}px;
-			width: {xy}px;
-			background-image: url(/public/imagens/jace.png); 
-			transform: scaleX({pRef == p6 && inverso2 ? -1 : 1})
-		">
-			<div id="HPbar">
-				<div id="HPplayer2" style="width: {100 * $p6.vida / 10}%;"></div>
-			</div> 
-
-
-			{#if $player2.turno == 'ataque' && $player2.personagemSelecionado == p6}
-			<div class="selecionado1"></div>
-			{/if}
-
-			{#if $player1.turno == 'ataque' && $player1.personagemAlvo == p6}
-				<div class="selecionado2"></div>
-			{/if}
-
-			{#if (!seletor && pRef == p6)}
-				<div id="range-player2"></div>
-			{/if}
-
-			</div>
-			
-		{/if}
-
-		{#if ($p6.vida <= 0)}
-		<div id="p4Morto" style="
-			left: {$p6.left * xy}px;
-			top : {$p6.top * xy}px;
-			height: {xy}px; 
-			width: {xy}px;
-			position: absolute;
-			background-image: url(/public/imagens/lapide1.png);
-			background-size: cover;
-		">
-		</div>
-		{/if}
-
-
-
-		<div id="seletor" style="
-		left: {seletorLeft * xy}px; 
-		top: {seletorTop * xy}px; 
-		height: {xy}px; 
-		width: {xy}px; 
-
-		background-image: url({seletor == true ? seletorimg : seletorimg2})
-		"></div>
-		
-</div>
-
+			<button id="trocar-Turno" on:click={proximoTurno} ></button>
+	</div>
 
 </div>
 
 
 
 <style>
+	#container {
+		background-size: auto;
+		height: 1180px;
+		width: 1180px;
 
+
+		}
 
 	.header {
 		position: absolute;
@@ -529,9 +527,8 @@
 	} */
 
 	#trocar-Turno {
-		position:absolute;
-		left: 400px;
-		top: 88%;
+		position: sticky;
+		top: 100%;
 		width: 200px;
 		height: 80px;
 		border-radius: 30px;
@@ -547,12 +544,15 @@
 		background-position: center;
 	}
 
-
+	#Jogar {
+		background-image: url(/public/imagens/chao.png);
+		background-size: cover;
+	}
 
 </style>
 	
 
-<button id="trocar-Turno" on:click={proximoTurno} ></button>
+
 <svelte:window on:keydown|preventDefault={funcoes}/>
 
 
