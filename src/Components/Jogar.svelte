@@ -99,6 +99,14 @@
 					<div id="HPplayer1" style="width: {100 * $lutador.vida / 10}%;"></div>
 				</div> 
 
+				{#if $player1.turno == 'ataque' && $player1.personagemSelecionado == lutador}
+					<div class="selecionado1"></div>
+				{/if}
+
+				{#if $player2.turno == 'ataque' && $player2.personagemAlvo == lutador}
+					<div class="selecionado2"></div>
+				{/if}
+
 				{#if (!seletor && pRef == lutador)}
 					<div id="range-player1" class="lutador"></div>		
 					{/if}	
@@ -138,10 +146,24 @@
 					<div id="HPplayer1" style="width: {100 * $atirador.vida / 10}%;"></div>
 				</div> 
 
-			{#if (!seletor && pRef == atirador)}
+				{#if $player1.turno == 'ataque' && $player1.personagemSelecionado == atirador}
+					<div class="selecionado1"></div>
+				{/if}
+
+				{#if $player2.turno == 'ataque' && $player2.personagemAlvo == atirador}
+					<div class="selecionado2"></div>
+				{/if}
+				
+				{#if (!seletor && pRef == atirador)}
 				<div id="range-player1"></div>
 				{/if}
+
+
 			</div>
+
+
+
+
 		{/if}
 
 		{#if ($atirador.vida <= 0)}
@@ -172,7 +194,14 @@
 				<div id="HPbar">
 					<div id="HPplayer1" style="width: {100 * $feiticeiro.vida / 10}%;"></div>
 				</div> 
+			
+				{#if $player1.turno == 'ataque' && $player1.personagemSelecionado == feiticeiro}
+					<div class="selecionado1"></div>
+				{/if}
 
+				{#if $player2.turno == 'ataque' && $player2.personagemAlvo == feiticeiro}
+					<div class="selecionado2"></div>
+				{/if}
 
 			{#if (!seletor && pRef == feiticeiro)}
 				<div id="range-player1"></div>
@@ -210,6 +239,15 @@
 					<div id="HPplayer2" style="width: {100 * $p4.vida / 10}%;"></div>
 				</div> 
 
+				{#if $player2.turno == 'ataque' && $player2.personagemSelecionado == p4}
+					<div class="selecionado1"></div>
+				{/if}
+
+				{#if $player1.turno == 'ataque' && $player1.personagemAlvo == p4}
+					<div class="selecionado2"></div>
+				{/if}
+
+
 			{#if (!seletor && pRef == p4)}
 				<div id="range-player2"></div>
 			{/if}
@@ -246,6 +284,15 @@
 				<div id="HPplayer2" style="width: {100 * $p5.vida / 10}%;"></div>
 			</div> 
 
+
+			{#if $player2.turno == 'ataque' && $player2.personagemSelecionado == p5}
+			<div class="selecionado1"></div>
+			{/if}
+
+			{#if $player1.turno == 'ataque' && $player1.personagemAlvo == p5}
+				<div class="selecionado2"></div>
+			{/if}
+
 			{#if (!seletor && pRef == p5)}
 				<div id="range-player2"></div>
 			{/if}
@@ -281,6 +328,15 @@
 			<div id="HPbar">
 				<div id="HPplayer2" style="width: {100 * $p6.vida / 10}%;"></div>
 			</div> 
+
+
+			{#if $player2.turno == 'ataque' && $player2.personagemSelecionado == p6}
+			<div class="selecionado1"></div>
+			{/if}
+
+			{#if $player1.turno == 'ataque' && $player1.personagemAlvo == p6}
+				<div class="selecionado2"></div>
+			{/if}
 
 			{#if (!seletor && pRef == p6)}
 				<div id="range-player2"></div>
@@ -418,7 +474,7 @@
 		height: 16px; /* Altura da barra de HP */
 		border: 3px solid #000; /* Borda preta para a barra de HP */
 		background-color: rgb(59, 59, 59); /* Cor de fundo da barra de HP */
-		position: relative;
+		position: absolute;
 		top: -20%;
 		left: 7%;
 		border-radius: 10px;
@@ -441,11 +497,30 @@
 
 
 	#atirador, #feiticeiro, #lutador, #izzy, #simon, #jace{
-
+		z-index: 9;
 		position: absolute;
 		transition: all 0.550s ease; 
 
 
+	}
+
+	.selecionado1 {
+		top: -5%;
+		width: 128px;
+		height: 128px;
+		position: absolute;
+		background-image: url(/public/imagens/personagemSelecionado.png);
+		background-size: cover;
+	}
+
+
+	.selecionado2 {
+		top: 0%;
+		width: 128px;
+		height: 128px;
+		position: absolute;
+		background-image: url(/public/imagens/alvoSelecionado.png);
+		background-size: cover;
 	}
 /* 
 	#lutadorMorto {
@@ -486,12 +561,10 @@
 	import { lutador, atirador, feiticeiro } from "../stores/personagens";
 	import { p4, p5, p6 } from "../stores/personagens";
 	import { player1, player2 } from "../stores/jogador";
-	// @ts-ignore
-	// @ts-ignore
 	import { trocadeestado } from "../stores/estado";
-    // @ts-ignore
-    // @ts-ignore
     import { prevent_default } from "svelte/internal";
+
+	let tomaGap = true;
 
 	player1.update(v => {
 		v.personagens.push(lutador)
@@ -508,10 +581,12 @@
 	})
 
 	function funcoes(e) {
+		if(tomaGap){
 			selecionar(e);
 			seletorMovimento(e);
 			mover(e);
 			combate(e)
+		}
 
 	}
 
@@ -577,13 +652,6 @@
 }	
 
 	let pRef;
-	
-	// @ts-ignore
-	// @ts-ignore
-	let perAtq;
-	// @ts-ignore
-	// @ts-ignore
-	let perAlvo;
 
 	let atiradorTop;
 	let atiradorLeft;
@@ -730,6 +798,8 @@
 
 
 	function selecionar(e) { 	
+	var select1 = false
+	var select2 = false
 	if(seletor){	
 
 		if(seletorTop === atiradorTop && seletorLeft === atiradorLeft && seletor){
@@ -744,8 +814,10 @@
 				else {
 					if($player1.turno == 'ataque'){
 							$player1.personagemSelecionado = atirador
+							select1 = true
 							console.log('personagem selecionado:', atirador)
 					} else {
+						select2 = true
 						$player2.personagemAlvo = atirador
 					}
 					
@@ -873,7 +945,6 @@
 			}
 
 		}
-
 
 		} else if (e.keyCode === 90){
 			seletor = true
@@ -1018,13 +1089,13 @@ function proximoTurno() {
 console.log('p1: ',$player1.turno, 'p2: ',$player2.turno, $player1.stamina, $player2.stamina)
 
 }
-
+let cRef = undefined
 
 function combate(e) {
-	let stamina;
 	let dados;
-	let range;
 	let dadosB;
+	let stamina;
+	let range;
 	let location = []
 	if(turnoGlobal == 'Ataque'){
 		if($player1.turno == 'ataque'){
@@ -1033,20 +1104,27 @@ function combate(e) {
 				stamina = v.stamina
 				return v;
 			})
-
-			if($player1.personagemSelecionado && $player1.personagemAlvo){
-
+			if($player1.personagemSelecionado){
 				$player1.personagemSelecionado.subscribe(v => {
 				dados = v
 				range = dados.alcance
+				cRef = dados.nome
+
 				return v
-			}) 
+				}) 
+
+			}
+
+			if($player1.personagemAlvo){
 				$player1.personagemAlvo.subscribe(v => {
 				dadosB = v
 				location = [dadosB.top, dadosB.left]
 				return v	
 			})
+			// @ts-ignore
+			
 				if(e.keyCode == 88){
+					console.log(cRef)
 					if(inRange(range, location)){
 						// @ts-ignore
 						if(dadosB.vida > 0 && stamina > 0){
@@ -1056,12 +1134,28 @@ function combate(e) {
 									return v
 								})
 								console.log(stamina)
-								$player1.personagemAlvo.update(v => {
-								v.vida -= dados.ataque
-								console.log(`${dados.nome} atacou ${dadosB.nome} com ${dados.ataque} pontos de força.`)
-								console.log(`${dadosB.nome} possui ${dadosB.vida} pontos de vida.`)
-								return v
-								})
+								// @ts-ignore
+								if(dadosB.vida - dados.ataque <= 0){
+									$player1.personagemAlvo.update(v => {
+										v.vida -= dados.ataque
+										console.log(`${dados.nome} atacou ${dadosB.nome} com ${dados.ataque} pontos de força.`)
+										console.log(`${dadosB.nome} foi abatido`)
+										return v
+									})
+									player1.update(v =>{
+										v.abates++
+										return v
+									})
+									console.log($player1.abates)
+								}
+								else {
+									$player1.personagemAlvo.update(v => {
+									v.vida -= dados.ataque
+									console.log(`${dados.nome} atacou ${dadosB.nome} com ${dados.ataque} pontos de força.`)
+									console.log(`${dadosB.nome} possui ${dadosB.vida} pontos de vida.`)
+									return v
+									})
+								}
 						}
 					}
 				}
@@ -1101,12 +1195,30 @@ function combate(e) {
 									return v
 								})
 								console.log(stamina)
-								$player2.personagemAlvo.update(v => {
-								v.vida -= dados.ataque
-								console.log(`${dados.nome} atacou ${dadosB.nome} com ${dados.ataque} pontos de força.`)
-								console.log(`${dadosB.nome} possui ${dadosB.vida} pontos de vida.`)
-								return v
-								})
+
+								// @ts-ignore
+								if(dadosB.vida - dados.ataque <= 0){
+									$player2.personagemAlvo.update(v => {
+										v.vida -= dados.ataque
+										console.log(`${dados.nome} atacou ${dadosB.nome} com ${dados.ataque} pontos de força.`)
+										console.log(`${dadosB.nome} foi abatido`)
+										return v
+									})
+									player2.update(v =>{
+										v.abates++
+										return v
+									})
+									console.log($player2.abates)
+								}
+								else {
+									$player2.personagemAlvo.update(v => {
+									v.vida -= dados.ataque
+									console.log(`${dados.nome} atacou ${dadosB.nome} com ${dados.ataque} pontos de força.`)
+									console.log(`${dadosB.nome} possui ${dadosB.vida} pontos de vida.`)
+									return v
+									})
+
+								}
 						}
 					}
 				}
@@ -1126,7 +1238,14 @@ function combate(e) {
 }
 
 
+$: {
+	
 
+	if($player1.abates >= 3 || $player2.abates >= 3){
+		tomaGap = false
+		console.log($player1.abates >= 3 ? "player1 ganhou slc jgdiff" : "player2 ganhou slc jgdiff")
+	}
+}
 
 </script>
 

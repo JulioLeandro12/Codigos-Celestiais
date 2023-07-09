@@ -7,7 +7,7 @@ class Jogador{
         this.stamina = 8;
         this.personagemSelecionado = null
         this.personagemAlvo = null
-
+        this.abates = 0;
     }
 
 
