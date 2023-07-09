@@ -362,7 +362,23 @@
 				"></div>
 				
 			</div>
+			
+
+
+			<div id="placar">{$player1.abates} - {$player2.abates}</div>
+
+			<div id="turnoStatusPlayer1" style="
+				background-color: {$player1.turno != 'inativo' ? 'red' : 'gray'}
+				"> player 1: {$player1.turno == 'movimento' ? 'move' : $player1.turno == 'ataque' ? 'attack' : 'wait'}
+			</div>	
+
 			<button id="trocar-Turno" on:click={proximoTurno} ></button>
+
+			<div id="turnoStatusPlayer2" style="
+				background-color: {$player2.turno != 'inativo' ? 'blue' : 'gray'}
+				"> player 2: {$player2.turno == 'movimento' ? 'move' : $player2.turno == 'ataque' ? 'attack' : 'wait'}
+			</div>	
+
 	</div>
 
 </div>
@@ -544,10 +560,27 @@
 		background-position: center;
 	}
 
-	#Jogar {
-		background-image: url(/public/imagens/chao.png);
-		background-size: cover;
+	#turnoStatusPlayer1 {
+		position: sticky;
+		top: 100%;
+		width: 250px;
+		height: 80px;
+		border-radius: 35px;
+		background-color: red;
+
 	}
+
+	#turnoStatusPlayer2 {
+		position: sticky;
+		top: 100%;
+		left: 85%;
+		width: 250px;
+		height: 80px;
+		border-radius: 35px;
+		background-color: red;
+
+	}
+
 
 </style>
 	
@@ -586,6 +619,7 @@
 			seletorMovimento(e);
 			mover(e);
 			combate(e)
+			proximoTurnoTecla(e)
 		}
 
 	}
@@ -1044,48 +1078,55 @@ console.log('p1: ',$player1.turno, 'p2: ',$player2.turno, $player1.stamina, $pla
 
 let turnoGlobal = 'Movimento'
 
-function proximoTurno() {
-
-  if ($player1.turno === 'movimento') {
-    player1.update(v => {
-      v.turno = 'ataque';
-      return v;
-    });
-	turnoGlobal = 'Ataque'
-
-} else if ($player1.turno === 'ataque') {
-	player1.update(v => {
-		v.turno = 'inativo'
-		return v
-	})
-	player2.update(v => {
-		v.turno = 'movimento';
-		v.stamina = 200
-		return v;
-	})
-
-	turnoGlobal = 'Movimento'
-
-} else if ($player2.turno === 'movimento') {
-	player2.update(v => {
-		v.turno = 'ataque'
-		return v
-	})
-	turnoGlobal = 'Ataque'
-
-} else if ($player2.turno === 'ataque') {
-	player2.update(v => {
-		v.turno = 'inativo'
-		return v
-	})
-	player1.update(v => {
-		v.turno = 'movimento'
-		v.stamina = 200
-		return v
-	})
-	turnoGlobal = 'Movimento'
+function proximoTurnoTecla(e){
+	if(e.keyCode == 67){
+		proximoTurno()
+	}
 }
 
+function proximoTurno() {
+		if ($player1.turno === 'movimento') {
+    			player1.update(v => {
+      			v.turno = 'ataque';
+			    return v;
+    		});
+			turnoGlobal = 'Ataque'
+
+		} else if ($player1.turno === 'ataque') {
+			player1.update(v => {
+				v.turno = 'inativo'
+				return v
+			})
+			player2.update(v => {
+				v.turno = 'movimento';
+				v.stamina = 200
+				return v;
+			})
+
+			turnoGlobal = 'Movimento'
+
+		} else if ($player2.turno === 'movimento') {
+			player2.update(v => {
+				v.turno = 'ataque'
+				return v
+			})
+			turnoGlobal = 'Ataque'
+
+		} else if ($player2.turno === 'ataque') {
+			player2.update(v => {
+				v.turno = 'inativo'
+				return v
+			})
+			player1.update(v => {
+				v.turno = 'movimento'
+				v.stamina = 200
+				return v
+			})
+			turnoGlobal = 'Movimento'
+		}
+
+	
+ 
 console.log('p1: ',$player1.turno, 'p2: ',$player2.turno, $player1.stamina, $player2.stamina)
 
 }
