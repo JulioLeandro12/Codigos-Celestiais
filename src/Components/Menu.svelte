@@ -8,9 +8,13 @@
 <main>
     <!--<link href=" https://fonts.cdnfonts.com/css/common-pixel " rel="stylesheet">-->
     <link href="https://fonts.cdnfonts.com/css/hiskyflipper" rel="stylesheet">
+    <div class="imagem"></div>
+        
 
 
-    <h1 class="titulo">Codigos <br> Celestiais</h1>
+    <h1 class="titulo"><style>
+    background-image: URL(public/imagens/codigos.png);
+    </style>Codigos <br> Celestiais</h1>
     <!--titulo do jogo-->
 
     <div class="div-posicao">
@@ -37,12 +41,12 @@
   @import url('https://fonts.cdnfonts.com/css/hiskyflipper');
 
 
-
+    
 
     .titulo {
         /*chamando a classe do titulo**/
         text-align: center; /*alinhamento do texto**/
-        font-size: 60px; /*tamanho da fonte**/
+        font-size: 80px; /*tamanho da fonte**/
         color: #a07ba2; /*cor da fonte**/
         margin-bottom: 50px; /*margem do titulo**/
         top: 10px; /*posição do titulo**/ 
@@ -52,7 +56,9 @@
         text-transform: uppercase; /*texto fica em negrito*/
        /* font-family: 'Common Pixel', sans-serif;*/
        font-family: 'HISKYFLIPPERHIBOLD', sans-serif;
+       background-image: url(public/imagens/codigos.png);
     }
+    
     .div-posicao button {
         /*chamando a div da posição dos botões**/
         display: block; /**bloco*/
