@@ -44,7 +44,6 @@
         text-align: center; /*alinhamento do texto**/
         font-size: 60px; /*tamanho da fonte**/
         color: #a07ba2; /*cor da fonte**/
-        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; /*fonte**/
         margin-bottom: 50px; /*margem do titulo**/
         top: 10px; /*posição do titulo**/ 
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 100);

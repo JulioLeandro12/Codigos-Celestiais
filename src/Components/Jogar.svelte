@@ -325,9 +325,14 @@
 
 
 	.header {
-		position: absolute;
-		top: 0cqmin;
-
+		top: 20%;
+		left: 75%;
+		position:absolute;
+		font-family: 'HISKYFLIPPERHIBOLD', sans-serif;
+		width: 160px;
+		height: 190px;
+		box-shadow: #000;
+		border: #000;
 	}
 
 	.mapa {
@@ -447,11 +452,6 @@
 
 
 	}
-/* 
-	#lutadorMorto {
-		background-image: url(/public/imagens/KeyZ.png);
-		background-size: cover;
-	} */
 
 	#trocar-Turno {
 		position:absolute;
@@ -476,9 +476,9 @@
 
 </style>
 	
+	<button id="trocar-Turno" on:click={proximoTurno} ></button>
+	<svelte:window on:keydown|preventDefault={funcoes}/>
 
-<button id="trocar-Turno" on:click={proximoTurno} ></button>
-<svelte:window on:keydown|preventDefault={funcoes}/>
 
 
 
@@ -974,6 +974,7 @@ console.log('p1: ',$player1.turno, 'p2: ',$player2.turno, $player1.stamina, $pla
 let turnoGlobal = 'Movimento'
 
 function proximoTurno() {
+
 
   if ($player1.turno === 'movimento') {
     player1.update(v => {
