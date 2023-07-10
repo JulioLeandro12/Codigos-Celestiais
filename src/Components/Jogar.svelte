@@ -351,7 +351,7 @@
 				{#if tomaGap == false}
 				<div id="Venceu">
 					{$player1.abates == 3 ? 'player 1 win' : 'player 2 win'}
-					<button on:click={() => trocadeestado("jogar")}>voltar</button>
+					<button on:click={() => trocadeestado("menu")}>voltar</button>
 				</div>
 				{/if}
 				
