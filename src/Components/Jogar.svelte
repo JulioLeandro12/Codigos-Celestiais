@@ -1066,7 +1066,7 @@ function mover(e) {
   let ptop = 0;
   
 
-  if (pRef != undefined) {
+  if (pRef != undefined && $pRef.vida > 0) {
     pRef.subscribe(value => {
       pleft = value.left;
       ptop = value.top;
