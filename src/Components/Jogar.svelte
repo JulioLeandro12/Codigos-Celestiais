@@ -347,6 +347,13 @@
 				width: {xy}px; 
 				background-image: url({seletor == true ? seletorimg : seletorimg2})
 				"></div>
+
+				{#if tomaGap == false}
+				<div id="Venceu">
+					{$player1.abates == 3 ? 'player 1 win' : 'player 2 win'}
+					<button on:click={() => trocadeestado("jogar")}>voltar</button>
+				</div>
+				{/if}
 				
 			</div>
 			
@@ -366,6 +373,8 @@
 				"> player 2: {$player2.turno == 'movimento' ? 'move' : $player2.turno == 'ataque' ? 'attack' : 'wait'}
 			</div>	
 
+
+
 	</div>
 
 </div>
@@ -373,10 +382,13 @@
 
 
 <style>
+
+
 	#container {
 		background-size: auto;
 		height: 1180px;
 		width: 1180px;
+		
 
 
 		}
@@ -568,6 +580,18 @@
 
 	}
 
+
+	#Venceu {
+		z-index: 9;
+		position: absolute;
+		top: 25%;
+		left: 30%;
+		align-content: center;
+		width: 400px;
+		height: 400px;
+		border-radius: 35px;
+		background-color: rgb(38, 138, 192);
+	}
 
 </style>
 	
