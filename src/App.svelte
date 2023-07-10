@@ -7,6 +7,8 @@ import Sobre from "./Components/Sobre.svelte";
 import { estado } from "./stores/estado";
 </script>
 <body style="background-image: url('/public/imagens/{$estado != 'jogar' ? 'bumbum.gif' : 'chao.png'}')">
+ 
+  <div class="overlay">
     {#if $estado == "menu"}  <!--serve para criar a rotas do menu-->
     <Menu></Menu>
     
@@ -20,6 +22,9 @@ import { estado } from "./stores/estado";
     <Sobre></Sobre>
     
     {/if}
+
+  </div>
+ 
     
 </body>
 
@@ -32,4 +37,6 @@ body {
   align-items: center;
   height: 100vh;
 }
+
+
 </style>

@@ -349,6 +349,10 @@
 				"></div>
 
 				{#if tomaGap == false}
+
+				<div class="overlay"></div>
+
+
 				<div id="Venceu">
 					{$player1.abates == 3 ? 'player 1 win' : 'player 2 win'}
 					<button on:click={() => trocadeestado("menu")}>voltar</button>
@@ -594,6 +598,16 @@
 
 	}
 
+		.overlay {
+		position: absolute;
+		background-color: black;
+		top: -110%;
+		left: -200%;
+		width: 500%;
+		height: 300%;
+		opacity: 0.5;
+		}
+
 
 	#Venceu {
 		z-index: 9;
@@ -622,7 +636,7 @@
 	import { trocadeestado } from "../stores/estado";
     import { prevent_default } from "svelte/internal";
 
-	let tomaGap = true;
+	export let tomaGap = true;
 
 	player1.update(v => {
 		v.personagens.push(lutador)
