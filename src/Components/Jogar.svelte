@@ -98,7 +98,10 @@
 					transform: scaleX({pRef == lutador && inverso ? -1 : 1})
 					"> 			
 						<div id="HPbar">
-							<div id="HPplayer1" style="width: {100 * $lutador.vida / 10}%;"></div>
+							<div id="HPplayer1" style="
+							width: {100 * $lutador.vida / 10}%;
+							border: 3px solid {$player1.turno != 'inativo' ? 'yellow' : 'black'};
+							"></div>
 						</div> 
 
 						{#if $player1.turno == 'ataque' && $player1.personagemSelecionado == lutador}
@@ -142,7 +145,10 @@
 					">
 				
 						<div id="HPbar">
-							<div id="HPplayer1" style="width: {100 * $atirador.vida / 10}%;"></div>
+							<div id="HPplayer1" style="
+							width: {100 * $atirador.vida / 10}%;
+							border: 3px solid {$player1.turno != 'inativo' ? 'yellow' : 'black'};
+							"></div>
 						</div> 
 
 						{#if $player1.turno == 'ataque' && $player1.personagemSelecionado == atirador}
@@ -183,7 +189,10 @@
 					transform: scaleX({pRef == feiticeiro && inverso ? -1 : 1})						
 					">
 						<div id="HPbar">
-							<div id="HPplayer1" style="width: {100 * $feiticeiro.vida / 10}%;"></div>
+							<div id="HPplayer1" style="
+							width: {100 * $feiticeiro.vida / 10}%;
+							border: 3px solid {$player1.turno != 'inativo' ? 'yellow' : 'black'};
+							"></div>
 						</div> 
 					
 						{#if $player1.turno == 'ataque' && $player1.personagemSelecionado == feiticeiro}
@@ -226,7 +235,9 @@
 					transform: scaleX({pRef == p4 && inverso2 ? -1 : 1})		
 					">
 						<div id="HPbar">
-							<div id="HPplayer2" style="width: {100 * $p4.vida / 10}%;"></div>
+							<div id="HPplayer2" style="width: {100 * $p4.vida / 10}%;
+							border: 3px solid {$player2.turno != 'inativo' ? 'yellow' : 'black'};
+							"></div>
 						</div> 
 
 						{#if $player2.turno == 'ataque' && $player2.personagemSelecionado == p4}
@@ -267,7 +278,9 @@
 					transform: scaleX({pRef == p5 && inverso2 ? -1 : 1})
 				">
 					<div id="HPbar">
-						<div id="HPplayer2" style="width: {100 * $p5.vida / 10}%;"></div>
+						<div id="HPplayer2" style="width: {100 * $p5.vida / 10}%;
+						border: 3px solid {$player2.turno != 'inativo' ? 'yellow' : 'black'};
+						"></div>
 					</div> 
 
 
@@ -310,7 +323,9 @@
 					transform: scaleX({pRef == p6 && inverso2 ? -1 : 1})
 				">
 					<div id="HPbar">
-						<div id="HPplayer2" style="width: {100 * $p6.vida / 10}%;"></div>
+						<div id="HPplayer2" style="width: {100 * $p6.vida / 10}%;
+						border: 3px solid {$player2.turno != 'inativo' ? 'yellow' : 'black'};
+						"></div>
 					</div> 
 
 
