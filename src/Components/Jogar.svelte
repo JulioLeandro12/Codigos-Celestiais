@@ -572,6 +572,8 @@
         justify-content: center;
         align-items: center;
 		font-size: 20px;
+		color: #000;
+
 
 	}
 
@@ -588,6 +590,7 @@
         align-items: center;
 		font-family: 'HISKYFLIPPERHIBOLD', sans-serif;
 		font-size: 20px;
+		color: #000;
 
 	}
 
@@ -596,7 +599,7 @@
 		z-index: 9;
 		position: absolute;
 		top: 25%;
-		left: 30%;
+		left: 32%;
 		align-content: center;
 		width: 400px;
 		height: 400px;
