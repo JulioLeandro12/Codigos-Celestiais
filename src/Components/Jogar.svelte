@@ -102,16 +102,13 @@
 						</div> 
 
 						{#if $player1.turno == 'ataque' && $player1.personagemSelecionado == lutador}
+							<div id="range-player1"></div>		
 							<div class="selecionado1"></div>
 						{/if}
 
 						{#if $player2.turno == 'ataque' && $player2.personagemAlvo == lutador}
 							<div class="selecionado2"></div>
-						{/if}
-
-						{#if (!seletor && pRef == lutador)}
-							<div id="range-player1" class="lutador"></div>		
-							{/if}	
+						{/if}	
 
 					</div>
 									
@@ -150,15 +147,15 @@
 
 						{#if $player1.turno == 'ataque' && $player1.personagemSelecionado == atirador}
 							<div class="selecionado1"></div>
+							<div id="range-player1"></div>
+
 						{/if}
 
 						{#if $player2.turno == 'ataque' && $player2.personagemAlvo == atirador}
 							<div class="selecionado2"></div>
 						{/if}
 						
-						{#if (!seletor && pRef == atirador)}
-						<div id="range-player1"></div>
-						{/if}
+						
 					</div>
 
 				{/if}
@@ -191,15 +188,14 @@
 					
 						{#if $player1.turno == 'ataque' && $player1.personagemSelecionado == feiticeiro}
 							<div class="selecionado1"></div>
+							<div id="range-player1"></div>
+
 						{/if}
 
 						{#if $player2.turno == 'ataque' && $player2.personagemAlvo == feiticeiro}
 							<div class="selecionado2"></div>
 						{/if}
 
-					{#if (!seletor && pRef == feiticeiro)}
-						<div id="range-player1"></div>
-					{/if}
 
 					</div>
 								
@@ -234,17 +230,13 @@
 						</div> 
 
 						{#if $player2.turno == 'ataque' && $player2.personagemSelecionado == p4}
+							<div id="range-player2"></div>
 							<div class="selecionado1"></div>
 						{/if}
 
 						{#if $player1.turno == 'ataque' && $player1.personagemAlvo == p4}
 							<div class="selecionado2"></div>
 						{/if}
-
-
-					{#if (!seletor && pRef == p4)}
-						<div id="range-player2"></div>
-					{/if}
 					
 				</div>
 					
@@ -280,6 +272,7 @@
 
 
 					{#if $player2.turno == 'ataque' && $player2.personagemSelecionado == p5}
+					<div id="range-player2"></div>
 					<div class="selecionado1"></div>
 					{/if}
 
@@ -287,9 +280,6 @@
 						<div class="selecionado2"></div>
 					{/if}
 
-					{#if (!seletor && pRef == p5)}
-						<div id="range-player2"></div>
-					{/if}
 
 					</div>
 					
@@ -325,15 +315,12 @@
 
 
 					{#if $player2.turno == 'ataque' && $player2.personagemSelecionado == p6}
-					<div class="selecionado1"></div>
+						<div id="range-player2"></div>
+						<div class="selecionado1"></div>
 					{/if}
 
 					{#if $player1.turno == 'ataque' && $player1.personagemAlvo == p6}
 						<div class="selecionado2"></div>
-					{/if}
-
-					{#if (!seletor && pRef == p6)}
-						<div id="range-player2"></div>
 					{/if}
 
 					</div>
