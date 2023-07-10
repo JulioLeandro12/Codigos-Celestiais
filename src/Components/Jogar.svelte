@@ -1,321 +1,404 @@
 <div id="Jogar">
-<h1 class="header" >{turnoGlobal}</h1>
+<!-- <h1 class="header" >{turnoGlobal}</h1> -->
 
-<div class="mapa" style="
-		display: grid;
-		grid-template-columns: repeat({colunas}, 1fr);
-		grid-template-rows: repeat({linhas}, 1fr);
-		background-color: black;
-		">
-	
+	<div id="container">
 
-			{#each mapa as linha, linhaIndex}
-				{#each linha as celula, celulaIndex}
-
-					<!-- svelte-ignore a11y-mouse-events-have-key-events -->
-					<div class="celula" on:mouseover={cellPos(linhaIndex, celulaIndex)} style="
-					height: {xy}px; 
-					width: {xy}px; 
-					">
-					{#if (linhaIndex == 0 && celulaIndex == 0)}
-					<div id="celulaColuna1" style="
-					height: {xy}px; 
-					width: {xy}px;">
-					</div>
-					{/if}
-
-					{#if (linhaIndex > 0 && linhaIndex < 7 && celulaIndex == 0)}
-					<div id="celulaArbusto" style="
-					height: {xy}px; 
-					width: {xy}px;">
-					</div>
-					{/if}
-
-					{#if (linhaIndex == 7 && celulaIndex == 0)}
-					<div id="celulaColuna2" style="
-					height: {xy}px; 
-					width: {xy}px;">
-					</div>
-					{/if}
-
-					{#if (linhaIndex == 0 && celulaIndex > 0 && celulaIndex < 8)}
-					<div id="celulaArbusto2" style="
-					height: {xy}px; 
-					width: {xy}px;">
-					</div>
-					{/if}
-
-					{#if (linhaIndex < 1 && celulaIndex === 8)}
-					<div id="celulaColuna2Flor" style="
-					height: {xy}px; 
-					width: {xy}px;">
-					</div>
-					{/if}
-
-					{#if (linhaIndex === 7 && celulaIndex > 0 && celulaIndex < 8)}
-					<div id="celulaArbusto2" style="
-					height: {xy}px; 
-					width: {xy}px;">
-					</div>
-					{/if}
-
-					{#if (celulaIndex === 8 && linhaIndex === 7)}
-					<div id="celulaColuna2Sangue" style="
-					height: {xy}px; 
-					width: {xy}px;">
-					</div>
-					{/if}
-
-					{#if (celulaIndex === 8 && linhaIndex > 0 && linhaIndex < 7)}
-					<div id="celulaArbusto" style="
-					height: {xy}px; 
-					width: {xy}px;">
-					</div>
-					{/if}
-
-
-					</div>
-				
-					
-					{/each}	
-			{/each}
-
-
-
-
-		{#if  lutadorVivo && $lutador.vida > 0}
+		<div class="mapa" style="
+				display: grid;
+				grid-template-columns: repeat({colunas}, 1fr);
+				grid-template-rows: repeat({linhas}, 1fr);
+				background-color: black;
+				">
 			
-			<div id="lutador" style="
 
-			left: {$lutador.left * xy}px;
-			top : {$lutador.top * xy}px;
-			height: {xy}px; 
-			width: {xy}px;
-			background-image: url(/public/imagens/Clary.png); 
-			background-size: cover;
-			transform: scaleX({pRef == lutador && inverso ? -1 : 1})
-			"> 			
-				<div id="HPbar">
-					<div id="HPplayer1" style="width: {100 * $lutador.vida / 10}%;"></div>
-				</div> 
+					{#each mapa as linha, linhaIndex}
+						{#each linha as celula, celulaIndex}
 
-				{#if (!seletor && pRef == lutador)}
-					<div id="range-player1" class="lutador"></div>		
-					{/if}	
+							<!-- svelte-ignore a11y-mouse-events-have-key-events -->
+							<div class="celula" on:mouseover={cellPos(linhaIndex, celulaIndex)} style="
+							height: {xy}px; 
+							width: {xy}px; 
+							">
+							{#if (linhaIndex == 0 && celulaIndex == 0)}
+							<div id="celulaColuna1" style="
+							height: {xy}px; 
+							width: {xy}px;">
+							</div>
+							{/if}
 
-			</div>
-							
-		{/if}
+							{#if (linhaIndex > 0 && linhaIndex < 7 && celulaIndex == 0)}
+							<div id="celulaArbusto" style="
+							height: {xy}px; 
+							width: {xy}px;">
+							</div>
+							{/if}
 
-		{#if ($lutador.vida <= 0)}
-		<div id="lutadorMorto" style="
-			left: {$lutador.left * xy}px;
-			top : {$lutador.top * xy}px;
-			height: {xy}px; 
-			width: {xy}px;
-			position: absolute;
-			background-image: url(/public/imagens/lapide1-sangue.png);
-			background-size: cover;
-		">
-			</div>
-			{/if}
+							{#if (linhaIndex == 7 && celulaIndex == 0)}
+							<div id="celulaColuna2" style="
+							height: {xy}px; 
+							width: {xy}px;">
+							</div>
+							{/if}
 
+							{#if (linhaIndex == 0 && celulaIndex > 0 && celulaIndex < 8)}
+							<div id="celulaArbusto2" style="
+							height: {xy}px; 
+							width: {xy}px;">
+							</div>
+							{/if}
 
+							{#if (linhaIndex < 1 && celulaIndex === 8)}
+							<div id="celulaColuna2Flor" style="
+							height: {xy}px; 
+							width: {xy}px;">
+							</div>
+							{/if}
 
-		{#if  atiradorVivo && $atirador.vida > 0}
-			<div id="atirador" style="
+							{#if (linhaIndex === 7 && celulaIndex > 0 && celulaIndex < 8)}
+							<div id="celulaArbusto2" style="
+							height: {xy}px; 
+							width: {xy}px;">
+							</div>
+							{/if}
 
-			top: {$atirador.top * xy}px;
-			left: {$atirador.left * xy}px;
-			height: {xy}px;
-			width: {xy}px;
-			background-image: url(/public/imagens/Alec.png); 
-			background-size: cover;
-			transform: scaleX({pRef == atirador && inverso ? -1 : 1})			
-			">
-		
-				<div id="HPbar">
-					<div id="HPplayer1" style="width: {100 * $atirador.vida / 10}%;"></div>
-				</div> 
+							{#if (celulaIndex === 8 && linhaIndex === 7)}
+							<div id="celulaColuna2Sangue" style="
+							height: {xy}px; 
+							width: {xy}px;">
+							</div>
+							{/if}
 
-			{#if (!seletor && pRef == atirador)}
-				<div id="range-player1"></div>
-				{/if}
-			</div>
-		{/if}
-
-		{#if ($atirador.vida <= 0)}
-		<div id="atiradorMorto" style="
-			left: {$atirador.left * xy}px;
-			top : {$atirador.top * xy}px;
-			height: {xy}px; 
-			width: {xy}px;
-			position: absolute;
-			background-image: url(/public/imagens/lapide1-sangue.png);
-			background-size: cover;
-		">
-		</div>
-		{/if}
+							{#if (celulaIndex === 8 && linhaIndex > 0 && linhaIndex < 7)}
+							<div id="celulaArbusto" style="
+							height: {xy}px; 
+							width: {xy}px;">
+							</div>
+							{/if}
 
 
-
-		{#if feiticeiroVivo && $feiticeiro.vida > 0}
-			<div id="feiticeiro" style="
-			top: {$feiticeiro.top * xy}px;
-			left: {$feiticeiro.left * xy}px;
-			height: {xy}px;
-			width: {xy}px;
-			background-image: url(/public/imagens/Magnus.png); 
-			background-size: cover;
-			transform: scaleX({pRef == feiticeiro && inverso ? -1 : 1})						
-			">
-				<div id="HPbar">
-					<div id="HPplayer1" style="width: {100 * $feiticeiro.vida / 10}%;"></div>
-				</div> 
-
-
-			{#if (!seletor && pRef == feiticeiro)}
-				<div id="range-player1"></div>
-			{/if}
-
-			</div>
+							</div>
 						
-		{/if}
-
-		{#if ($feiticeiro.vida <= 0)}
-		<div id="feiticeiroMorto" style="
-			left: {$feiticeiro.left * xy}px;
-			top : {$feiticeiro.top * xy}px;
-			height: {xy}px; 
-			width: {xy}px;
-			position: absolute;
-			background-image: url(/public/imagens/lapide1.png);
-			background-size: cover;
-		">
-		</div>
-		{/if}
+							
+							{/each}	
+					{/each}
 
 
 
-		{#if p4Vivo && $p4.vida > 0}
-			<div id="izzy" style="
-			top: {$p4.top * xy}px;
-			left: {$p4.left * xy}px;
-			height: {xy}px;
-			width: {xy}px;
-			background-image: url(/public/imagens/izzy.png); 
-			transform: scaleX({pRef == p4 && inverso2 ? -1 : 1})		
-			">
-				<div id="HPbar">
-					<div id="HPplayer2" style="width: {100 * $p4.vida / 10}%;"></div>
-				</div> 
 
-			{#if (!seletor && pRef == p4)}
-				<div id="range-player2"></div>
-			{/if}
-			
-		</div>
-			
-		{/if}
+				{#if  lutadorVivo && $lutador.vida > 0}
+					
+					<div id="lutador" style="
 
-		{#if ($p4.vida <= 0)}
-		<div id="p4Morto" style="
-			left: {$p4.left * xy}px;
-			top : {$p4.top * xy}px;
-			height: {xy}px; 
-			width: {xy}px;
-			position: absolute;
-			background-image: url(/public/imagens/lapide1.png);
-			background-size: cover;
-		">
-		</div>
-		{/if}
+					left: {$lutador.left * xy}px;
+					top : {$lutador.top * xy}px;
+					height: {xy}px; 
+					width: {xy}px;
+					background-image: url(/public/imagens/Clary.png); 
+					background-size: cover;
+					transform: scaleX({pRef == lutador && inverso ? -1 : 1})
+					"> 			
+						<div id="HPbar">
+							<div id="HPplayer1" style="
+							width: {100 * $lutador.vida / 10}%;
+							border: 3px solid {$player1.turno != 'inativo' ? 'yellow' : 'black'};
+							"></div>
+						</div> 
+
+						{#if $player1.turno == 'ataque' && $player1.personagemSelecionado == lutador}
+							<div id="range-player1"></div>		
+							<div class="selecionado1"></div>
+						{/if}
+
+						{#if $player2.turno == 'ataque' && $player2.personagemAlvo == lutador}
+							<div class="selecionado2"></div>
+						{/if}	
+
+					</div>
+									
+				{/if}
+
+				{#if ($lutador.vida <= 0)}
+				<div id="lutadorMorto" style="
+					left: {$lutador.left * xy}px;
+					top : {$lutador.top * xy}px;
+					height: {xy}px; 
+					width: {xy}px;
+					position: absolute;
+					background-image: url(/public/imagens/lapide1-sangue.png);
+					background-size: cover;
+				">
+					</div>
+					{/if}
 
 
 
-		{#if p5Vivo && $p5.vida > 0}
-			<div id="simon" style="
-			top: {$p5.top * xy}px;
-			left: {$p5.left * xy}px;
-			height: {xy}px;
-			width: {xy}px;
-			background-image: url(/public/imagens/simon.png); 
-			transform: scaleX({pRef == p5 && inverso2 ? -1 : 1})
-		">
-			<div id="HPbar">
-				<div id="HPplayer2" style="width: {100 * $p5.vida / 10}%;"></div>
-			</div> 
+				{#if  atiradorVivo && $atirador.vida > 0}
+					<div id="atirador" style="
 
-			{#if (!seletor && pRef == p5)}
-				<div id="range-player2"></div>
-			{/if}
+					top: {$atirador.top * xy}px;
+					left: {$atirador.left * xy}px;
+					height: {xy}px;
+					width: {xy}px;
+					background-image: url(/public/imagens/Alec.png); 
+					background-size: cover;
+					transform: scaleX({pRef == atirador && inverso ? -1 : 1})			
+					">
+				
+						<div id="HPbar">
+							<div id="HPplayer1" style="
+							width: {100 * $atirador.vida / 10}%;
+							border: 3px solid {$player1.turno != 'inativo' ? 'yellow' : 'black'};
+							"></div>
+						</div> 
 
+						{#if $player1.turno == 'ataque' && $player1.personagemSelecionado == atirador}
+							<div class="selecionado1"></div>
+							<div id="range-player1"></div>
+
+						{/if}
+
+						{#if $player2.turno == 'ataque' && $player2.personagemAlvo == atirador}
+							<div class="selecionado2"></div>
+						{/if}
+						
+						
+					</div>
+
+				{/if}
+
+				{#if ($atirador.vida <= 0)}
+				<div id="atiradorMorto" style="
+					left: {$atirador.left * xy}px;
+					top : {$atirador.top * xy}px;
+					height: {xy}px; 
+					width: {xy}px;
+					position: absolute;
+					background-image: url(/public/imagens/lapide1-sangue.png);
+					background-size: cover;
+				">
+				</div>
+				{/if}
+				{#if feiticeiroVivo && $feiticeiro.vida > 0}
+					<div id="feiticeiro" style="
+					top: {$feiticeiro.top * xy}px;
+					left: {$feiticeiro.left * xy}px;
+					height: {xy}px;
+					width: {xy}px;
+					background-image: url(/public/imagens/Magnus.png); 
+					background-size: cover;
+					transform: scaleX({pRef == feiticeiro && inverso ? -1 : 1})						
+					">
+						<div id="HPbar">
+							<div id="HPplayer1" style="
+							width: {100 * $feiticeiro.vida / 10}%;
+							border: 3px solid {$player1.turno != 'inativo' ? 'yellow' : 'black'};
+							"></div>
+						</div> 
+					
+						{#if $player1.turno == 'ataque' && $player1.personagemSelecionado == feiticeiro}
+							<div class="selecionado1"></div>
+							<div id="range-player1"></div>
+
+						{/if}
+
+						{#if $player2.turno == 'ataque' && $player2.personagemAlvo == feiticeiro}
+							<div class="selecionado2"></div>
+						{/if}
+
+
+					</div>
+								
+				{/if}
+
+				{#if ($feiticeiro.vida <= 0)}
+				<div id="feiticeiroMorto" style="
+					left: {$feiticeiro.left * xy}px;
+					top : {$feiticeiro.top * xy}px;
+					height: {xy}px; 
+					width: {xy}px;
+					position: absolute;
+					background-image: url(/public/imagens/lapide1.png);
+					background-size: cover;
+				">
+				</div>
+				{/if}
+
+
+
+				{#if p4Vivo && $p4.vida > 0}
+					<div id="izzy" style="
+					top: {$p4.top * xy}px;
+					left: {$p4.left * xy}px;
+					height: {xy}px;
+					width: {xy}px;
+					background-image: url(/public/imagens/izzy.png); 
+					transform: scaleX({pRef == p4 && inverso2 ? -1 : 1})		
+					">
+						<div id="HPbar">
+							<div id="HPplayer2" style="width: {100 * $p4.vida / 10}%;
+							border: 3px solid {$player2.turno != 'inativo' ? 'yellow' : 'black'};
+							"></div>
+						</div> 
+
+						{#if $player2.turno == 'ataque' && $player2.personagemSelecionado == p4}
+							<div id="range-player2"></div>
+							<div class="selecionado1"></div>
+						{/if}
+
+						{#if $player1.turno == 'ataque' && $player1.personagemAlvo == p4}
+							<div class="selecionado2"></div>
+						{/if}
+					
+				</div>
+					
+				{/if}
+
+				{#if ($p4.vida <= 0)}
+				<div id="p4Morto" style="
+					left: {$p4.left * xy}px;
+					top : {$p4.top * xy}px;
+					height: {xy}px; 
+					width: {xy}px;
+					position: absolute;
+					background-image: url(/public/imagens/lapide1.png);
+					background-size: cover;
+				">
+				</div>
+				{/if}
+
+
+
+				{#if p5Vivo && $p5.vida > 0}
+					<div id="simon" style="
+					top: {$p5.top * xy}px;
+					left: {$p5.left * xy}px;
+					height: {xy}px;
+					width: {xy}px;
+					background-image: url(/public/imagens/simon.png); 
+					transform: scaleX({pRef == p5 && inverso2 ? -1 : 1})
+				">
+					<div id="HPbar">
+						<div id="HPplayer2" style="width: {100 * $p5.vida / 10}%;
+						border: 3px solid {$player2.turno != 'inativo' ? 'yellow' : 'black'};
+						"></div>
+					</div> 
+
+
+					{#if $player2.turno == 'ataque' && $player2.personagemSelecionado == p5}
+					<div id="range-player2"></div>
+					<div class="selecionado1"></div>
+					{/if}
+
+					{#if $player1.turno == 'ataque' && $player1.personagemAlvo == p5}
+						<div class="selecionado2"></div>
+					{/if}
+
+
+					</div>
+					
+				{/if}
+
+				{#if ($p5.vida <= 0)}
+				<div id="p4Morto" style="
+					left: {$p5.left * xy}px;
+					top : {$p5.top * xy}px;
+					height: {xy}px; 
+					width: {xy}px;
+					position: absolute;
+					background-image: url(/public/imagens/lapide1-sangue.png);
+					background-size: cover;
+				">
+				</div>
+				{/if}
+
+
+
+				{#if p6Vivo && $p6.vida > 0}
+					<div id="jace" style="
+					top: {$p6.top * xy}px;
+					left: {$p6.left * xy}px;
+					height: {xy}px;
+					width: {xy}px;
+					background-image: url(/public/imagens/jace.png); 
+					transform: scaleX({pRef == p6 && inverso2 ? -1 : 1})
+				">
+					<div id="HPbar">
+						<div id="HPplayer2" style="width: {100 * $p6.vida / 10}%;
+						border: 3px solid {$player2.turno != 'inativo' ? 'yellow' : 'black'};
+						"></div>
+					</div> 
+
+
+					{#if $player2.turno == 'ataque' && $player2.personagemSelecionado == p6}
+						<div id="range-player2"></div>
+						<div class="selecionado1"></div>
+					{/if}
+
+					{#if $player1.turno == 'ataque' && $player1.personagemAlvo == p6}
+						<div class="selecionado2"></div>
+					{/if}
+
+					</div>
+					
+				{/if}
+
+				{#if ($p6.vida <= 0)}
+				<div id="p4Morto" style="
+					left: {$p6.left * xy}px;
+					top : {$p6.top * xy}px;
+					height: {xy}px; 
+					width: {xy}px;
+					position: absolute;
+					background-image: url(/public/imagens/lapide1.png);
+					background-size: cover;
+				">
+				</div>
+				{/if}
+
+				<div id="seletor" style="
+				left: {seletorLeft * xy}px; 
+				top: {seletorTop * xy}px; 
+				height: {xy}px; 
+				width: {xy}px; 
+				background-image: url({seletor == true ? seletorimg : seletorimg2})
+				"></div>
+
+				{#if tomaGap == false}
+
+				<div class="overlay"></div>
+
+
+				<div id="Venceu">
+					{$player1.abates == 3 ? 'player 1 win' : 'player 2 win'}
+					<button on:click={reload}>voltar</button>
+				</div>
+				{/if}
+				
 			</div>
 			
-		{/if}
-
-		{#if ($p5.vida <= 0)}
-		<div id="p4Morto" style="
-			left: {$p5.left * xy}px;
-			top : {$p5.top * xy}px;
-			height: {xy}px; 
-			width: {xy}px;
-			position: absolute;
-			background-image: url(/public/imagens/lapide1-sangue.png);
-			background-size: cover;
-		">
-		</div>
-		{/if}
 
 
+			<!-- <div id="placar">{$player1.abates} - {$player2.abates}</div> -->
 
-		{#if p6Vivo && $p6.vida > 0}
-			<div id="jace" style="
-			top: {$p6.top * xy}px;
-			left: {$p6.left * xy}px;
-			height: {xy}px;
-			width: {xy}px;
-			background-image: url(/public/imagens/jace.png); 
-			transform: scaleX({pRef == p6 && inverso2 ? -1 : 1})
-		">
-			<div id="HPbar">
-				<div id="HPplayer2" style="width: {100 * $p6.vida / 10}%;"></div>
-			</div> 
+			<div id="turnoStatusPlayer1" style="
+				background-color: {$player1.turno != 'inativo' ? 'white' : 'white'}
+				
+				"> player 1: {$player1.turno == 'movimento' ? 'move' : $player1.turno == 'ataque' ? 'attack' : 'wait'} <br>
+				energy: {$player1.stamina}
+			</div>	
 
-			{#if (!seletor && pRef == p6)}
-				<div id="range-player2"></div>
-			{/if}
+			<button id="trocar-Turno" on:click={proximoTurno} ></button>
 
-			</div>
-			
-		{/if}
+			<div id="turnoStatusPlayer2" style="
+				background-color: {$player2.turno != 'inativo' ? 'white' : 'white'}
+				"> player 2: {$player2.turno == 'movimento' ? 'move' : $player2.turno == 'ataque' ? 'attack' : 'wait'} <br>
+				energy: {$player2.stamina}
 
-		{#if ($p6.vida <= 0)}
-		<div id="p4Morto" style="
-			left: {$p6.left * xy}px;
-			top : {$p6.top * xy}px;
-			height: {xy}px; 
-			width: {xy}px;
-			position: absolute;
-			background-image: url(/public/imagens/lapide1.png);
-			background-size: cover;
-		">
-		</div>
-		{/if}
+			</div>	
 
 
 
-		<div id="seletor" style="
-		left: {seletorLeft * xy}px; 
-		top: {seletorTop * xy}px; 
-		height: {xy}px; 
-		width: {xy}px; 
-
-		background-image: url({seletor == true ? seletorimg : seletorimg2})
-		"></div>
-		
-</div>
-
+	</div>
 
 </div>
 
@@ -324,16 +407,20 @@
 <style>
 
 
-	.header {
-		top: 20%;
-		left: 75%;
-		position:absolute;
-		font-family: 'HISKYFLIPPERHIBOLD', sans-serif;
-		width: 160px;
-		height: 190px;
-		box-shadow: #000;
-		border: #000;
-	}
+	#container {
+		background-size: auto;
+		height: 1180px;
+		width: 1180px;
+		
+
+
+		}
+
+	 /* .header {  */
+		/* position: absolute; */
+		/* top: 0cqmin; */
+
+	/* } */
 
 	.mapa {
 	  /* Adicione as seguintes propriedades para centralizar o tabuleiro */
@@ -423,7 +510,7 @@
 		height: 16px; /* Altura da barra de HP */
 		border: 3px solid #000; /* Borda preta para a barra de HP */
 		background-color: rgb(59, 59, 59); /* Cor de fundo da barra de HP */
-		position: relative;
+		position: absolute;
 		top: -20%;
 		left: 7%;
 		border-radius: 10px;
@@ -446,17 +533,40 @@
 
 
 	#atirador, #feiticeiro, #lutador, #izzy, #simon, #jace{
-
+		z-index: 9;
 		position: absolute;
 		transition: all 0.550s ease; 
 
 
 	}
 
+	.selecionado1 {
+		top: -5%;
+		width: 128px;
+		height: 128px;
+		position: absolute;
+		background-image: url(/public/imagens/personagemSelecionado.png);
+		background-size: cover;
+	}
+
+
+	.selecionado2 {
+		top: 0%;
+		width: 128px;
+		height: 128px;
+		position: absolute;
+		background-image: url(/public/imagens/alvoSelecionado.png);
+		background-size: cover;
+	}
+/* 
+	#lutadorMorto {
+		background-image: url(/public/imagens/KeyZ.png);
+		background-size: cover;
+	} */
+
 	#trocar-Turno {
-		position:absolute;
-		left: 400px;
-		top: 88%;
+		position: sticky;
+		top: 100%;
 		width: 200px;
 		height: 80px;
 		border-radius: 30px;
@@ -472,26 +582,85 @@
 		background-position: center;
 	}
 
+	#turnoStatusPlayer1 {
+		position: sticky;
+		top: 100%;
+		width: 250px;
+		height: 80px;
+		border-radius: 35px;
+		background-color: rgb(255, 253, 254);
+		 font-family: 'HISKYFLIPPERHIBOLD', sans-serif;
+		display: flex;
+        justify-content: center;
+        align-items: center;
+		font-size: 20px;
+		color: #000;
 
+
+	}
+
+	#turnoStatusPlayer2 {
+		position: sticky;
+		top: 100%;
+		left: 85%;
+		width: 250px;
+		height: 80px;
+		border-radius: 35px;
+		background-color: rgb(242, 233, 233);
+		display: flex;
+        justify-content: center;
+        align-items: center;
+		font-family: 'HISKYFLIPPERHIBOLD', sans-serif;
+		font-size: 20px;
+		color: #000;
+
+	}
+
+		.overlay {
+		position: absolute;
+		background-color: black;
+		top: -110%;
+		left: -200%;
+		width: 500%;
+		height: 300%;
+		opacity: 0.5;
+		}
+
+
+	#Venceu {
+		z-index: 9;
+		position: absolute;
+		top: 25%;
+		left: 32%;
+		align-content: center;
+		width: 400px;
+		height: 400px;
+		border-radius: 35px;
+		background-color: rgb(38, 138, 192);
+	}
 
 </style>
 	
-	<button id="trocar-Turno" on:click={proximoTurno} ></button>
-	<svelte:window on:keydown|preventDefault={funcoes}/>
 
+
+<svelte:window on:keydown|preventDefault={funcoes}/>
 
 
 
 <script>
+
+	function reload(){
+		location.reload();
+	}
+
+
 	import { lutador, atirador, feiticeiro } from "../stores/personagens";
 	import { p4, p5, p6 } from "../stores/personagens";
 	import { player1, player2 } from "../stores/jogador";
-	// @ts-ignore
-	// @ts-ignore
 	import { trocadeestado } from "../stores/estado";
-    // @ts-ignore
-    // @ts-ignore
     import { prevent_default } from "svelte/internal";
+
+	export let tomaGap = true;
 
 	player1.update(v => {
 		v.personagens.push(lutador)
@@ -508,10 +677,13 @@
 	})
 
 	function funcoes(e) {
+		if(tomaGap){
 			selecionar(e);
 			seletorMovimento(e);
 			mover(e);
 			combate(e)
+			proximoTurnoTecla(e)
+		}
 
 	}
 
@@ -577,13 +749,6 @@
 }	
 
 	let pRef;
-	
-	// @ts-ignore
-	// @ts-ignore
-	let perAtq;
-	// @ts-ignore
-	// @ts-ignore
-	let perAlvo;
 
 	let atiradorTop;
 	let atiradorLeft;
@@ -730,6 +895,8 @@
 
 
 	function selecionar(e) { 	
+	var select1 = false
+	var select2 = false
 	if(seletor){	
 
 		if(seletorTop === atiradorTop && seletorLeft === atiradorLeft && seletor){
@@ -744,8 +911,10 @@
 				else {
 					if($player1.turno == 'ataque'){
 							$player1.personagemSelecionado = atirador
+							select1 = true
 							console.log('personagem selecionado:', atirador)
 					} else {
+						select2 = true
 						$player2.personagemAlvo = atirador
 					}
 					
@@ -874,7 +1043,6 @@
 
 		}
 
-
 		} else if (e.keyCode === 90){
 			seletor = true
 			pRef = undefined
@@ -898,7 +1066,7 @@ function mover(e) {
   let ptop = 0;
   
 
-  if (pRef != undefined) {
+  if (pRef != undefined && $pRef.vida > 0) {
     pRef.subscribe(value => {
       pleft = value.left;
       ptop = value.top;
@@ -973,59 +1141,65 @@ console.log('p1: ',$player1.turno, 'p2: ',$player2.turno, $player1.stamina, $pla
 
 let turnoGlobal = 'Movimento'
 
-function proximoTurno() {
-
-
-  if ($player1.turno === 'movimento') {
-    player1.update(v => {
-      v.turno = 'ataque';
-      return v;
-    });
-	turnoGlobal = 'Ataque'
-
-} else if ($player1.turno === 'ataque') {
-	player1.update(v => {
-		v.turno = 'inativo'
-		return v
-	})
-	player2.update(v => {
-		v.turno = 'movimento';
-		v.stamina = 200
-		return v;
-	})
-
-	turnoGlobal = 'Movimento'
-
-} else if ($player2.turno === 'movimento') {
-	player2.update(v => {
-		v.turno = 'ataque'
-		return v
-	})
-	turnoGlobal = 'Ataque'
-
-} else if ($player2.turno === 'ataque') {
-	player2.update(v => {
-		v.turno = 'inativo'
-		return v
-	})
-	player1.update(v => {
-		v.turno = 'movimento'
-		v.stamina = 200
-		return v
-	})
-	turnoGlobal = 'Movimento'
+function proximoTurnoTecla(e){
+	if(e.keyCode == 67){
+		proximoTurno()
+	}
 }
 
+function proximoTurno() {
+		if ($player1.turno === 'movimento') {
+    			player1.update(v => {
+      			v.turno = 'ataque';
+			    return v;
+    		});
+			turnoGlobal = 'Ataque'
+
+		} else if ($player1.turno === 'ataque') {
+			player1.update(v => {
+				v.turno = 'inativo'
+				return v
+			})
+			player2.update(v => {
+				v.turno = 'movimento';
+				v.stamina = 8
+				return v;
+			})
+
+			turnoGlobal = 'Movimento'
+
+		} else if ($player2.turno === 'movimento') {
+			player2.update(v => {
+				v.turno = 'ataque'
+				return v
+			})
+			turnoGlobal = 'Ataque'
+
+		} else if ($player2.turno === 'ataque') {
+			player2.update(v => {
+				v.turno = 'inativo'
+				return v
+			})
+			player1.update(v => {
+				v.turno = 'movimento'
+				v.stamina = 8
+				return v
+			})
+			turnoGlobal = 'Movimento'
+		}
+
+	
+ 
 console.log('p1: ',$player1.turno, 'p2: ',$player2.turno, $player1.stamina, $player2.stamina)
 
 }
-
+let cRef = undefined
 
 function combate(e) {
-	let stamina;
 	let dados;
-	let range;
 	let dadosB;
+	let stamina;
+	let range;
 	let location = []
 	if(turnoGlobal == 'Ataque'){
 		if($player1.turno == 'ataque'){
@@ -1034,35 +1208,58 @@ function combate(e) {
 				stamina = v.stamina
 				return v;
 			})
-
-			if($player1.personagemSelecionado && $player1.personagemAlvo){
-
+			if($player1.personagemSelecionado){
 				$player1.personagemSelecionado.subscribe(v => {
 				dados = v
 				range = dados.alcance
+				cRef = dados.nome
+
 				return v
-			}) 
+				}) 
+
+			}
+
+			if($player1.personagemAlvo){
 				$player1.personagemAlvo.subscribe(v => {
 				dadosB = v
 				location = [dadosB.top, dadosB.left]
 				return v	
 			})
+			// @ts-ignore
+			
 				if(e.keyCode == 88){
+					console.log(cRef)
 					if(inRange(range, location)){
 						// @ts-ignore
-						if(dadosB.vida > 0 && stamina > 0){
+						if(dadosB.vida > 0 && stamina - 2 >= 0){
 								// @ts-ignore
 								player1.update(v => {
-									v.stamina--
+									v.stamina -= 2
 									return v
 								})
 								console.log(stamina)
-								$player1.personagemAlvo.update(v => {
-								v.vida -= dados.ataque
-								console.log(`${dados.nome} atacou ${dadosB.nome} com ${dados.ataque} pontos de força.`)
-								console.log(`${dadosB.nome} possui ${dadosB.vida} pontos de vida.`)
-								return v
-								})
+								// @ts-ignore
+								if(dadosB.vida - dados.ataque <= 0){
+									$player1.personagemAlvo.update(v => {
+										v.vida -= dados.ataque
+										console.log(`${dados.nome} atacou ${dadosB.nome} com ${dados.ataque} pontos de força.`)
+										console.log(`${dadosB.nome} foi abatido`)
+										return v
+									})
+									player1.update(v =>{
+										v.abates++
+										return v
+									})
+									console.log($player1.abates)
+								}
+								else {
+									$player1.personagemAlvo.update(v => {
+									v.vida -= dados.ataque
+									console.log(`${dados.nome} atacou ${dadosB.nome} com ${dados.ataque} pontos de força.`)
+									console.log(`${dadosB.nome} possui ${dadosB.vida} pontos de vida.`)
+									return v
+									})
+								}
 						}
 					}
 				}
@@ -1095,19 +1292,37 @@ function combate(e) {
 				console.log(stamina)
 					if(inRange(range, location)){
 						// @ts-ignore
-						if(dadosB.vida > 0 && stamina > 0){
+						if(dadosB.vida > 0 && stamina -2 >= 0){
 								// @ts-ignore
 								player2.update(v => {
-									v.stamina--
+									v.stamina -= 2
 									return v
 								})
 								console.log(stamina)
-								$player2.personagemAlvo.update(v => {
-								v.vida -= dados.ataque
-								console.log(`${dados.nome} atacou ${dadosB.nome} com ${dados.ataque} pontos de força.`)
-								console.log(`${dadosB.nome} possui ${dadosB.vida} pontos de vida.`)
-								return v
-								})
+
+								// @ts-ignore
+								if(dadosB.vida - dados.ataque <= 0){
+									$player2.personagemAlvo.update(v => {
+										v.vida -= dados.ataque
+										console.log(`${dados.nome} atacou ${dadosB.nome} com ${dados.ataque} pontos de força.`)
+										console.log(`${dadosB.nome} foi abatido`)
+										return v
+									})
+									player2.update(v =>{
+										v.abates++
+										return v
+									})
+									console.log($player2.abates)
+								}
+								else {
+									$player2.personagemAlvo.update(v => {
+									v.vida -= dados.ataque
+									console.log(`${dados.nome} atacou ${dadosB.nome} com ${dados.ataque} pontos de força.`)
+									console.log(`${dadosB.nome} possui ${dadosB.vida} pontos de vida.`)
+									return v
+									})
+
+								}
 						}
 					}
 				}
@@ -1127,7 +1342,14 @@ function combate(e) {
 }
 
 
+$: {
+	
 
+	if($player1.abates >= 3 || $player2.abates >= 3){
+		tomaGap = false
+		console.log($player1.abates >= 3 ? "player1 ganhou slc jgdiff" : "player2 ganhou slc jgdiff")
+	}
+}
 
 </script>
 
