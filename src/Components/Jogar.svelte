@@ -370,7 +370,7 @@
 
 				<div id="Venceu">
 					{$player1.abates == 3 ? 'player 1 win' : 'player 2 win'}
-					<button on:click={() => trocadeestado("menu")}>voltar</button>
+					<button on:click={reload}>voltar</button>
 				</div>
 				{/if}
 				
@@ -648,6 +648,12 @@
 
 
 <script>
+
+	function reload(){
+		location.reload();
+	}
+
+
 	import { lutador, atirador, feiticeiro } from "../stores/personagens";
 	import { p4, p5, p6 } from "../stores/personagens";
 	import { player1, player2 } from "../stores/jogador";
