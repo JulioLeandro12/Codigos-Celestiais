@@ -383,14 +383,17 @@
 			<div id="turnoStatusPlayer1" style="
 				background-color: {$player1.turno != 'inativo' ? 'white' : 'white'}
 				
-				"> player 1: {$player1.turno == 'movimento' ? 'move' : $player1.turno == 'ataque' ? 'attack' : 'wait'}
+				"> player 1: {$player1.turno == 'movimento' ? 'move' : $player1.turno == 'ataque' ? 'attack' : 'wait'} <br>
+				energy: {$player1.stamina}
 			</div>	
 
 			<button id="trocar-Turno" on:click={proximoTurno} ></button>
 
 			<div id="turnoStatusPlayer2" style="
 				background-color: {$player2.turno != 'inativo' ? 'white' : 'white'}
-				"> player 2: {$player2.turno == 'movimento' ? 'move' : $player2.turno == 'ataque' ? 'attack' : 'wait'}
+				"> player 2: {$player2.turno == 'movimento' ? 'move' : $player2.turno == 'ataque' ? 'attack' : 'wait'} <br>
+				energy: {$player2.stamina}
+
 			</div>	
 
 
@@ -1153,7 +1156,7 @@ function proximoTurno() {
 			})
 			player2.update(v => {
 				v.turno = 'movimento';
-				v.stamina = 200
+				v.stamina = 8
 				return v;
 			})
 
@@ -1173,7 +1176,7 @@ function proximoTurno() {
 			})
 			player1.update(v => {
 				v.turno = 'movimento'
-				v.stamina = 200
+				v.stamina = 8
 				return v
 			})
 			turnoGlobal = 'Movimento'
@@ -1222,10 +1225,10 @@ function combate(e) {
 					console.log(cRef)
 					if(inRange(range, location)){
 						// @ts-ignore
-						if(dadosB.vida > 0 && stamina > 0){
+						if(dadosB.vida > 0 && stamina - 2 >= 0){
 								// @ts-ignore
 								player1.update(v => {
-									v.stamina--
+									v.stamina -= 2
 									return v
 								})
 								console.log(stamina)
@@ -1283,10 +1286,10 @@ function combate(e) {
 				console.log(stamina)
 					if(inRange(range, location)){
 						// @ts-ignore
-						if(dadosB.vida > 0 && stamina > 0){
+						if(dadosB.vida > 0 && stamina -2 >= 0){
 								// @ts-ignore
 								player2.update(v => {
-									v.stamina--
+									v.stamina -= 2
 									return v
 								})
 								console.log(stamina)
