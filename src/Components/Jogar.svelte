@@ -369,8 +369,9 @@
 
 
 				<div id="Venceu">
-					{$player1.abates == 3 ? 'player 1 win' : 'player 2 win'}
-					<button on:click={reload}>voltar</button>
+					{$player1.abates == 3 ? 'player 1 VENCEU!' : 'player 2 VENCEU!'}
+					<button on:click={reload} class="butaum">
+					</button>
 				</div>
 				{/if}
 				
@@ -636,8 +637,32 @@
 		width: 400px;
 		height: 400px;
 		border-radius: 35px;
-		background-color: rgb(38, 138, 192);
+		background-color: rgb(255, 255, 255);
+		border: 8px solid #040404;
+		background-image: url(public/imagens/FIMM.png);
+		font-family: 'HISKYFLIPPERHIBOLD', sans-serif; 
+		font-size: 20px;
+		color: black;
+		text-align: center;
+		
 	}
+	.butaum{
+		background-image: url(public/imagens/voltar_botao.png);
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+		background-size: cover;
+		background-position: center;
+		top: 105%;
+        left: 50%;
+        transform: translateX(-50%);/*centro*/
+        position: absolute;
+		width: 25%;/*largura*/
+		height: 10%;
+		
+		
+	}
+
 
 </style>
 	
