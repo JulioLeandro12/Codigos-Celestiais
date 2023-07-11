@@ -16,8 +16,7 @@
                 ">
             </div>
            
-            Para selecionar os personagens 
-            aperte a tecla "Z":
+            Para selecionar os personagens, aperte a tecla "Z":
             <br>
             <br>
             <div id = "Z">
@@ -27,7 +26,7 @@
                 ">
             </div>
             
-            Use a tecla "C" para mudar de turno:<br><br>
+            Aperte a tecla "C" para mudar de turno (ataque ou movimento). <br> Se mova ou ataque de acordo com sua energia.<br><br>
             
             <div id="C">
                 <img src="../../public/imagens/keyC.png" alt="C" style="
@@ -36,12 +35,15 @@
                 ">
             </div>
 
-            Use a tecla "X" para atacar o personagem alvo:<br><br>
+            Use a tecla "X" para atacar o personagem alvo.<br> (OBS: selecione seu personagem<br> e o adversário que você quer atacar)<br><br>
             <div id="X">
                 <img src="../../public/imagens/keyX.png" alt="X" style="
                 height: 80px;
                 margin-top: -30px
                 ">
+                <br>
+            ATENÇÃO!! - Para você atacar, o adversário precisa estar dentro da sua área de ataque.<br>
+                        TENHA NO MÍNIMO 2 ENERGIAS PARA ATACAR!!
             </div>
         </h2>
     </div>
@@ -60,9 +62,9 @@
         margin-bottom: 20px;
         margin-left: 20px;
         margin-right: 20px;
-        font-family: 'HISKYFLIPPERHIBOLD', sans-serif;
+        font-family:Verdana, Geneva, Tahoma, sans-serif;
         font-size: 20px;
-        color: rgb(186, 157, 214);
+        color: rgb(254, 253, 255);
         box-shadow: 0 2px 4px rgba(249, 248, 248, 0.1);
         border:3px solid #39393984
         
