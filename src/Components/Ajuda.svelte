@@ -7,7 +7,7 @@
     <div class = "ajuda">
         <h1>Como jogar:
         </h1>
-        <h2>Use as setas do teclado para<br>
+        <h2>Use as setas do teclado para
              movimentar seu personagem:
             <br><br>
             <div class ="setinhas"> 
@@ -16,8 +16,8 @@
                 ">
             </div>
            
-            Para selecionar seu personagem <br> 
-            aperte a tecla "Z"
+            Para selecionar os personagens 
+            aperte a tecla "Z":
             <br>
             <br>
             <div id = "Z">
@@ -27,8 +27,22 @@
                 ">
             </div>
             
-            Movimente o personagem e ataque!!<br><br>
-            Good Game :D
+            Use a tecla "C" para mudar de turno:<br><br>
+            
+            <div id="C">
+                <img src="../../public/imagens/keyC.png" alt="C" style="
+                height: 80px;
+                margin-top: -30px
+                ">
+            </div>
+
+            Use a tecla "X" para atacar o personagem alvo:<br><br>
+            <div id="X">
+                <img src="../../public/imagens/keyX.png" alt="X" style="
+                height: 80px;
+                margin-top: -30px
+                ">
+            </div>
         </h2>
     </div>
     <div> 
